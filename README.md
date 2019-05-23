@@ -1,6 +1,7 @@
 # Project description
 
-First Web Application
+System CWL hub: requirements.
+
 Project Planned duration: ~ 3 weeks
 
 General project requirements:
@@ -26,24 +27,21 @@ Functional requirements:
 • Different privileges for users and administrators
 • Pretty front-end (optional)
 
-You should use some older technologies.
-The reason is that usually using of only new technologies doesn’t give deep understating of what are you exactly doing.
+Some older technologies should be used.
+The reason is that usually using of only new technologies doesn't give deep understating of what are you exactly doing.
 For example, you should NOT use Spring ‘magic tools’ like Boot, Data etc., which configures almost everything for you.
 
 Technologies: JDBC, Servlets/JSP, Tomcat
 
 System CWL hub
-Обязательное: пользователь должен иметь возможность зарегистрироваться, выкладывать в общий
-(или приватный для какой-то группы) доступ свои cwl файлы и изменять их в дальнейшем.
-Также должна быть возможность просмотра файлов других пользователей.
 
-Дополнительное 1: Возможность к каждому файлу присвоить несколько тегов с дальнейшей возможностью поиска по ним.
-
-Дополнительное 2: Возможность визуализировать cwl файлы.
-
-Требования к функциональности:
-1. Вход и выход
-2. Регистрация
-3. Просмотр информации (просмотр всех открытых cwl файлов)
-4. Удаление информации (удаление выложенных cwl файлов)
-5. Добавление и модификация
+Mandatory: the user must be able to register, upload in public (or private for some group) access his .cwl files and change them later.
+It should also be possible to view files of other users.
+Additional 1: Ability to assign several tags to each file with further possibility to search by them.
+Additional 2: Ability to visualize .cwl files.
+Requirements for functionality:
+1. Log in and log out
+2. Registration
+3. View of information (view all public .cwl files)
+4. Removal of information (delete uploaded files)
+5. Adding and changing
