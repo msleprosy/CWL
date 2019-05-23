@@ -1,7 +1,6 @@
 # Project description
 
 System CWL hub: requirements.
-
 Project Planned duration: ~ 3 weeks
 
 General project requirements:
