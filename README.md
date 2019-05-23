@@ -46,4 +46,4 @@ Some older technologies should be used.
 The reason is that usually using of only new technologies doesn't give deep understating of what are you exactly doing.
 For example, you should NOT use Spring ‘magic tools’ like Boot, Data etc., which configures almost everything for you.
 
- Technologies: JDBC, Servlets/JSP, Tomcat
+Technologies: JDBC, Servlets/JSP, Tomcat
