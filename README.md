@@ -8,7 +8,8 @@ General project requirements:
 • Layered and MVC architecture patterns
 • Data should be stored in DB
 • Internationalization of an interface (English, Russian)
-• Logging of exceptions • Follow all naming conventions and keep project well-structured
+• Logging of exceptions
+• Follow all naming conventions and keep project well-structured
 • Avoid structured programming style
 • Try to use different GoF Patterns (optional)
 • Pagination of long lists (optional)
