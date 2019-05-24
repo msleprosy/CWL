@@ -11,15 +11,6 @@ public class Group {
     private List<Long> fileIDs;
     private List<Long> userIDs;
 
-    public Group(){
-    }
-
-    public Group(String name, String description, long creatorId) {
-        this.name = name;
-        this.description = description;
-        this.creatorId = creatorId;
-    }
-
     public long getId() {
         return id;
     }
