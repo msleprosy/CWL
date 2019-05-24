@@ -2,7 +2,7 @@ package com.epam.cwlhub.entities.group;
 
 import java.util.List;
 
-public class Group /*extends BaseEntity*/ {
+public class Group {
 
     private long id;
     private String name;
