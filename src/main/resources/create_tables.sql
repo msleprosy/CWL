@@ -1,35 +1,35 @@
-CREATE TABLE Users (
-	userId bigserial NOT NULL PRIMARY KEY,
-	firstName varchar(50) NOT NULL,
-	lastName varchar(50) NOT NULL,
+CREATE TABLE users (
+	user_id bigserial NOT NULL PRIMARY KEY,
+	firstname varchar(50) NOT NULL,
+	lastname varchar(50) NOT NULL,
 	email varchar(254) NOT NULL,
 	password varchar(128) NOT NULL,
-	isBanned boolean DEFAULT FALSE,
-	userType varchar(25) NOT NULL
+	banned boolean DEFAULT FALSE,
+	user_type varchar(25) NOT NULL
 );
 
-CREATE TABLE Groups (
-	groupId bigserial NOT NULL PRIMARY KEY,
+CREATE TABLE groups (
+	group_id bigserial NOT NULL PRIMARY KEY,
 	name varchar(100) NOT NULL,
 	description varchar(256),
-	creatorId bigint NOT NULL,
-	FOREIGN KEY(creatorID) REFERENCES Users(userId)
+	creator_id bigint NOT NULL,
+	FOREIGN KEY(creator_id) REFERENCES Users(user_id)
 );
 
-CREATE TABLE User_Group (
-	userId bigint NOT NULL REFERENCES Users(userId),
-	groupId bigint NOT NULL REFERENCES Groups(groupId),
-	PRIMARY KEY(userId, groupId)
+CREATE TABLE user_group (
+	user_id bigint NOT NULL REFERENCES Users(user_id),
+	group_id bigint NOT NULL REFERENCES Groups(group_id),
+	PRIMARY KEY(user_id, group_id)
 );
 
-CREATE TABLE Snippets (
-	snippetId bigserial NOT NULL PRIMARY KEY,
+CREATE TABLE snippets (
+	snippet_id bigserial NOT NULL PRIMARY KEY,
 	name varchar(100) NOT NULL,
-	ownerId bigint NOT NULL REFERENCES Users(userId),
-	dateOfCreation date,
-	dateOfModification date,
+	owner_id bigint NOT NULL REFERENCES Users(user_id),
+	creation_date date,
+	modification_date date,
 	content text DEFAULT '',
 	tag varchar(256),
-	groupId bigint NOT NULL REFERENCES Groups(groupId)
+	group_id bigint NOT NULL REFERENCES Groups(group_id)
 );
 
