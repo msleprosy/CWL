@@ -8,8 +8,8 @@ public class Group {
     private String name;
     private String description;
     private long creatorId;
-    private List<Long> files;
-    private List<Long> users;
+    private List<Long> fileIDs;
+    private List<Long> userIDs;
 
     public Group(){
     }
@@ -53,18 +53,18 @@ public class Group {
     }
 
     public List<Long> getFiles() {
-        return files;
+        return fileIDs;
     }
 
     public void setFiles(List<Long> files) {
-        this.files = files;
+        this.fileIDs = files;
     }
 
     public List<Long> getUsers() {
-        return users;
+        return userIDs;
     }
 
     public void setUsers(List<Long> users) {
-        this.users = users;
+        this.userIDs = users;
     }
 }
