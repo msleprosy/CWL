@@ -28,7 +28,7 @@ CREATE TABLE Snippets (
 	ownerId bigint NOT NULL REFERENCES Users(userId),
 	dateOfCreation date,
 	dateOfModification date,
-	content text,
+	content text DEFAULT '',
 	tag varchar(256),
 	groupId bigint NOT NULL REFERENCES Groups(groupId)
 );
