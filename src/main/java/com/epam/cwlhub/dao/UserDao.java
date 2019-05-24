@@ -6,9 +6,6 @@ import java.util.Optional;
 
 import static com.epam.cwlhub.storage.Storage.usersList;
 
-/**
- * Created by veronika on 24.05.2019.
- */
 public class UserDao {
 
     public void add(UserEntity user) {

@@ -1,9 +1,6 @@
 package com.epam.cwlhub.entities.user;
 
-/***
- * Created by veronika on 23.05.2019.
- */
-public class UserEntity /*extends BaseEntity*/ {
+public class UserEntity {
     private long id;
     private String firstName;
     private String lastName;
