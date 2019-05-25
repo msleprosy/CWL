@@ -8,8 +8,6 @@ public class Group {
     private String name;
     private String description;
     private long creatorId;
-    private List<Long> fileIDs;
-    private List<Long> userIDs;
 
     public long getId() {
         return id;
@@ -41,21 +39,5 @@ public class Group {
 
     public void setCreatorId(long creatorId) {
         this.creatorId = creatorId;
-    }
-
-    public List<Long> getFiles() {
-        return fileIDs;
-    }
-
-    public void setFiles(List<Long> files) {
-        this.fileIDs = files;
-    }
-
-    public List<Long> getUsers() {
-        return userIDs;
-    }
-
-    public void setUsers(List<Long> users) {
-        this.userIDs = users;
     }
 }
