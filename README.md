@@ -48,4 +48,4 @@ For example, you should NOT use Spring ‘magic tools’ like Boot, Data etc., w
 
 Technologies: JDBC, Servlets/JSP, Tomcat
 
-![GithubDiagram.png](https://git.epam.com/Pavel_Agapov/cwl/src/main/resources/GithubDiagram.png)
+![GithubDiagram.png](/src/main/resources/GithubDiagram.png)
