@@ -1,14 +1,14 @@
 INSERT INTO users (firstname, lastname, email, password, user_type)
-VALUES ('Ivan', 'Ivanov', 'ivan_ivan@gmail.com', '12kflsd', 'Administrator'),
-       ('Sergei', 'Sergeev', 'serg_serg@mail.ru', '1sa2wdfgsd', 'SIMPLE_USER'),
-       ('Olga', 'Olgina', 'olg_olg@gmail.com', 'gsds456', 'SIMPLE_USER'),
-       ('Pavel', 'Pavlov', 'pav_pav@yandex.ru', '2w2mknnd', 'Administrator'),
-       ('Admin', 'Admin', 'admin@epam.com', 'sdfjsks17291kmkl', 'Administrator');
+VALUES ('Ivan', 'Ivanov', 'ivan@gmail.com', '123a', 'Administrator'),
+       ('Sergei', 'Sergeev', 'serg@mail.ru', '234b', 'SIMPLE_USER'),
+       ('Olga', 'Olgina', 'olg_olg@gmail.com', '456c', 'SIMPLE_USER'),
+       ('Pavel', 'Pavlov', 'pav_pav@yandex.ru', '567d', 'Administrator'),
+       ('Admin', 'Admin', 'admin@epam.com', 'admin', 'Administrator');
        
-INSERT INTO groups (name, creator_id)
-VALUES ('Bioinformatics Fans', 1),
-       ('Innovators', 4),
-       ('Common', 5);
+INSERT INTO groups (name, description, creator_id)
+VALUES ('Bioinformatics Fans', 'We love bioinformatics!', 1),
+       ('Innovators', 'Our goal is to create something great', 4),
+       ('Common', 'For everyone', 5);
 
 INSERT INTO user_group (user_id, group_id)
 VALUES (1, 3),
@@ -20,10 +20,10 @@ VALUES (1, 3),
        (2, 1),
        (4, 2);
        
-INSERT INTO snippets (name, owner_id, group_id)
-VALUES ('cwl1', 1, 1),
-       ('cwl2', 2, 3),
-       ('cwl3', 2, 1),
-       ('cwl4', 3, 3),
-       ('cwl5', 4, 2),
-       ('cwl6', 5, 3);
+INSERT INTO snippets (name, owner_id, creation_date, modification_date, content, tag, group_id)
+VALUES ('cwl1', 1, '2018-06-23', '2019-03-03', 'cwl-content', 'tag1',  1),
+       ('cwl2', 2, '2019-06-23', '2019-06-23', 'cw2-content', 'tag2', 3),
+       ('cwl3', 2, '2018-12-13', '2019-05-13', 'cw3-content', 'tag3', 1),
+       ('cwl4', 3, '2018-06-23', '2019-01-15', 'cw4-content', 'tag4', 3),
+       ('cwl5', 4, '2018-01-23', '2019-03-03', 'cw5-content', 'tag2', 2),
+       ('cwl6', 5, '2018-06-23', '2019-03-03', 'cw6-content', 'tag1', 3);

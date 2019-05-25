@@ -13,23 +13,23 @@ CREATE TABLE groups (
 	name varchar(100) NOT NULL,
 	description varchar(256),
 	creator_id bigint NOT NULL,
-	FOREIGN KEY(creator_id) REFERENCES Users(user_id)
+	FOREIGN KEY(creator_id) REFERENCES users(user_id)
 );
 
 CREATE TABLE user_group (
-	user_id bigint NOT NULL REFERENCES Users(user_id),
-	group_id bigint NOT NULL REFERENCES Groups(group_id),
+	user_id bigint NOT NULL REFERENCES users(user_id),
+	group_id bigint NOT NULL REFERENCES groups(group_id),
 	PRIMARY KEY(user_id, group_id)
 );
 
 CREATE TABLE snippets (
 	snippet_id bigserial NOT NULL PRIMARY KEY,
 	name varchar(100) NOT NULL,
-	owner_id bigint NOT NULL REFERENCES Users(user_id),
-	creation_date date,
-	modification_date date,
-	content text DEFAULT '',
+	owner_id bigint NOT NULL REFERENCES users(user_id),
+	creation_date date NOT NULL,
+	modification_date date NOT NULL,
+	content text NOT NULL DEFAULT '',
 	tag varchar(256),
-	group_id bigint NOT NULL REFERENCES Groups(group_id)
+	group_id bigint NOT NULL REFERENCES groups(group_id)
 );
 
