@@ -40,4 +40,29 @@ public class Group {
     public void setCreatorId(long creatorId) {
         this.creatorId = creatorId;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Group)) return false;
+
+        Group group = (Group) o;
+
+        return getId() == group.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getId() ^ (getId() >>> 32));
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "ID = " + id +
+                ", Name = '" + name + '\'' +
+                ", Description = '" + description + '\'' +
+                ", Creator ID = " + creatorId +
+                '}';
+    }
 }
