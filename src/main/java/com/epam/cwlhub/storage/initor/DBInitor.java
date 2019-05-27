@@ -1,15 +1,21 @@
 package com.epam.cwlhub.storage.initor;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import java.io.File;
-import java.io.RandomAccessFile;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBInitor {
-    private static final String DDL_SCRIPT_PATH = "C:\\Users\\veronika\\IdeaProjects\\CWL\\src\\main\\java\\com\\epam\\cwlhub\\database\\ddl\\create_tables.sql";
-    private static final String DML_SCRIPT_PATH = "C:\\Users\\veronika\\IdeaProjects\\CWL\\src\\main\\java\\com\\epam\\cwlhub\\database\\dml\\init_data.sql";
+    private static final String DDL_SCRIPT_PATH = "database/ddl/create_tables.sql";
+    private static final String DML_SCRIPT_PATH = "database/dml/init_data.sql";
+
+
+    public static void main(String[] args){
+        new DBInitor().initDataBase();
+    }
 
     public void initDataBase() {
         try {
@@ -29,36 +35,18 @@ public class DBInitor {
     }
 
     private void createDataBaseStructure() throws Exception {
-        File DataBaseCreatingFile = new File(DDL_SCRIPT_PATH);
-        try {
-            RandomAccessFile randomAccessFile = new RandomAccessFile(DataBaseCreatingFile, "r");
-            StringBuilder stringBuilder = new StringBuilder();
-            String string;
-            while ((string = randomAccessFile.readLine()) != null) {
-                stringBuilder.append(string);
-            }
-            randomAccessFile.close();
-            Statement statement = getDBConnection().createStatement();
-            statement.execute(stringBuilder.toString());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        ClassLoader classLoader = new DBInitor().getClass().getClassLoader();
+        File file = new File(classLoader.getResource(DDL_SCRIPT_PATH).getFile());
+        String content = new String(Files.readAllBytes(file.toPath()));
+        Statement statement = getDBConnection().createStatement();
+        statement.execute(content);
     }
 
     private void fillDataBaseWithData() throws Exception {
-        File DataBasefillingFile = new File(DML_SCRIPT_PATH);
-        try {
-            RandomAccessFile randomAccessFile = new RandomAccessFile(DataBasefillingFile, "r");
-            StringBuilder stringBuilder = new StringBuilder();
-            String string;
-            while ((string = randomAccessFile.readLine()) != null) {
-                stringBuilder.append(string);
-            }
-            randomAccessFile.close();
-            Statement statement = getDBConnection().createStatement();
-            statement.executeUpdate(stringBuilder.toString());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        ClassLoader classLoader = new DBInitor().getClass().getClassLoader();
+        File file = new File(classLoader.getResource(DML_SCRIPT_PATH).getFile());
+        String content = new String(Files.readAllBytes(file.toPath()));
+        Statement statement = getDBConnection().createStatement();
+        statement.executeUpdate(content);
     }
 }
