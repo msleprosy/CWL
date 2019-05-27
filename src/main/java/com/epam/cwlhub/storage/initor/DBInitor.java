@@ -11,12 +11,7 @@ import java.sql.Statement;
 public class DBInitor {
     private static final String DDL_SCRIPT_PATH = "database/ddl/create_tables.sql";
     private static final String DML_SCRIPT_PATH = "database/dml/init_data.sql";
-
-
-    public static void main(String[] args){
-        new DBInitor().initDataBase();
-    }
-
+    
     public void initDataBase() {
         try {
             createDataBaseStructure();
