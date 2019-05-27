@@ -3,6 +3,8 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBInitor {
@@ -18,12 +20,12 @@ public class DBInitor {
         }
     }
 
-    public static ComboPooledDataSource getDataSource() {
+    public static Connection getDBConnection() throws SQLException {
         ComboPooledDataSource cpds = new ComboPooledDataSource();
         cpds.setJdbcUrl("jdbc:postgresql://localhost:5432/CWL_db");
         cpds.setUser("postgres");
         cpds.setPassword("postgres");
-        return cpds;
+        return cpds.getConnection();
     }
 
     private void createDataBaseStructure() throws Exception {
@@ -36,7 +38,7 @@ public class DBInitor {
                 stringBuilder.append(string);
             }
             randomAccessFile.close();
-            Statement statement = getDataSource().getConnection().createStatement();
+            Statement statement = getDBConnection().createStatement();
             statement.execute(stringBuilder.toString());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -53,7 +55,7 @@ public class DBInitor {
                 stringBuilder.append(string);
             }
             randomAccessFile.close();
-            Statement statement = getDataSource().getConnection().createStatement();
+            Statement statement = getDBConnection().createStatement();
             statement.executeUpdate(stringBuilder.toString());
         } catch (Exception ex) {
             ex.printStackTrace();
