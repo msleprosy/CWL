@@ -1,5 +1,5 @@
 INSERT INTO users (firstname, lastname, email, password, user_type)
-VALUES ('admin', 'admin', 'admin@epam.com', 'admin', 'ADMINISTRATOR');
+VALUES ('admin', 'admin', 'admin@epam.com', 'admin', 'ADMINISTRATOR'),
        ('Sergei', 'Sergeev', 'serg@mail.ru', '234b', 'SIMPLE_USER'),
        ('Olga', 'Olgina', 'olg_olg@gmail.com', '456c', 'SIMPLE_USER'),
        ('Pavel', 'Pavlov', 'pav_pav@yandex.ru', '567d', 'SIMPLE_USER'),
