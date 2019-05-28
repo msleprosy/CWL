@@ -8,38 +8,10 @@ public class Snippet {
     private String name;
     private long ownerId;
     private long groupId;
-    private SnippetProperties properties = new SnippetProperties();
-
-    private class SnippetProperties {
-        private String content;
-        private LocalDate creationDate;
-        private LocalDate modificationDate;
-        private String tag;
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            SnippetProperties that = (SnippetProperties) o;
-            return Objects.equals(content, that.content) &&
-                    Objects.equals(creationDate, that.creationDate) &&
-                    Objects.equals(modificationDate, that.modificationDate) &&
-                    Objects.equals(tag, that.tag);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(content, creationDate, modificationDate, tag);
-        }
-
-        @Override
-        public String toString() {
-            return  "content = '" + content + '\'' +
-                    ", creationDate = " + creationDate +
-                    ", modificationDate = " + modificationDate +
-                    ", tag = '" + tag + '\'';
-        }
-    }
+    private String content;
+    private LocalDate creationDate;
+    private LocalDate modificationDate;
+    private String tag;
 
     public long getId() {
         return id;
@@ -74,35 +46,35 @@ public class Snippet {
     }
 
     public String getContent() {
-        return this.properties.content;
+        return content;
     }
 
     public void setContent(String content) {
-        this.properties.content = content;
+        this.content = content;
     }
 
     public LocalDate getCreationDate() {
-        return this.properties.creationDate;
+        return creationDate;
     }
 
     public void setCreationDate(LocalDate creationDate) {
-        this.properties.creationDate = creationDate;
+        this.creationDate = creationDate;
     }
 
     public LocalDate getModificationDate() {
-        return this.properties.modificationDate;
+        return modificationDate;
     }
 
     public void setModificationDate(LocalDate modificationDate) {
-        this.properties.modificationDate = modificationDate;
+        this.modificationDate = modificationDate;
     }
 
     public String getTag() {
-        return this.properties.tag;
+        return tag;
     }
 
     public void setTag(String tag) {
-        this.properties.tag = tag;
+        this.tag = tag;
     }
 
     @Override
@@ -110,16 +82,19 @@ public class Snippet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Snippet snippet = (Snippet) o;
-        return  id == snippet.id &&
+        return id == snippet.id &&
                 ownerId == snippet.ownerId &&
                 groupId == snippet.groupId &&
                 Objects.equals(name, snippet.name) &&
-                Objects.equals(properties, snippet.properties);
+                Objects.equals(content, snippet.content) &&
+                Objects.equals(creationDate, snippet.creationDate) &&
+                Objects.equals(modificationDate, snippet.modificationDate) &&
+                Objects.equals(tag, snippet.tag);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, ownerId, groupId, properties);
+        return Objects.hash(id, name, ownerId, groupId, content, creationDate, modificationDate, tag);
     }
 
     @Override
@@ -128,8 +103,11 @@ public class Snippet {
                 "id = " + id +
                 ", name = '" + name + '\'' +
                 ", ownerId = " + ownerId +
-                ", groupId = " + groupId + ", " +
-                properties +
+                ", groupId = " + groupId +
+                ", content = '" + content + '\'' +
+                ", creationDate = " + creationDate +
+                ", modificationDate = " + modificationDate +
+                ", tag = '" + tag + '\'' +
                 '}';
     }
 }
