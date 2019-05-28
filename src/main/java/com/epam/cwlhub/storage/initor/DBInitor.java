@@ -11,7 +11,7 @@ import java.sql.Statement;
 public class DBInitor {
     private static final String DDL_SCRIPT_PATH = "database/ddl/create_tables.sql";
     private static final String DML_SCRIPT_PATH = "database/dml/init_data.sql";
-    
+
     public void initDataBase() {
         try {
             createDataBaseStructure();
@@ -30,7 +30,7 @@ public class DBInitor {
     }
 
     private void createDataBaseStructure() throws Exception {
-        ClassLoader classLoader = new DBInitor().getClass().getClassLoader();
+        ClassLoader classLoader = this.getClass().getClassLoader();
         File file = new File(classLoader.getResource(DDL_SCRIPT_PATH).getFile());
         String content = new String(Files.readAllBytes(file.toPath()));
         Statement statement = getDBConnection().createStatement();
@@ -38,7 +38,7 @@ public class DBInitor {
     }
 
     private void fillDataBaseWithData() throws Exception {
-        ClassLoader classLoader = new DBInitor().getClass().getClassLoader();
+        ClassLoader classLoader = this.getClass().getClassLoader();
         File file = new File(classLoader.getResource(DML_SCRIPT_PATH).getFile());
         String content = new String(Files.readAllBytes(file.toPath()));
         Statement statement = getDBConnection().createStatement();
