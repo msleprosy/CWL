@@ -8,7 +8,7 @@ public class Snippet {
     private String name;
     private long ownerId;
     private long groupId;
-    private SnippetProperties properties;
+    private SnippetProperties properties = new SnippetProperties();
 
     private class SnippetProperties {
         private String content;
@@ -35,9 +35,9 @@ public class Snippet {
         @Override
         public String toString() {
             return  "content = '" + content + '\'' +
-                    ", creationDate =" + creationDate +
-                    ", modificationDate =" + modificationDate +
-                    ", tag ='" + tag + '\'';
+                    ", creationDate = " + creationDate +
+                    ", modificationDate = " + modificationDate +
+                    ", tag = '" + tag + '\'';
         }
     }
 
@@ -85,6 +85,10 @@ public class Snippet {
         return this.properties.creationDate;
     }
 
+    public void setCreationDate(LocalDate creationDate) {
+        this.properties.creationDate = creationDate;
+    }
+
     public LocalDate getModificationDate() {
         return this.properties.modificationDate;
     }
@@ -99,14 +103,6 @@ public class Snippet {
 
     public void setTag(String tag) {
         this.properties.tag = tag;
-    }
-
-    public SnippetProperties getProperties() {
-        return properties;
-    }
-
-    public void setProperties(SnippetProperties properties) {
-        this.properties = properties;
     }
 
     @Override
@@ -124,5 +120,16 @@ public class Snippet {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, ownerId, groupId, properties);
+    }
+
+    @Override
+    public String toString() {
+        return "Snippet{" +
+                "id = " + id +
+                ", name = '" + name + '\'' +
+                ", ownerId = " + ownerId +
+                ", groupId = " + groupId + ", " +
+                properties +
+                '}';
     }
 }
