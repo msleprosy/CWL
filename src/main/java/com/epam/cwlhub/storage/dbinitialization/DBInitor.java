@@ -1,4 +1,4 @@
-package com.epam.cwlhub.storage.initor;
+package com.epam.cwlhub.storage.dbinitialization;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -20,14 +20,6 @@ public class DBInitor {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    }
-
-    public static Connection getDBConnection() throws SQLException {
-        ComboPooledDataSource cpds = new ComboPooledDataSource();
-        cpds.setJdbcUrl("jdbc:postgresql://localhost:5432/CWL_db");
-        cpds.setUser("postgres");
-        cpds.setPassword("postgres");
-        return cpds.getConnection();
     }
 
     private void createDataBaseStructure() throws Exception {
