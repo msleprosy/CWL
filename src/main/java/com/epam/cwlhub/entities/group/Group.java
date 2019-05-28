@@ -46,7 +46,7 @@ public class Group {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null) return false;
-        if (!(o instanceof Group)) return false;
+        if (getClass() != o.getClass()) return false;
 
         Group group = (Group) o;
 
