@@ -1,4 +1,5 @@
 INSERT INTO users (firstname, lastname, email, password, user_type)
+<<<<<<< HEAD
 VALUES ('Ivan', 'Ivanov', 'ivan@gmail.com', '123a', 'Administrator'),
        ('Sergei', 'Sergeev', 'serg@mail.ru', '234b', 'SIMPLE_USER'),
        ('Olga', 'Olgina', 'olg_olg@gmail.com', '456c', 'SIMPLE_USER'),
@@ -9,6 +10,18 @@ INSERT INTO groups (name, description, creator_id)
 VALUES ('Bioinformatics Fans', 'We love bioinformatics!', 1),
        ('Innovators', 'Our goal is to create something great', 4),
        ('Common', 'For everyone', 5);
+=======
+VALUES ('admin', 'admin', 'admin@epam.com', 'admin', 'ADMINISTRATOR'),
+       ('Sergei', 'Sergeev', 'serg@mail.ru', '234b', 'SIMPLE_USER'),
+       ('Olga', 'Olgina', 'olg_olg@gmail.com', '456c', 'SIMPLE_USER'),
+       ('Pavel', 'Pavlov', 'pav_pav@yandex.ru', '567d', 'SIMPLE_USER'),
+       ('Ivan', 'Ivanov', 'ivan@gmail.com', '123a', 'SIMPLE_USER');
+       
+INSERT INTO groups (name, description, creator_id)
+VALUES ('Bioinformatics Fans', 'We love bioinformatics!', 5),
+       ('Innovators', 'Our goal is to create something great', 4),
+       ('Common', 'For everyone', 1);
+>>>>>>> e83f3b019f912bf5f0e6a11d5141155c811d1973
 
 INSERT INTO user_group (user_id, group_id)
 VALUES (1, 3),
@@ -16,7 +29,11 @@ VALUES (1, 3),
        (3, 3),
        (4, 3),
        (5, 3),
+<<<<<<< HEAD
        (1, 1),
+=======
+       (5, 1),
+>>>>>>> e83f3b019f912bf5f0e6a11d5141155c811d1973
        (2, 1),
        (4, 2);
        

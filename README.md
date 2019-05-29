@@ -47,3 +47,5 @@ The reason is that usually using of only new technologies doesn't give deep unde
 For example, you should NOT use Spring ‘magic tools’ like Boot, Data etc., which configures almost everything for you.
 
 Technologies: JDBC, Servlets/JSP, Tomcat
+
+![GithubDiagram.png](src/main/resources/GithubDiagram.png)
