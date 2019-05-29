@@ -22,6 +22,5 @@ public class DBConnector implements DBConnection {
         cpds.setUser(login);
         cpds.setPassword(password);
         return cpds.getConnection();
-
     }
 }
