@@ -38,18 +38,4 @@ public class DBConnector implements DBConnection {
         cpds.setPassword(property.getProperty(PASSWORD));
         return cpds.getConnection();
     }
-
-    public static void main(String[] args){
-        DBConnector dbConnector = DBConnector.getDBConnectorInstance();
-        try {
-            Class.forName("ComboPooledDataSource");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            Connection con = dbConnector.getDBConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
