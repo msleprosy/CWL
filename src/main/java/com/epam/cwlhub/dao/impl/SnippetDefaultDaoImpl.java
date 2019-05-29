@@ -15,15 +15,15 @@ public class SnippetDefaultDaoImpl implements SnippetDao {
 
     private static final String INSERT_SNIPPET_SQL_STATEMENT = "INSERT INTO snippets (name, owner_id, creation_date, " +
                                                                "modification_date, content, tag, group_id) " +
-                                                               "VALUE (?, ?, ?, ?, ?, ?, ?)";
+                                                               "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     private static final String SELECT_ALL_SNIPPETS = "SELECT * FROM snippets";
-    private static final String SELECT_SNIPPET_SQL_STATEMENT = "SELECT FROM snippets" +
+    private static final String SELECT_SNIPPET_SQL_STATEMENT = "SELECT * FROM snippets " +
                                                                "WHERE ";
 
     private static final String SELECT_SNIPPET_BY_ID_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "snippet_id = ?";
 
-    private static final String DELETE_SNIPPET_SQL_STATEMENT = "DELETE FROM TABLE snippets" +
+    private static final String DELETE_SNIPPET_SQL_STATEMENT = "DELETE FROM snippets " +
                                                                "WHERE ";
 
     private static final String DELETE_SNIPPET_BY_ID_SQL_STATEMENT = DELETE_SNIPPET_SQL_STATEMENT + "snippet_id = ?";
@@ -49,15 +49,15 @@ public class SnippetDefaultDaoImpl implements SnippetDao {
     public Snippet insert(Snippet snippet) {
         try (Connection connection = getDBConnectorInstance().getDBConnection();
              PreparedStatement ps = connection.prepareStatement(INSERT_SNIPPET_SQL_STATEMENT,
-                                                                Statement.RETURN_GENERATED_KEYS)) {
+                                                                PreparedStatement.RETURN_GENERATED_KEYS)) {
             appendPreparedStatementParametersToInsertSnippet(ps, snippet);
-            ps.executeQuery();
+            ps.executeUpdate();
 
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                snippet.setId(rs.getLong(1));
+            try(ResultSet generatedId = ps.getGeneratedKeys()) {
+                if (generatedId.next()) {
+                    snippet.setId(generatedId.getLong(1));
+                }
             }
-
             return snippet;
         } catch (Exception e) {
             throw new SnippetException("Can't insert new snippet", e);
@@ -146,7 +146,7 @@ public class SnippetDefaultDaoImpl implements SnippetDao {
 
             return snippet;
         } catch (Exception e) {
-            throw new SnippetException("Can't map result set to an snippet entity", e);
+            throw new SnippetException("Can't map result set to a snippet entity", e);
         }
     }
 
