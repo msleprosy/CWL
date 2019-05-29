@@ -16,13 +16,9 @@ public class DBInitor {
         this.dbConnection = dbConnection;
     }
 
-    public static void main(String[] args){
-
-    }
-
     public void initDataBase() {
         try {
-           // createDataBaseStructure();
+            createDataBaseStructure();
             fillDataBaseWithData();
         } catch (Exception ex) {
             throw new RuntimeException("Something went wrong while initializing the database");
