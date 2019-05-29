@@ -8,20 +8,48 @@ import java.util.Properties;
 
 public class DBConnector implements DBConnection {
 
-    private ComboPooledDataSource cpds = new ComboPooledDataSource();
-    private static Properties property;
-    private static final String HOST = property.getProperty("db.host");
-    private static final String LOGIN = property.getProperty("db.login");
-    private static final String PASSWORD = property.getProperty("db.password");
+    private static final String HOST = "db.host";
+    private static final String LOGIN = "db.login";
+    private static final String PASSWORD = "db.password";
     private static final String PROPERTIES_PATH = "src/main/resources/config.properties";
 
+    private ComboPooledDataSource cpds;
+
+    private static DBConnector dbConnector = null;
+
+    private DBConnector(){
+        cpds = new ComboPooledDataSource();
+    }
+
+    public static DBConnector getDBConnectorInstance() {
+        if (dbConnector == null) {
+            dbConnector = new DBConnector();
+        }
+        return dbConnector;
+    }
+
     public Connection getDBConnection() throws Exception {
+        Properties property = new Properties();
         FileInputStream fis;
         fis = new FileInputStream(PROPERTIES_PATH);
         property.load(fis);
-        cpds.setJdbcUrl(HOST);
-        cpds.setUser(LOGIN);
-        cpds.setPassword(PASSWORD);
+        cpds.setJdbcUrl(property.getProperty(HOST));
+        cpds.setUser(property.getProperty(LOGIN));
+        cpds.setPassword(property.getProperty(PASSWORD));
         return cpds.getConnection();
+    }
+
+    public static void main(String[] args){
+        DBConnector dbConnector = DBConnector.getDBConnectorInstance();
+        try {
+            Class.forName("ComboPooledDataSource");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            Connection con = dbConnector.getDBConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
