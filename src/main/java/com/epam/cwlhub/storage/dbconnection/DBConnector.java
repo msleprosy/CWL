@@ -9,18 +9,19 @@ import java.util.Properties;
 public class DBConnector implements DBConnection {
 
     private ComboPooledDataSource cpds = new ComboPooledDataSource();
+    private static Properties property;
+    private static final String HOST = property.getProperty("db.host");
+    private static final String LOGIN = property.getProperty("db.login");
+    private static final String PASSWORD = property.getProperty("db.password");
+    private static final String PROPERTIES_PATH = "src/main/resources/config.properties";
 
     public Connection getDBConnection() throws Exception {
         FileInputStream fis;
-        Properties property = new Properties();
-        fis = new FileInputStream("src/main/resources/config.properties");
+        fis = new FileInputStream(PROPERTIES_PATH);
         property.load(fis);
-        String host = property.getProperty("db.host");
-        String login = property.getProperty("db.login");
-        String password = property.getProperty("db.password");
-        cpds.setJdbcUrl(host);
-        cpds.setUser(login);
-        cpds.setPassword(password);
+        cpds.setJdbcUrl(HOST);
+        cpds.setUser(LOGIN);
+        cpds.setPassword(PASSWORD);
         return cpds.getConnection();
     }
 }
