@@ -23,7 +23,6 @@ public class DBConnector implements DBConnection {
         cpds = new ComboPooledDataSource();
         Properties property = new Properties();
         try {
-
             property.load(new DBConnector().fis);
             cpds.setJdbcUrl(property.getProperty(HOST));
             cpds.setUser(property.getProperty(LOGIN));
