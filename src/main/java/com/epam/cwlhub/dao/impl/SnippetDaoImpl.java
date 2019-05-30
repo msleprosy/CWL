@@ -3,6 +3,8 @@ package com.epam.cwlhub.dao.impl;
 import com.epam.cwlhub.dao.SnippetDao;
 import com.epam.cwlhub.entities.snippet.Snippet;
 import com.epam.cwlhub.exceptions.unchecked.SnippetException;
+import com.epam.cwlhub.storage.dbconnection.DBConnection;
+import com.epam.cwlhub.storage.dbconnection.DBConnector;
 
 import java.sql.*;
 import java.sql.Date;
@@ -48,7 +50,8 @@ public class SnippetDaoImpl implements SnippetDao {
 
     @Override
     public Snippet insert(Snippet snippet) {
-        try (Connection connection = getDBConnectorInstance().getDBConnection();
+        DBConnection dbConnection = DBConnector.getDBConnectorInstance();
+        try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement ps = connection.prepareStatement(INSERT_SNIPPET_SQL_STATEMENT,
                                                                 PreparedStatement.RETURN_GENERATED_KEYS)) {
             appendPreparedStatementParametersToInsertSnippet(ps, snippet);
