@@ -79,7 +79,7 @@ public class UserDaoImpl implements UserDao {
             throw new UserException("Can't find the user with id" + id, ex);
         }
     }
-    
+
     public List<UserEntity> findByGroupId(long id) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_GROUP_ID_SQL_STATEMENT)){
