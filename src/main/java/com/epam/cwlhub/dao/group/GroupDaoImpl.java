@@ -19,6 +19,9 @@ public class GroupDaoImpl implements GroupDao {
 
     private static volatile GroupDaoImpl daoInstance;
 
+    private GroupDaoImpl() {
+    }
+
     private DBConnection dbConnector = DBConnector.getInstance();
 
     public static GroupDaoImpl getInstance() {
