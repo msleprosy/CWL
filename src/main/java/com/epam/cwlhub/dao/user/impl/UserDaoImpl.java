@@ -1,5 +1,6 @@
 package com.epam.cwlhub.dao.user.impl;
 
+import com.epam.cwlhub.dao.user.UserDao;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.entities.user.UserType;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
@@ -9,10 +10,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserDaoImpl {
+public class UserDaoImpl implements UserDao {
     private final DBConnection dbConnection = DBConnector.getInstance();
 
     private static volatile UserDaoImpl INSTANCE;
@@ -44,6 +46,7 @@ public class UserDaoImpl {
         return localInstance;
     }
 
+    @Override
     public UserEntity insert(UserEntity user) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL_STATEMENT,
@@ -61,7 +64,8 @@ public class UserDaoImpl {
         }
     }
 
-    public Optional<UserEntity> findById(long id) throws Exception {
+    @Override
+    public Optional<UserEntity> findById(long id) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID_SQL_STATEMENT)){
             preparedStatement.setLong(1, id);
@@ -75,7 +79,7 @@ public class UserDaoImpl {
             throw new UserException("Can't find the user with id" + id, ex);
         }
     }
-
+    
     public List<UserEntity> findByGroupId(long id) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_GROUP_ID_SQL_STATEMENT)){
@@ -87,10 +91,11 @@ public class UserDaoImpl {
         }
     }
 
-    public List<UserEntity> findAll(long id) {
+    @Override
+    public List<UserEntity> findAll(/*long id*/) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS_SQL_STATEMENT)){
-            preparedStatement.setLong(1, id);
+           // preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             return getUsersFromResultSet(rs);
         } catch (Exception ex) {
@@ -113,6 +118,7 @@ public class UserDaoImpl {
         }
     }
 
+    @Override
     public void deleteById(long id) {
         try (Connection connection = dbConnection.getDBConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID_SQL_STATEMENT)) {
@@ -125,7 +131,7 @@ public class UserDaoImpl {
 
     public void deleteByEmail(String email) {
         try (Connection connection = dbConnection.getDBConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID_SQL_STATEMENT)) {
+        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_EMAIL_SQL_STATEMENT)) {
             preparedStatement.setString(1, email);
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
@@ -133,6 +139,7 @@ public class UserDaoImpl {
         }
     }
 
+    @Override
     public void update(UserEntity user) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_SQL_STATEMENT)) {
@@ -144,6 +151,11 @@ public class UserDaoImpl {
     }
 
     private List<UserEntity> getUsersFromResultSet(ResultSet rs) throws SQLException {
+        List<UserEntity> result = new ArrayList<>();
+        while (rs.next()){
+            result.add(mapUser(rs));
+        }
+        return result;
     }
 
     private void appendPreparedStatementParametersToInsertUser(PreparedStatement preparedStatement, UserEntity user) throws SQLException {

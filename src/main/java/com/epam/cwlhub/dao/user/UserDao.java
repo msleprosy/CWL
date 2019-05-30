@@ -6,5 +6,5 @@ import com.epam.cwlhub.entities.user.UserEntity;
 import java.util.List;
 
 public interface UserDao extends BaseDao {
-    List<UserEntity>  findByUserId(long id);
+   // List<UserEntity>  findByUserId(long id);
 }
