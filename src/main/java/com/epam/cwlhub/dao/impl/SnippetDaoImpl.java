@@ -10,8 +10,8 @@ import java.util.*;
 
 import static com.epam.cwlhub.storage.dbconnection.DBConnector.getDBConnectorInstance;
 
-public class SnippetDefaultDaoImpl implements SnippetDao {
-    private static volatile SnippetDefaultDaoImpl INSTANCE;
+public class SnippetDaoImpl implements SnippetDao {
+    private static volatile SnippetDaoImpl INSTANCE;
 
     private static final String INSERT_SNIPPET_SQL_STATEMENT = "INSERT INTO snippets (name, owner_id, creation_date, " +
                                                                "modification_date, content, tag, group_id) " +
@@ -33,13 +33,13 @@ public class SnippetDefaultDaoImpl implements SnippetDao {
                                                                "name = ?, modification_date = ?, content = ?, tag = ? " +
                                                                "WHERE snippet_id = ?";
 
-    public static SnippetDefaultDaoImpl getInstance() {
-        SnippetDefaultDaoImpl localInstance = INSTANCE;
+    public static SnippetDaoImpl getInstance() {
+        SnippetDaoImpl localInstance = INSTANCE;
         if (localInstance == null) {
-            synchronized (SnippetDefaultDaoImpl.class) {
+            synchronized (SnippetDaoImpl.class) {
                 localInstance = INSTANCE;
                 if (localInstance == null) {
-                    INSTANCE = localInstance = new SnippetDefaultDaoImpl();
+                    INSTANCE = localInstance = new SnippetDaoImpl();
                 }
             }
         }
