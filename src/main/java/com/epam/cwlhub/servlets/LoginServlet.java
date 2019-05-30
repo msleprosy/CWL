@@ -30,7 +30,7 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
 
         RequestDispatcher dispatcher
-                = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_URL);
+                = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
 
         dispatcher.forward(request, response);
 
@@ -70,7 +70,7 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute(ERROR, errorString);
             request.setAttribute(USER, user);
             RequestDispatcher dispatcher //
-                    = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_URL);
+                    = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
 
             dispatcher.forward(request, response);
         } else {
