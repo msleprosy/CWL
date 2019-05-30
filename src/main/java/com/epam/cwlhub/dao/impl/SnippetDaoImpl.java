@@ -3,14 +3,16 @@ package com.epam.cwlhub.dao.impl;
 import com.epam.cwlhub.dao.SnippetDao;
 import com.epam.cwlhub.entities.snippet.Snippet;
 import com.epam.cwlhub.exceptions.unchecked.SnippetException;
+import com.epam.cwlhub.storage.dbconnection.DBConnection;
+import com.epam.cwlhub.storage.dbconnection.DBConnector;
 
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 
-import static com.epam.cwlhub.storage.dbconnection.DBConnector.getDBConnectorInstance;
-
 public class SnippetDaoImpl implements SnippetDao {
+    private final DBConnection dbConnection = DBConnector.getInstance();
+
     private static volatile SnippetDaoImpl INSTANCE;
 
     private static final String INSERT_SNIPPET_SQL_STATEMENT = "INSERT INTO snippets (name, owner_id, creation_date, " +
@@ -48,7 +50,7 @@ public class SnippetDaoImpl implements SnippetDao {
 
     @Override
     public Snippet insert(Snippet snippet) {
-        try (Connection connection = getDBConnectorInstance().getDBConnection();
+        try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement ps = connection.prepareStatement(INSERT_SNIPPET_SQL_STATEMENT,
                                                                 PreparedStatement.RETURN_GENERATED_KEYS)) {
             appendPreparedStatementParametersToInsertSnippet(ps, snippet);
@@ -67,7 +69,7 @@ public class SnippetDaoImpl implements SnippetDao {
 
     @Override
     public void update(Snippet snippet) {
-        try (Connection connection = getDBConnectorInstance().getDBConnection();
+        try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement ps = connection.prepareStatement(UPDATE_SNIPPET_SQL_STATEMENT)) {
             appendPreparedStatementParametersToUpdateSnippet(ps, snippet);
             ps.executeUpdate();
@@ -78,7 +80,7 @@ public class SnippetDaoImpl implements SnippetDao {
 
     @Override
     public void deleteById(long id) {
-        try (Connection connection = getDBConnectorInstance().getDBConnection();
+        try (Connection connection = dbConnection.getDBConnection();
             PreparedStatement ps = connection.prepareStatement(DELETE_SNIPPET_BY_ID_SQL_STATEMENT)) {
             ps.setLong(1, id);
             ps.executeUpdate();
@@ -89,7 +91,7 @@ public class SnippetDaoImpl implements SnippetDao {
 
     @Override
     public Optional<Snippet> findById(long id)  {
-        try (Connection connection = getDBConnectorInstance().getDBConnection();
+        try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_SNIPPET_BY_ID_SQL_STATEMENT)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
@@ -105,7 +107,7 @@ public class SnippetDaoImpl implements SnippetDao {
 
     @Override
     public List<Snippet> findByGroupId(long id) {
-        try (Connection connection = getDBConnectorInstance().getDBConnection();
+        try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_SNIPPET_BY_GROUP_ID_SQL_STATEMENT)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
@@ -118,7 +120,7 @@ public class SnippetDaoImpl implements SnippetDao {
 
     @Override
     public List<Snippet> findAll() {
-        try (Connection connection = getDBConnectorInstance().getDBConnection();
+        try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SNIPPETS)) {
             ResultSet rs = ps.executeQuery();
 
