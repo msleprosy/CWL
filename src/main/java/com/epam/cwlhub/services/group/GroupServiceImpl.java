@@ -52,4 +52,9 @@ public class GroupServiceImpl implements GroupService {
     public List<Group> findAll() {
         return groupDao.findAll();
     }
+
+    @Override
+    public List<Group> findUsersGroups(long id) {
+        return groupDao.findUsersGroups(id);
+    }
 }
