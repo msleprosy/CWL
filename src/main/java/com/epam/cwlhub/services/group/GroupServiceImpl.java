@@ -10,6 +10,23 @@ import java.util.Optional;
 public class GroupServiceImpl implements GroupService {
 
     private GroupDao groupDao = GroupDaoImpl.getInstance();
+    private static volatile GroupServiceImpl serviceInstance;
+
+    private GroupServiceImpl() {
+    }
+
+    public static GroupServiceImpl getInstance() {
+        GroupServiceImpl localDaoInstance = serviceInstance;
+        if (localDaoInstance == null) {
+            synchronized (GroupServiceImpl.class) {
+                localDaoInstance = serviceInstance;
+                if (localDaoInstance == null) {
+                    serviceInstance = localDaoInstance = new GroupServiceImpl();
+                }
+            }
+        }
+        return localDaoInstance;
+    }
 
     @Override
     public Group insert(Group group) {
