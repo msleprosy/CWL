@@ -22,6 +22,7 @@ public class SnippetDefaultDaoImpl implements SnippetDao {
                                                                "WHERE ";
 
     private static final String SELECT_SNIPPET_BY_ID_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "snippet_id = ?";
+    private static final String SELECT_SNIPPET_BY_GROUP_ID_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "group_id = ?";
 
     private static final String DELETE_SNIPPET_SQL_STATEMENT = "DELETE FROM snippets " +
                                                                "WHERE ";
@@ -103,19 +104,37 @@ public class SnippetDefaultDaoImpl implements SnippetDao {
     }
 
     @Override
+    public List<Snippet> findByGroupId(long id) {
+        try (Connection connection = getDBConnectorInstance().getDBConnection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_SNIPPET_BY_GROUP_ID_SQL_STATEMENT)) {
+            appendSnippetIdToPreparedStatementParameters(ps, id);
+            ResultSet rs = ps.executeQuery();
+
+            return getSnippetsFromResultSet(rs);
+        } catch (Exception e) {
+            throw new SnippetException("Can't find the snippet with id = " + id, e);
+        }
+    }
+
+    @Override
     public List<Snippet> findAll() {
         try (Connection connection = getDBConnectorInstance().getDBConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SNIPPETS)) {
             ResultSet rs = ps.executeQuery();
-            List<Snippet> result = new ArrayList<>();
-            while (rs.next()) {
-                result.add(mapSnippet(rs));
-            }
 
-            return result;
+            return getSnippetsFromResultSet(rs);
         } catch (Exception e) {
             throw new SnippetException("Can't find any snippets", e);
         }
+    }
+
+    private List<Snippet> getSnippetsFromResultSet(ResultSet rs) throws SQLException {
+        List<Snippet> result = new ArrayList<>();
+        while (rs.next()) {
+            result.add(mapSnippet(rs));
+        }
+
+        return result;
     }
 
     private void appendPreparedStatementParametersToInsertSnippet(PreparedStatement ps, Snippet snippet) throws SQLException {
