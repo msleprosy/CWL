@@ -76,4 +76,17 @@ public class UserEntity {
     public void setBanned(boolean banned) {
         this.banned = banned;
     }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userType=" + userType +
+                ", banned=" + banned +
+                '}';
+    }
 }

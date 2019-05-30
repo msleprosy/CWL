@@ -47,6 +47,14 @@ public class UserDaoImpl implements UserDao {
         return localInstance;
     }
 
+
+    public static void main(String[] args){
+        //new UserDaoImpl().insert(new UserEntity(7L, "test2", "test2", "test","test", false));
+        Optional<UserEntity> ue = new UserDaoImpl().findById(1);
+        System.out.println(ue.toString());
+    }
+
+
     @Override
     public UserEntity insert(UserEntity user) {
         try (Connection connection = dbConnection.getDBConnection();
@@ -178,6 +186,13 @@ public class UserDaoImpl implements UserDao {
                 user.setEmail(rs.getString("email"));
                 user.setBanned(rs.getBoolean("banned"));
                 user.setUserType(UserType.SIMPLE_USER);
+            } else {
+                user.setId(id);
+                user.setLastName(rs.getString("lastname"));
+                user.setFirstName(rs.getString("firstname"));
+                user.setEmail(rs.getString("email"));
+                user.setBanned(rs.getBoolean("banned"));
+                user.setUserType(UserType.ADMINISTRATOR);
             }
             return user;
         }catch (SQLException ex){
