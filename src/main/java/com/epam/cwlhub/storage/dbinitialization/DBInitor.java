@@ -1,6 +1,7 @@
 package com.epam.cwlhub.storage.dbinitialization;
 
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
+import com.epam.cwlhub.storage.dbconnection.DBConnector;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -10,11 +11,7 @@ import java.util.List;
 public class DBInitor {
     private static final String DDL_SCRIPT_PATH = "database/ddl/create_tables.sql";
     private static final String DML_SCRIPT_PATH = "database/dml/init_data.sql";
-    private final DBConnection dbConnection;
-
-    public DBInitor(DBConnection dbConnection){
-        this.dbConnection = dbConnection;
-    }
+    private final DBConnection dbConnection = DBConnector.getInstance();
 
     public void initDataBase() {
         try {
