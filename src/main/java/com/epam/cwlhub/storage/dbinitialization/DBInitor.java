@@ -35,9 +35,4 @@ public class DBInitor {
         Statement statement = dbConnection.getDBConnection().createStatement();
         statement.executeUpdate(String.join("", dml));
     }
-
-    public static void main(String[] args) {
-        DBInitor initor = new DBInitor();
-        initor.initDataBase();
-    }
 }
