@@ -16,8 +16,7 @@ public class DBConnector implements DBConnection {
     private static final String PROPERTIES_PATH = "database/config/config.properties";
     private static DBConnector dbConnector = null;
     private static ComboPooledDataSource cpds;
-
-    InputStream fis = this.getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH);
+    private InputStream fis = this.getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH);
 
     static{
         cpds = new ComboPooledDataSource();
