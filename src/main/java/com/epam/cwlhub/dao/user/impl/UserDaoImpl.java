@@ -5,6 +5,7 @@ import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.entities.user.UserType;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
 import com.epam.cwlhub.storage.dbconnection.DBConnector;
+import com.epam.cwlhub.exceptions.unchecked.UserException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -80,30 +81,19 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    public List<UserEntity> findByGroupId(long id) {
-        try (Connection connection = dbConnection.getDBConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_GROUP_ID_SQL_STATEMENT)){
-            preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            return getUsersFromResultSet(rs);
-        } catch (Exception ex) {
-            throw new UserException("Can't find the user with id" + id, ex);
-        }
-    }
-
     @Override
-    public List<UserEntity> findAll(/*long id*/) {
+    public List<UserEntity> findAll() {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS_SQL_STATEMENT)){
-           // preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
+             ResultSet rs = preparedStatement.executeQuery();
             return getUsersFromResultSet(rs);
         } catch (Exception ex) {
             throw new UserException("Can't find any users", ex);
         }
     }
 
-    public Optional<UserEntity> findByEmail(String email) throws Exception {
+    @Override
+    public Optional<UserEntity> findByEmail(String email) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL_STATEMENT)){
             preparedStatement.setString(1, email);
@@ -129,6 +119,7 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    @Override
     public void deleteByEmail(String email) {
         try (Connection connection = dbConnection.getDBConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_EMAIL_SQL_STATEMENT)) {

@@ -4,7 +4,9 @@ import com.epam.cwlhub.dao.BaseDao;
 import com.epam.cwlhub.entities.user.UserEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserDao extends BaseDao<UserEntity> {
-   // List<UserEntity>  findByUserId(long id);
+    Optional<UserEntity> findByEmail(String email);
+    void deleteByEmail(String email);
 }
