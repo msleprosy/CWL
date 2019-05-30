@@ -1,5 +1,6 @@
 package com.epam.cwlhub.servlets;
 
+import com.epam.cwlhub.constants.Endpoints;
 import com.epam.cwlhub.entities.user.UserEntity;
 
 
@@ -17,13 +18,19 @@ public class LoginServlet extends HttpServlet {
     private static final String ACCEPT_REMEMBERME = "Y";
     private static final String ERROR = "errorString";
     private static final String USER = "user";
+    public static final String EMAIL_PARAMETER = "email";
+    public static final String PASSWORD_PARAMETER = "password";
+    public static final String REMEMBERME_PARAMETER = "rememberMe";
+    public static final String AUTHORIZATION_ERROR = "Required username and password!";
+    public static final String LOGIN_ERROR =  "User Name or password invalid";
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         RequestDispatcher dispatcher
-                = this.getServletContext().getRequestDispatcher(UrlAttrs.LOGIN_URL);
+                = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_URL);
 
         dispatcher.forward(request, response);
 
@@ -31,9 +38,9 @@ public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter(UserAttrs.EMAIL_PARAMETER).trim();
-        String password = request.getParameter(UserAttrs.PASSWORD_PARAMETER).trim();
-        String rememberMeStr = request.getParameter(UserAttrs.REMEMBERME_PARAMETER);
+        String email = request.getParameter(EMAIL_PARAMETER).trim();
+        String password = request.getParameter(PASSWORD_PARAMETER).trim();
+        String rememberMeStr = request.getParameter(REMEMBERME_PARAMETER);
         boolean remember = ACCEPT_REMEMBERME.equals(rememberMeStr);
 
         UserEntity user = null;
@@ -41,14 +48,14 @@ public class LoginServlet extends HttpServlet {
         String errorString = null;
         if (email == null || password == null || email.length() == 0 || password.length() == 0) {
             hasError = true;
-            errorString = UserAttrs.AUTHORIZATION_ERROR;
+            errorString = AUTHORIZATION_ERROR;
         } else {
             Connection conn = MyUtils.getStoredConnection(request);
             try {
                 user = DBUtils.findUser(conn, email, password);
                 if (user == null) {
                     hasError = true;
-                    errorString = UserAttrs.LOGIN_ERROR;
+                    errorString = LOGIN_ERROR;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -63,7 +70,7 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute(ERROR, errorString);
             request.setAttribute(USER, user);
             RequestDispatcher dispatcher //
-                    = this.getServletContext().getRequestDispatcher(UrlAttrs.LOGIN_URL);
+                    = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_URL);
 
             dispatcher.forward(request, response);
         } else {
@@ -75,7 +82,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 MyUtils.deleteUserCookie(response);
             }
-            response.sendRedirect(request.getContextPath() + UrlAttrs.USERINFO_URL);
+            response.sendRedirect(request.getContextPath() + Endpoints.USERINFO_URL);
         }
     }
 }
