@@ -18,11 +18,11 @@ public class LoginServlet extends HttpServlet {
     private static final String ACCEPT_REMEMBERME = "Y";
     private static final String ERROR = "errorString";
     private static final String USER = "user";
-    public static final String EMAIL_PARAMETER = "email";
-    public static final String PASSWORD_PARAMETER = "password";
-    public static final String REMEMBERME_PARAMETER = "rememberMe";
-    public static final String AUTHORIZATION_ERROR = "Required username and password!";
-    public static final String LOGIN_ERROR =  "User Name or password invalid";
+    private static final String EMAIL_PARAMETER = "email";
+    private static final String PASSWORD_PARAMETER = "password";
+    private static final String REMEMBERME_PARAMETER = "rememberMe";
+    private static final String AUTHORIZATION_ERROR = "Required username and password!";
+    private static final String LOGIN_ERROR = "User Name or password invalid";
 
 
     @Override
