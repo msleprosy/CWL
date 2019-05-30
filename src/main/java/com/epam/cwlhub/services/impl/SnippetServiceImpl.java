@@ -44,9 +44,9 @@ public class SnippetServiceImpl implements SnippetService {
 
     @Override
     public Optional<Snippet> findById(Long id) {
-        if (id != null)
+        if (id != null) {
             return snippetDao.findById(id);
-
+        }
         return Optional.empty();
     }
 
