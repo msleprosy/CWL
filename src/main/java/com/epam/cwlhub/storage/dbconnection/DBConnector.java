@@ -3,6 +3,7 @@ package com.epam.cwlhub.storage.dbconnection;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.util.Properties;
 
@@ -13,10 +14,24 @@ public class DBConnector implements DBConnection {
     private static final String PASSWORD = "db.password";
     private static final String PROPERTIES_PATH = "src/main/resources/database/config/config.properties";
     private static DBConnector dbConnector = null;
-    private ComboPooledDataSource cpds;
+    private static ComboPooledDataSource cpds;
+
+    static{
+        cpds = new ComboPooledDataSource();
+        Properties property = new Properties();
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(PROPERTIES_PATH);
+            property.load(fis);
+            cpds.setJdbcUrl(property.getProperty(HOST));
+            cpds.setUser(property.getProperty(LOGIN));
+            cpds.setPassword(property.getProperty(PASSWORD));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private DBConnector(){
-        cpds = new ComboPooledDataSource();
     }
 
     public static DBConnector getInstance() {
@@ -27,13 +42,6 @@ public class DBConnector implements DBConnection {
     }
 
     public Connection getDBConnection() throws Exception {
-        Properties property = new Properties();
-        FileInputStream fis;
-        fis = new FileInputStream(PROPERTIES_PATH);
-        property.load(fis);
-        cpds.setJdbcUrl(property.getProperty(HOST));
-        cpds.setUser(property.getProperty(LOGIN));
-        cpds.setPassword(property.getProperty(PASSWORD));
         return cpds.getConnection();
     }
 }
