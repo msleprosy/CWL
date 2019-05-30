@@ -80,7 +80,7 @@ public class SnippetDaoImpl implements SnippetDao {
     public void deleteById(long id) {
         try (Connection connection = getDBConnectorInstance().getDBConnection();
             PreparedStatement ps = connection.prepareStatement(DELETE_SNIPPET_BY_ID_SQL_STATEMENT)) {
-            appendSnippetIdToPreparedStatementParameters(ps, id);
+            ps.setLong(1, id);
             ps.executeUpdate();
         } catch (Exception e) {
             throw new SnippetException("Can't delete the snippet with id = " + id, e);
@@ -91,7 +91,7 @@ public class SnippetDaoImpl implements SnippetDao {
     public Optional<Snippet> findById(long id)  {
         try (Connection connection = getDBConnectorInstance().getDBConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_SNIPPET_BY_ID_SQL_STATEMENT)) {
-            appendSnippetIdToPreparedStatementParameters(ps, id);
+            ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return Optional.ofNullable(mapSnippet(rs));
@@ -107,7 +107,7 @@ public class SnippetDaoImpl implements SnippetDao {
     public List<Snippet> findByGroupId(long id) {
         try (Connection connection = getDBConnectorInstance().getDBConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_SNIPPET_BY_GROUP_ID_SQL_STATEMENT)) {
-            appendSnippetIdToPreparedStatementParameters(ps, id);
+            ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
 
             return getSnippetsFromResultSet(rs);
@@ -145,10 +145,6 @@ public class SnippetDaoImpl implements SnippetDao {
             ps.setString(5, snippet.getContent());
             ps.setString(6, snippet.getTag());
             ps.setLong(7, snippet.getGroupId());
-    }
-
-    private void appendSnippetIdToPreparedStatementParameters(PreparedStatement ps, long id) throws SQLException {
-        ps.setLong(1, id);
     }
 
     private Snippet mapSnippet(ResultSet rs) {
