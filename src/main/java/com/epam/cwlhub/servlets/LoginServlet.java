@@ -2,6 +2,8 @@ package com.epam.cwlhub.servlets;
 
 import com.epam.cwlhub.constants.Endpoints;
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.storage.dbconnection.DBConnection;
+import com.epam.cwlhub.storage.dbconnection.DBConnector;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +15,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class LoginServlet extends HttpServlet {
+    private final DBConnection dbConnection = DBConnector.getInstance();
     private static final long serialVersionUID = 1L;
     private static final String ERROR = "errorString";
     private static final String USER = "user";
@@ -44,18 +47,24 @@ public class LoginServlet extends HttpServlet {
             hasError = true;
             errorString = AUTHORIZATION_ERROR;
         } else {
-            Connection conn = (Connection) request.getAttribute("ATTRIBUTE_FOR_CONNECTION");
+
             try {
-                user = DBUtils.findUser(conn, email, password);
-                if (user == null) {
+                Connection conn = dbConnection.getDBConnection();
+                try {
+                    user = DBUtils.findUser(conn, email, password);
+                    if (user == null) {
+                        hasError = true;
+                        errorString = LOGIN_ERROR;
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                     hasError = true;
-                    errorString = LOGIN_ERROR;
+                    errorString = e.getMessage();
                 }
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-                hasError = true;
-                errorString = e.getMessage();
             }
+
         }
 
         if (hasError) {
