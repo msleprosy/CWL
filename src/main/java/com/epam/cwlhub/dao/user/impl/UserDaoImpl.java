@@ -17,15 +17,13 @@ import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
 
-    //test
-
     private final DBConnection dbConnection = DBConnector.getInstance();
 
     private static volatile UserDaoImpl INSTANCE;
 
     private static final String INSERT_USER_SQL_STATEMENT = "INSERT INTO users (firstname, lastname, email, "
                                                                             + " password, banned, user_type)"
-                                                                            + "Values (?, ?, ?, ?, ?, ?)";
+                                                                                + "Values (?, ?, ?, ?, ?, ?)";
     private static final String SELECT_USER_BY_ID_SQL_STATEMENT = "SELECT * FROM users WHERE user_id = ?";
     private static final String SELECT_USER_SQL_STATEMENT = "SELECT * FROM users WHERE ";
     private static final String SELECT_USER_BY_EMAIL_SQL_STATEMENT = SELECT_USER_SQL_STATEMENT + "email = ?";
@@ -34,7 +32,7 @@ public class UserDaoImpl implements UserDao {
     private static final String DELETE_USER_BY_ID_SQL_STATEMENT = DELETE_USER_SQL_STATEMENT + "user_id = ?";
     private static final String DELETE_USER_BY_EMAIL_SQL_STATEMENT = DELETE_USER_SQL_STATEMENT + "email = ?";
     private static final String UPDATE_USER_SQL_STATEMENT = "UPDATE users SET firstname = ?, lastname = ?, "
-                                                                      + "email = ?, password = ?, banned = ?";
+                                                                    + "email = ?, password = ?, banned = ?";
 
     public static UserDaoImpl getInstance() {
         UserDaoImpl localInstance = INSTANCE;
@@ -53,7 +51,7 @@ public class UserDaoImpl implements UserDao {
     public UserEntity insert(UserEntity user) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL_STATEMENT,
-                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement.RETURN_GENERATED_KEYS)) {
             appendPreparedStatementParametersToInsertUser(preparedStatement, user);
             preparedStatement.executeUpdate();
             try (ResultSet generatedId = preparedStatement.getGeneratedKeys()) {
@@ -70,10 +68,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<UserEntity> findById(long id) {
         try (Connection connection = dbConnection.getDBConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID_SQL_STATEMENT)){
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID_SQL_STATEMENT)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 return Optional.ofNullable(mapUser(rs));
             } else {
                 return Optional.empty();
@@ -86,8 +84,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<UserEntity> findAll() {
         try (Connection connection = dbConnection.getDBConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS_SQL_STATEMENT)){
-             ResultSet rs = preparedStatement.executeQuery();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS_SQL_STATEMENT)) {
+            ResultSet rs = preparedStatement.executeQuery();
             return getUsersFromResultSet(rs);
         } catch (Exception ex) {
             throw new UserException("Can't find any users", ex);
@@ -97,10 +95,10 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<UserEntity> findByEmail(String email) {
         try (Connection connection = dbConnection.getDBConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL_STATEMENT)){
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL_STATEMENT)) {
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()){
+            if (rs.next()) {
                 return Optional.ofNullable(mapUser(rs));
             } else {
                 return Optional.empty();
@@ -113,7 +111,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void deleteById(long id) {
         try (Connection connection = dbConnection.getDBConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID_SQL_STATEMENT)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID_SQL_STATEMENT)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
@@ -124,7 +122,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void deleteByEmail(String email) {
         try (Connection connection = dbConnection.getDBConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_EMAIL_SQL_STATEMENT)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_EMAIL_SQL_STATEMENT)) {
             preparedStatement.setString(1, email);
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
@@ -137,7 +135,7 @@ public class UserDaoImpl implements UserDao {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_SQL_STATEMENT)) {
             appendPreparedStatementParametersToIUpdateUser(preparedStatement, user);
-             preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
         } catch (Exception ex) {
             throw new UserException("Can't update the user with id" + user.getId(), ex);
         }
@@ -145,7 +143,7 @@ public class UserDaoImpl implements UserDao {
 
     private List<UserEntity> getUsersFromResultSet(ResultSet rs) throws SQLException {
         List<UserEntity> result = new ArrayList<>();
-        while (rs.next()){
+        while (rs.next()) {
             result.add(mapUser(rs));
         }
         return result;
@@ -171,25 +169,19 @@ public class UserDaoImpl implements UserDao {
 
     private UserEntity mapUser(ResultSet rs) {
         UserEntity user = new UserEntity();
-        try{
+        try {
             long id = rs.getLong("user_id");
-            if (id != 1) {
-                user.setId(id);
-                user.setLastName(rs.getString("lastname"));
-                user.setFirstName(rs.getString("firstname"));
-                user.setEmail(rs.getString("email"));
-                user.setBanned(rs.getBoolean("banned"));
-                user.setUserType(UserType.SIMPLE_USER);
-            } else {
-                user.setId(id);
-                user.setLastName(rs.getString("lastname"));
-                user.setFirstName(rs.getString("firstname"));
-                user.setEmail(rs.getString("email"));
-                user.setBanned(rs.getBoolean("banned"));
+            user.setId(id);
+            user.setLastName(rs.getString("lastname"));
+            user.setFirstName(rs.getString("firstname"));
+            user.setEmail(rs.getString("email"));
+            user.setBanned(rs.getBoolean("banned"));
+            if (id == 1) {
                 user.setUserType(UserType.ADMINISTRATOR);
             }
+            user.setUserType(UserType.SIMPLE_USER);
             return user;
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
             throw new UserException("can't map resultset to the user entity", ex);
         }
     }
