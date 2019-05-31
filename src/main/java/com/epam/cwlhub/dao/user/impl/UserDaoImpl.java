@@ -24,11 +24,10 @@ public class UserDaoImpl implements UserDao {
                                                                             + " password, banned, user_type)"
                                                                             + "Values (?, ?, ?, ?, ?, ?)";
     private static final String SELECT_USER_BY_ID_SQL_STATEMENT = "SELECT * FROM users WHERE user_id = ?";
-    private static final String SELECT_USER_SQL_STATEMENT = "SELECT * FROM users WHERE";
-    private static final String SELECT_USER_BY_GROUP_ID_SQL_STATEMENT = SELECT_USER_SQL_STATEMENT + "group_id = ?";
+    private static final String SELECT_USER_SQL_STATEMENT = "SELECT * FROM users WHERE ";
     private static final String SELECT_USER_BY_EMAIL_SQL_STATEMENT = SELECT_USER_SQL_STATEMENT + "email = ?";
     private static final String SELECT_ALL_USERS_SQL_STATEMENT = "SELECT * FROM users";
-    private static final String DELETE_USER_SQL_STATEMENT = "DELETE FROM users WHERE";
+    private static final String DELETE_USER_SQL_STATEMENT = "DELETE FROM users WHERE ";
     private static final String DELETE_USER_BY_ID_SQL_STATEMENT = DELETE_USER_SQL_STATEMENT + "user_id = ?";
     private static final String DELETE_USER_BY_EMAIL_SQL_STATEMENT = DELETE_USER_SQL_STATEMENT + "email = ?";
     private static final String UPDATE_USER_SQL_STATEMENT = "UPDATE users SET firstname = ?, lastname = ?, "
@@ -46,14 +45,6 @@ public class UserDaoImpl implements UserDao {
         }
         return localInstance;
     }
-
-
-    public static void main(String[] args){
-        //new UserDaoImpl().insert(new UserEntity(7L, "test2", "test2", "test","test", false));
-        Optional<UserEntity> ue = new UserDaoImpl().findById(1);
-        System.out.println(ue.toString());
-    }
-
 
     @Override
     public UserEntity insert(UserEntity user) {
