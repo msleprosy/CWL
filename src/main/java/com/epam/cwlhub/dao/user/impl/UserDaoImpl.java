@@ -178,8 +178,9 @@ public class UserDaoImpl implements UserDao {
             user.setBanned(rs.getBoolean("banned"));
             if (id == 1) {
                 user.setUserType(UserType.ADMINISTRATOR);
+            } else {
+                user.setUserType(UserType.SIMPLE_USER);
             }
-            user.setUserType(UserType.SIMPLE_USER);
             return user;
         } catch (SQLException ex) {
             throw new UserException("can't map resultset to the user entity", ex);
