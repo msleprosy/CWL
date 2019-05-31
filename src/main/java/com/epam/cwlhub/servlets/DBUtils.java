@@ -9,8 +9,6 @@ import java.sql.SQLException;
 
 public class DBUtils {
 
-
-
     public static UserEntity findUser(Connection conn, //
                                        String email, String password) throws SQLException {
 

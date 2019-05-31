@@ -2,17 +2,15 @@ package com.epam.cwlhub.servlets;
 
 import com.epam.cwlhub.constants.Endpoints;
 import com.epam.cwlhub.entities.user.UserEntity;
-import com.epam.cwlhub.storage.dbconnection.DBConnector;
-
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -46,12 +44,7 @@ public class LoginServlet extends HttpServlet {
             hasError = true;
             errorString = AUTHORIZATION_ERROR;
         } else {
-            Connection conn = null;
-            try {
-                conn = DBConnector.getInstance().getDBConnection();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Connection conn = (Connection) request.getAttribute("ATTRIBUTE_FOR_CONNECTION");
             try {
                 user = DBUtils.findUser(conn, email, password);
                 if (user == null) {
@@ -64,6 +57,7 @@ public class LoginServlet extends HttpServlet {
                 errorString = e.getMessage();
             }
         }
+
         if (hasError) {
             user = new UserEntity();
             user.setEmail(email);
@@ -75,8 +69,6 @@ public class LoginServlet extends HttpServlet {
 
             dispatcher.forward(request, response);
         } else {
-            HttpSession session = request.getSession();
-            MyUtils.storeLoginedUser(session, user);
             System.out.println("User logined");
         }
     }
