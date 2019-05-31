@@ -48,7 +48,7 @@ public class GroupDaoImpl implements GroupDao {
                                                         "ON groups.group_id = user_group.group_id " +
                                                         "JOIN users" +
                                                         "ON user_group.user_id = users.user_id" +
-                                                        "WHERE user_id = ?";
+                                                        "WHERE user_group.user_id = ?";
 
 
     @Override
