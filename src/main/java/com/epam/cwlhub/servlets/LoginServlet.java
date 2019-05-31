@@ -1,6 +1,7 @@
 package com.epam.cwlhub.servlets;
 
 import com.epam.cwlhub.constants.Endpoints;
+import com.epam.cwlhub.dao.AuthentificationService;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
 import com.epam.cwlhub.storage.dbconnection.DBConnector;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 
 public class LoginServlet extends HttpServlet {
     private final DBConnection dbConnection = DBConnector.getInstance();
+    private AuthentificationService authentificationService;
     private static final long serialVersionUID = 1L;
     private static final String ERROR = "errorString";
     private static final String USER = "user";
@@ -27,44 +29,33 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         RequestDispatcher dispatcher
                 = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
-
         dispatcher.forward(request, response);
-
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
-
         UserEntity user = null;
         boolean hasError = false;
         String errorString = null;
         if (email == null || password == null || email.length() == 0 || password.length() == 0) {
             hasError = true;
             errorString = AUTHORIZATION_ERROR;
-        } else {
-
+        }
+        else {
             try {
                 Connection conn = dbConnection.getDBConnection();
-                try {
-                    user = DBUtils.findUser(conn, email, password);
-                    if (user == null) {
-                        hasError = true;
-                        errorString = LOGIN_ERROR;
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                user = authentificationService.signInUser(conn, email, password);
+                if (user == null) {
                     hasError = true;
-                    errorString = e.getMessage();
+                    errorString = LOGIN_ERROR;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
 
         if (hasError) {
@@ -75,9 +66,9 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute(USER, user);
             RequestDispatcher dispatcher
                     = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
-
             dispatcher.forward(request, response);
-        } else {
+        }
+        else {
             System.out.println("User logined");
         }
     }
