@@ -1,6 +1,7 @@
 package com.epam.cwlhub.servlets;
 
 import com.epam.cwlhub.entities.snippet.Snippet;
+import com.epam.cwlhub.services.impl.SnippetServiceImpl;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,7 +56,7 @@ public class SnippetUploadServlet extends HttpServlet {
         snippet.setModificationDate(LocalDate.now());
         snippet.setTag(tags);
 
-        //SnippetServiceImpl.getInstance().insert(snippet);
+        SnippetServiceImpl.getInstance().insert(snippet);
 
         String message = "Done!";
         // sets the message in request scope

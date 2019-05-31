@@ -12,6 +12,7 @@ public class DBConnector implements DBConnection {
     private static final String LOGIN = "db.login";
     private static final String PASSWORD = "db.password";
     private static final String PROPERTIES_PATH = "database/config/config.properties";
+    //private static final String PROPERTIES_PATH = "/Users/EL/IdeaProjects/CWL/src/main/resources/database/config/config.properties";
     private static ComboPooledDataSource cpds = new ComboPooledDataSource();
     private static DBConnector dbConnector = null;
 
@@ -38,6 +39,7 @@ public class DBConnector implements DBConnection {
     }
 
     public Connection getDBConnection() throws Exception {
+        Class.forName("org.postgresql.Driver");
         return cpds.getConnection();
     }
 }
