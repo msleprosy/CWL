@@ -2,6 +2,7 @@ package com.epam.cwlhub.servlets;
 
 import com.epam.cwlhub.constants.Endpoints;
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.storage.dbconnection.DBConnector;
 
 
 import javax.servlet.RequestDispatcher;
@@ -15,15 +16,12 @@ import java.sql.*;
 
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final String ACCEPT_REMEMBERME = "Y";
     private static final String ERROR = "errorString";
     private static final String USER = "user";
     private static final String EMAIL_PARAMETER = "email";
     private static final String PASSWORD_PARAMETER = "password";
-    private static final String REMEMBERME_PARAMETER = "rememberMe";
     private static final String AUTHORIZATION_ERROR = "Required username and password!";
     private static final String LOGIN_ERROR = "User Name or password invalid";
-
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,8 +38,6 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
-        String rememberMeStr = request.getParameter(REMEMBERME_PARAMETER);
-        boolean remember = ACCEPT_REMEMBERME.equals(rememberMeStr);
 
         UserEntity user = null;
         boolean hasError = false;
@@ -50,7 +46,12 @@ public class LoginServlet extends HttpServlet {
             hasError = true;
             errorString = AUTHORIZATION_ERROR;
         } else {
-            Connection conn = MyUtils.getStoredConnection(request);
+            Connection conn = null;
+            try {
+                conn = DBConnector.getInstance().getDBConnection();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             try {
                 user = DBUtils.findUser(conn, email, password);
                 if (user == null) {
@@ -69,20 +70,14 @@ public class LoginServlet extends HttpServlet {
             user.setPassword(password);
             request.setAttribute(ERROR, errorString);
             request.setAttribute(USER, user);
-            RequestDispatcher dispatcher //
+            RequestDispatcher dispatcher
                     = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
 
             dispatcher.forward(request, response);
         } else {
             HttpSession session = request.getSession();
             MyUtils.storeLoginedUser(session, user);
-
-            if (remember) {
-                MyUtils.storeUserCookie(response, user);
-            } else {
-                MyUtils.deleteUserCookie(response);
-            }
-            response.sendRedirect(request.getContextPath() + Endpoints.USERINFO_URL);
+            System.out.println("User logined");
         }
     }
 }

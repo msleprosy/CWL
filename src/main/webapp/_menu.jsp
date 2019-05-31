@@ -5,7 +5,7 @@
 
     <a href="${pageContext.request.contextPath}/">Login</a>
     |
-    <a href="${pageContext.request.contextPath}/productList">File List</a>
+    <a href="${pageContext.request.contextPath}/fileList">File List</a>
     |
     <a href="${pageContext.request.contextPath}/userInfo">My Account Info</a>
 
