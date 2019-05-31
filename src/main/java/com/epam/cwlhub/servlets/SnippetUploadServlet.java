@@ -1,12 +1,10 @@
 package com.epam.cwlhub.servlets;
 
+import com.epam.cwlhub.entities.snippet.Snippet;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.HashMap;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,75 +19,50 @@ import javax.servlet.http.Part;
 
 @WebServlet("/SnippetUploadServlet")
 @MultipartConfig(maxFileSize = 16177215)    // upload file's size up to 16MB
-public class FileUploadDBServlet extends HttpServlet {
+public class SnippetUploadServlet extends HttpServlet {
 
-    ServletContext context = getServletContext();
-    Map<String, Long> userSessionData = (Map<String, Long>) context.getAttribute("UserSessionData");
-
-
-
+    //ServletContext context = getServletContext();
+    //Map<String, Long> userSessionData = (Map<String, Long>) context.getAttribute("UserSessionData");
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // gets values of text fields
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
+
+        String fileName = request.getParameter("fileName");
+        String tags = request.getParameter("tags");
 
         InputStream inputStream = null; // input stream of the upload file
-
-        // obtains the upload file part in this multipart request
         Part filePart = request.getPart("cwl");
         if (filePart != null) {
-            // prints out some information for debugging
+
             System.out.println(filePart.getName());
             System.out.println(filePart.getSize());
             System.out.println(filePart.getContentType());
 
-            // obtains input stream of the upload file
             inputStream = filePart.getInputStream();
         }
 
-        //Connection conn = null; // connection to the database
-        //String message = null;  // message will be sent back to client
+        java.util.Scanner s = new java.util.Scanner(inputStream).useDelimiter("\\A"); // "beginning of the input boundary"
+        String content = s.hasNext() ? s.next() : "";
 
-//        try {
-//            // connects to the database
-//            //DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-//            //conn = DriverManager.getConnection(dbURL, dbUser, dbPass);
-//
-//            // constructs SQL statement
-//            //String sql = "INSERT INTO contacts (first_name, last_name, photo) values (?, ?, ?)";
-//            //PreparedStatement statement = conn.prepareStatement(sql);
-//            //statement.setString(1, firstName);
-//            //statement.setString(2, lastName);
-//
-//            if (inputStream != null) {
-//                // fetches input stream of the upload file for the blob column
-//                statement.setBlob(3, inputStream);
-//            }
-//
-//            // sends the statement to the database server
-//            int row = statement.executeUpdate();
-//            if (row > 0) {
-//                message = "File uploaded and saved into database";
-//            }
-//        } catch (SQLException ex) {
-//            message = "ERROR: " + ex.getMessage();
-//            ex.printStackTrace();
-//        } finally {
-//            if (conn != null) {
-//                // closes the database connection
-//                try {
-//                    conn.close();
-//                } catch (SQLException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//            // sets the message in request scope
-//            request.setAttribute("Message", message);
-//
-//            // forwards to the message page
-//            getServletContext().getRequestDispatcher("/Message.jsp").forward(request, response);
-//        }
+
+        Snippet snippet = new Snippet();
+        snippet.setName(fileName);
+        snippet.setOwnerId(2);
+        //snippet.setOwnerId((Long)request.getSession().getAttribute("UserID"));
+        snippet.setGroupId(1); // !!!! Change
+        snippet.setContent(content);
+        snippet.setCreationDate(LocalDate.now());
+        snippet.setModificationDate(LocalDate.now());
+        snippet.setTag(tags);
+
+        //SnippetServiceImpl.getInstance().insert(snippet);
+
+        String message = "Done!";
+        // sets the message in request scope
+        request.setAttribute("Message", message);
+
+        // forwards to the message page
+        getServletContext().getRequestDispatcher("/Message.jsp").forward(request, response);
+
     }
 }

@@ -1,5 +1,3 @@
-name, owner_id, creation_date, modification_date, content, tag, group_id)
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -11,16 +9,16 @@ name, owner_id, creation_date, modification_date, content, tag, group_id)
 </head>
 <body>
 <center>
-    <h1>CWL Upload to Database</h1>
-    <form method="post" action="uploadSnippetServlet" enctype="multipart/form-data">
+    <h1>Upload CWL File</h1>
+    <form method="post" action="SnippetUploadServlet" enctype="multipart/form-data">
         <table border="0">
             <tr>
                 <td>File Name: </td>
-                <td><input type="text" name="firstName" size="50"/></td>
+                <td><input type="text" name="fileName" size="50"/></td>
             </tr>
             <tr>
-                <td>Last Name: </td>
-                <td><input type="text" name="lastName" size="50"/></td>
+                <td>Tags: </td>
+                <td><input type="text" name="tags" size="50"/></td>
             </tr>
             <tr>
                 <td>File</td>: </td>
