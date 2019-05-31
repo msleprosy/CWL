@@ -1,5 +1,7 @@
 package com.epam.cwlhub.services.user;
 
+import com.epam.cwlhub.dao.user.UserDao;
+import com.epam.cwlhub.dao.user.impl.UserDaoImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
 
 import java.util.List;
@@ -34,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteByEmail(String email) {
         if (email != null) {
-            userDao.deleteByEmail();
+            userDao.deleteByEmail(email);
         }
     }
 
@@ -49,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(Long id) {
         if (id != null) {
-            userDao.deleteById();
+            userDao.deleteById(id);
         }
     }
 
