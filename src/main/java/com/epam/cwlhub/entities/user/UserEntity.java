@@ -9,6 +9,17 @@ public class UserEntity {
     private UserType userType;
     private boolean banned;
 
+    public UserEntity(){}
+
+    public UserEntity(long id, String firstName, String lastName, String email, String password, boolean banned) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.banned = banned;
+    }
+
     public long getId() {
         return id;
     }
