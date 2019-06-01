@@ -1,6 +1,7 @@
 plugins {
     id 'java'
 }
+
 apply plugin: 'war'
 group 'CWLProject'
 version '1.0-SNAPSHOT'
@@ -10,9 +11,10 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
 }
-    war {
-    webXml = file('src/main/webapp/WEB-INF/web.xml')
-    enabled = true
+
+war {
+webXml = file('src/main/webapp/WEB-INF/web.xml')
+enabled = true
 }
 configurations {
     provided
@@ -27,5 +29,4 @@ dependencies {
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
     implementation group: 'com.mchange', name: 'c3p0', version: '0.9.5.4'
     provided group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
-    implementation group: 'com.mchange', name: 'c3p0', version: '0.9.5.4'
 }
