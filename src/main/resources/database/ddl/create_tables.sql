@@ -1,4 +1,4 @@
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
 	user_id bigserial NOT NULL PRIMARY KEY,
 	firstname varchar(50) NOT NULL,
 	lastname varchar(50) NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE users (
 	user_type varchar(25) NOT NULL
 );
 
-CREATE TABLE groups (
+CREATE TABLE IF NOT EXISTS groups (
 	group_id bigserial NOT NULL PRIMARY KEY,
 	name varchar(100) NOT NULL,
 	description varchar(256),
@@ -16,13 +16,13 @@ CREATE TABLE groups (
 	FOREIGN KEY(creator_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE user_group (
+CREATE TABLE IF NOT EXISTS user_group (
 	user_id bigint NOT NULL REFERENCES users(user_id),
 	group_id bigint NOT NULL REFERENCES groups(group_id),
 	PRIMARY KEY(user_id, group_id)
 );
 
-CREATE TABLE snippets (
+CREATE TABLE IF NOT EXISTS snippets (
 	snippet_id bigserial NOT NULL PRIMARY KEY,
 	name varchar(100) NOT NULL,
 	owner_id bigint NOT NULL REFERENCES users(user_id),
@@ -32,4 +32,3 @@ CREATE TABLE snippets (
 	tag varchar(256),
 	group_id bigint NOT NULL REFERENCES groups(group_id)
 );
-
