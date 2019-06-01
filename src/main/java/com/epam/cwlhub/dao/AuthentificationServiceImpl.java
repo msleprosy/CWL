@@ -1,25 +1,43 @@
-package com.epam.cwlhub.servlets;
+package com.epam.cwlhub.dao;
 
 import com.epam.cwlhub.entities.user.UserEntity;
 
 import java.sql.*;
 
-public class UserDAO {
+public class AuthentificationServiceImpl implements AuthentificationService {
+    private static final String LASTNAME = "lastName";
 
-    public int registerUser(UserEntity user)  {
+    @Override
+    public UserEntity signInUser(Connection conn, String email, String password) {
+        try {
+
+            String sql = "SELECT * FROM users WHERE email = ? and password = ?";
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, email);
+            pstm.setString(2, password);
+            ResultSet rs = pstm.executeQuery();
+            if (rs.next()) {
+                String lastName = rs.getString(LASTNAME);
+                UserEntity user = new UserEntity();
+                user.setEmail(email);
+                user.setPassword(password);
+                user.setLastName(lastName);
+                return user;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int registerUser(Connection connection, UserEntity user) {
         String INSERT_USERS_SQL = "INSERT INTO users" +
                 "  (email, password, firstname, lastname, user_type) VALUES " +
                 " (?, ?, ?, ?, ?);";
 
         int result = 0;
 
-        try{        Class.forName("org.postgresql.Driver");
-        }catch (ClassNotFoundException e){e.printStackTrace();}
-
-        try (Connection connection = DriverManager
-                .getConnection("jdbc:postgresql://ECSC00A04EEC.epam.com:5432/postgres", "postgres", "CWLHubHardPassword228");
-
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
             preparedStatement.setString(1, user.getEmail());
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getFirstName());
@@ -38,7 +56,7 @@ public class UserDAO {
     }
 
     private void printSQLException(SQLException ex) {
-        for (Throwable e: ex) {
+        for (Throwable e : ex) {
             if (e instanceof SQLException) {
                 e.printStackTrace(System.err);
                 System.err.println("SQLState: " + ((SQLException) e).getSQLState());
@@ -53,3 +71,5 @@ public class UserDAO {
         }
     }
 }
+
+
