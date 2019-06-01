@@ -1,88 +1,75 @@
 package com.epam.cwlhub.servlets;
 
+import com.epam.cwlhub.constants.Endpoints;
+import com.epam.cwlhub.dao.AuthentificationService;
+import com.epam.cwlhub.dao.AuthentificationServiceImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.storage.dbconnection.DBConnection;
+import com.epam.cwlhub.storage.dbconnection.DBConnector;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
 
-//@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
+    private final DBConnection dbConnection = DBConnector.getInstance();
+    private AuthentificationService authentificationService = new AuthentificationServiceImpl();
     private static final long serialVersionUID = 1L;
+    private static final String ERROR = "errorString";
+    private static final String USER = "user";
+    private static final String EMAIL_PARAMETER = "email";
+    private static final String PASSWORD_PARAMETER = "password";
+    private static final String AUTHORIZATION_ERROR = "Required username and password!";
+    private static final String LOGIN_ERROR = "User Name or password invalid";
 
-    public LoginServlet() {
-        super();
-    }
-    public UserEntity checkLogin(String email, String password) throws SQLException
-    {
-        String jdbcURL = "jdbc:postgresql://ECSC00A04EEC.epam.com:5432/postgres";
-        String dbUser = "postgres";
-        String dbPassword = "CWLHubHardPassword228";
-
-
-        //Class.forName("org.postgresql.Driver");
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        Connection connection = DriverManager.getConnection(jdbcURL, dbUser, dbPassword);
-        String sql = "SELECT * FROM users WHERE email = ? and password = ?";
-        System.out.println(sql);
-        //  String sql = "SELECT * FROM persons";
-
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, email);
-        statement.setString(2, password);
-
-        ResultSet result = statement.executeQuery();
-
-        UserEntity user = null;
-
-
-
-        if (result.next()) {
-            user = new UserEntity();
-            user.setLastName(result.getString("lastName"));
-            user.setEmail(email);
-        }
-
-        connection.close();
-
-        return user;
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher dispatcher
+                = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
+        dispatcher.forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-
-        try {
-            UserEntity user = checkLogin(email, password);
-            String destPage = "login.jsp";
-
-            if (user != null) {
-                HttpSession session = request.getSession();
-                session.setAttribute("user", user);
-                destPage = "home.jsp";
-            } else {
-                String message = "Invalid email/password";
-                request.setAttribute("message: ", message);
-                response.getWriter().println("message: " + message);
-            }
-
-            RequestDispatcher dispatcher = request.getRequestDispatcher(destPage);
-            dispatcher.forward(request, response);
-
+        String email = request.getParameter(EMAIL_PARAMETER).trim();
+        String password = request.getParameter(PASSWORD_PARAMETER).trim();
+        UserEntity user = null;
+        boolean hasError = false;
+        String errorString = null;
+        if (email == null || password == null || email.length() == 0 || password.length() == 0) {
+            hasError = true;
+            errorString = AUTHORIZATION_ERROR;
         }
-        catch (SQLException ex ) {
-            throw new ServletException(ex);
+        else {
+            try {
+                Connection conn = dbConnection.getDBConnection();
+                user =  authentificationService.signInUser(conn, email, password);
+                if (user == null) {
+                    hasError = true;
+                    errorString = LOGIN_ERROR;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (hasError) {
+            user = new UserEntity();
+            user.setEmail(email);
+            user.setPassword(password);
+            request.setAttribute(ERROR, errorString);
+            request.setAttribute(USER, user);
+            RequestDispatcher dispatcher
+                    = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
+            dispatcher.forward(request, response);
+        }
+        else {
+            System.out.println("User logined");
         }
     }
-
 }
+
