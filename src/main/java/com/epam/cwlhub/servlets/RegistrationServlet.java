@@ -11,11 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@WebServlet("/register")
 public class RegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1;
     private UserDAO userDAO;
-
 
     public void init() {
         userDAO = new UserDAO();
@@ -42,7 +40,6 @@ public class RegistrationServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         response.sendRedirect("userdetails.jsp");
     }
 }
