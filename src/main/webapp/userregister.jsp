@@ -9,7 +9,7 @@
 <body>
 <div align="center">
     <h1>User Register Form</h1>
-    <form action="register" method="post">
+    <form action="/register" method="post">
         <table style="with: 80%">
             <tr>
                 <td>Email</td>
