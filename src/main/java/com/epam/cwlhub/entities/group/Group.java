@@ -1,6 +1,7 @@
 package com.epam.cwlhub.entities.group;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Group {
 
@@ -44,16 +45,24 @@ public class Group {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Group)) return false;
+        if (o == null) return false;
+        if (getClass() != o.getClass()) return false;
 
         Group group = (Group) o;
 
-        return getId() == group.getId();
+        return id == group.id &&
+                creatorId == group.creatorId &&
+                name.equals(group.name) &&
+                Objects.equals(description, group.description);
     }
 
     @Override
     public int hashCode() {
-        return (int) (getId() ^ (getId() >>> 32));
+        int result = Long.hashCode(id);
+        result = 31*result + name.hashCode();
+        result = 31*result + description.hashCode();
+        result = 31*result + Long.hashCode(creatorId);
+        return result;
     }
 
     @Override
