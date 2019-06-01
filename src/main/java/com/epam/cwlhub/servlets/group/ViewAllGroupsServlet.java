@@ -18,6 +18,8 @@ import java.util.Map;
 @WebServlet(name = "ViewAllGroups", urlPatterns = "/groups/all")
 public class ViewAllGroupsServlet {
 
+    private String TARGET_PAGE_ROOT = "/WEB-INF/jsp/";
+
     private GroupService groupService = GroupServiceImpl.getInstance();
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -37,8 +39,7 @@ public class ViewAllGroupsServlet {
     private void forwardToPage(HttpServletRequest req, HttpServletResponse resp, String dest) throws ServletException, IOException {
         ServletContext context = req.getServletContext();
         Map<String, Long> userSessionData = (Map<String, Long>) context.getAttribute("UserSessionData");
-        RequestDispatcher dispatcher = context.getRequestDispatcher("/WEB-INF/jsp/" + dest);
+        RequestDispatcher dispatcher = context.getRequestDispatcher(TARGET_PAGE_ROOT + dest);
         dispatcher.forward(req, resp);
     }
 }
-

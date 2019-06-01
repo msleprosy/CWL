@@ -18,11 +18,14 @@ import java.util.Optional;
 public class ViewUsersGroupsServlet {
 
     private GroupService groupService = GroupServiceImpl.getInstance();
+    private String TARGET_PAGE_ROOT = "/WEB-INF/jsp/";
 
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            List<Group> groups = groupService.findUsersGroups(getUserId(req).orElse(0L));
+            List<Group> groups = groupService.
+                    findUsersGroups(getUserId(req).
+                            orElseThrow(() -> new GroupException("Can't get user_id from request")));
 
             if (!groups.isEmpty()) {
                 req.setAttribute("groups", groups);
@@ -35,29 +38,18 @@ public class ViewUsersGroupsServlet {
         }
     }
 
-    private void forwardToPage(HttpServletRequest req, HttpServletResponse resp, String dest) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/" + dest);
+    private void forwardToPage(HttpServletRequest req, HttpServletResponse resp, String dest)
+            throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher(TARGET_PAGE_ROOT + dest);
         dispatcher.forward(req, resp);
     }
 
     private Optional<Long> getUserId(HttpServletRequest request) {
         try {
-            return java.util.Optional.of(java.lang.Long.parseLong(request.getParameter("user_id")));
+            return Optional.of(Long.parseLong(request.getParameter("user_id")));
         } catch (Exception e) {
-            return java.util.Optional.empty();
+            return Optional.empty();
         }
     }
 
-    private long parseUserId(Optional<Long> longOptional) {
-        try {
-            if (longOptional.isPresent()) {
-                return longOptional.get();
-            } else {
-                throw new Exception();
-            }
-        } catch (Exception e) {
-            throw new GroupException("There is no user_id", e);
-        }
-
-    }
 }
