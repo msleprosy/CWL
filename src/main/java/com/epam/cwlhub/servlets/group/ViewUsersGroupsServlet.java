@@ -22,7 +22,7 @@ public class ViewUsersGroupsServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            List<Group> groups = groupService.findUsersGroups(parseUserId(getUserId(req)));
+            List<Group> groups = groupService.findUsersGroups(getUserId(req).orElse(0L));
 
             if (!groups.isEmpty()) {
                 req.setAttribute("groups", groups);

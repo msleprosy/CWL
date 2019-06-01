@@ -6,18 +6,19 @@ import com.epam.cwlhub.services.group.GroupService;
 import com.epam.cwlhub.services.group.GroupServiceImpl;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-@WebServlet(name = "ViewAllGroups", urlPatterns = "/allgroups")
+@WebServlet(name = "ViewAllGroups", urlPatterns = "/groups/all")
 public class ViewAllGroupsServlet {
 
     private GroupService groupService = GroupServiceImpl.getInstance();
-
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
@@ -34,7 +35,9 @@ public class ViewAllGroupsServlet {
             }
         }
     private void forwardToPage(HttpServletRequest req, HttpServletResponse resp, String dest) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/" + dest);
+        ServletContext context = req.getServletContext();
+        Map<String, Long> userSessionData = (Map<String, Long>) context.getAttribute("UserSessionData");
+        RequestDispatcher dispatcher = context.getRequestDispatcher("/WEB-INF/jsp/" + dest);
         dispatcher.forward(req, resp);
     }
 }

@@ -42,13 +42,11 @@ public class GroupDaoImpl implements GroupDao {
     private static final String SQL_DELETE_BY_ID = "DELETE FROM groups WHERE group_id  = ?";
     private static final String SQL_UPDATE = "UPDATE groups SET name = ?, description = ?, creator_id = ?";
     private static final String SQL_FIND_ALL = "SELECT * FROM groups";
-    private static final String SQL_FIND_USER_GROUPS = "SELECT * " +
-                                                        "FROM groups " +
-                                                        "JOIN user_group " +
-                                                        "ON groups.group_id = user_group.group_id " +
-                                                        "JOIN users" +
-                                                        "ON user_group.user_id = users.user_id" +
-                                                        "WHERE user_group.user_id = ?";
+    private static final String SQL_FIND_USER_GROUPS = "SELECT * FROM groups JOIN user_group " +
+                                                        " ON groups.group_id = user_group.group_id " +
+                                                        " JOIN users " +
+                                                        " ON user_group.user_id = users.user_id " +
+                                                        " WHERE user_group.user_id = ?";
 
 
     @Override
@@ -86,9 +84,12 @@ public class GroupDaoImpl implements GroupDao {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(long id) throws GroupException {
         try (Connection connection = dbConnector.getDBConnection()) {
             Optional<Group> found = findById(id);
+
+            if (id == 0) {throw new IllegalArgumentException("You can't delete common group");}
+
             if (found.isPresent()) {
                 PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_ID);
                 preparedStatement.setLong(1, id);
