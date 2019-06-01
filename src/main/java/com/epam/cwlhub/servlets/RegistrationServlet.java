@@ -1,7 +1,7 @@
 package com.epam.cwlhub.servlets;
 
 
-
+import com.epam.cwlhub.constants.Endpoints;
 import com.epam.cwlhub.dao.AuthentificationService;
 import com.epam.cwlhub.dao.AuthentificationServiceImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Endpoint;
 import java.io.IOException;
 import java.sql.Connection;
 
@@ -38,10 +39,10 @@ public class RegistrationServlet extends HttpServlet {
 
         try {
             Connection conn = dbConnection.getDBConnection();
-            authentificationService.registerUser(conn,user);
+            authentificationService.registerUser(conn, user);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect("userdetails.jsp");
+        response.sendRedirect(Endpoints.USERDETAILS);
     }
 }
