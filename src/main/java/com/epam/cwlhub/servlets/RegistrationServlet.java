@@ -21,14 +21,17 @@ public class RegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1;
     private final DBConnection dbConnection = DBConnector.getInstance();
     private AuthentificationService authentificationService = new AuthentificationServiceImpl();
-
+    private static final String EMAIL_PARAMETER = "email";
+    private static final String PASSWORD_PARAMETER = "password";
+    private static final String LASTNAME_PARAMETER = "email";
+    private static final String FIRSTNAME_PARAMETER = "password";
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String password = request.getParameter("password");
-        String email = request.getParameter("email");
+        String firstName = request.getParameter(FIRSTNAME_PARAMETER);
+        String lastName = request.getParameter(LASTNAME_PARAMETER);
+        String password = request.getParameter(PASSWORD_PARAMETER);
+        String email = request.getParameter(EMAIL_PARAMETER);
 
         UserEntity user = new UserEntity();
         user.setFirstName(firstName);
