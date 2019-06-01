@@ -2,6 +2,7 @@ package com.epam.cwlhub.servlets;
 
 import com.epam.cwlhub.constants.Endpoints;
 import com.epam.cwlhub.dao.AuthentificationService;
+import com.epam.cwlhub.dao.AuthentificationServiceImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
 import com.epam.cwlhub.storage.dbconnection.DBConnector;
@@ -17,7 +18,7 @@ import java.sql.SQLException;
 
 public class LoginServlet extends HttpServlet {
     private final DBConnection dbConnection = DBConnector.getInstance();
-    private AuthentificationService authentificationService;
+    private AuthentificationService authentificationService = new AuthentificationServiceImpl();
     private static final long serialVersionUID = 1L;
     private static final String ERROR = "errorString";
     private static final String USER = "user";
@@ -48,7 +49,7 @@ public class LoginServlet extends HttpServlet {
         else {
             try {
                 Connection conn = dbConnection.getDBConnection();
-                user = authentificationService.signInUser(conn, email, password);
+                user =  authentificationService.signInUser(conn, email, password);
                 if (user == null) {
                     hasError = true;
                     errorString = LOGIN_ERROR;
@@ -57,7 +58,6 @@ public class LoginServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-
         if (hasError) {
             user = new UserEntity();
             user.setEmail(email);

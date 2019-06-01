@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AuthentificationServiceImpl implements AuthentificationService {
-    private final DBConnection dbConnection = DBConnector.getInstance();
+    private static final String LASTNAME = "lastName";
 
     @Override
     public UserEntity signInUser(Connection conn, String email, String password) {
@@ -23,7 +23,7 @@ public class AuthentificationServiceImpl implements AuthentificationService {
             pstm.setString(2, password);
             ResultSet rs = pstm.executeQuery();
             if (rs.next()) {
-                String lastName = rs.getString("lastName");
+                String lastName = rs.getString(LASTNAME);
                 UserEntity user = new UserEntity();
                 user.setEmail(email);
                 user.setPassword(password);
