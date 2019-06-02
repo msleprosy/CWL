@@ -17,7 +17,6 @@ public class DBConnector implements DBConnection {
 
     private DBConnector(){
     }
-
     {
         Properties property = new Properties();
         try (InputStream fis = this.getClass().getClassLoader().getResourceAsStream(PROPERTIES_PATH)) {
@@ -41,3 +40,5 @@ public class DBConnector implements DBConnection {
         return cpds.getConnection();
     }
 }
+
+
