@@ -8,7 +8,6 @@
     <title>CWL Upload</title>
 </head>
 <body>
-<center>
     <h1>Upload CWL File</h1>
     <form method="post" action="SnippetUploadServlet" enctype="multipart/form-data">
         <table border="0">
@@ -31,6 +30,5 @@
             </tr>
         </table>
     </form>
-</center>
 </body>
 </html>
