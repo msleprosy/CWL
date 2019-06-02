@@ -1,5 +1,7 @@
 package com.epam.cwlhub.listeners;
 
+import com.epam.cwlhub.entities.user.UserEntity;
+
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionListener;
 import javax.servlet.http.HttpSessionEvent;
@@ -17,7 +19,7 @@ public class CWLAppHttpSessionListener implements HttpSessionListener {
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
-        Long userId = (Long) session.getAttribute("loginedUser.getId()");
+        Long userId = ((UserEntity) session.getAttribute("loginedUser")).getId();
         if (userId != null) {
             if (userSessionData.containsKey(userId)) {
                 userSessionData.get(userId).invalidate();
@@ -29,7 +31,7 @@ public class CWLAppHttpSessionListener implements HttpSessionListener {
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
-        Long userId = (Long) session.getAttribute("loginedUser.getId()");
+        Long userId = ((UserEntity) session.getAttribute("loginedUser")).getId();
         if (userId != null) {
             userSessionData.remove(userId);
         }
