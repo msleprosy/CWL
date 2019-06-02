@@ -43,12 +43,13 @@ public class GroupDaoImpl implements GroupDao {
     private static final String SQL_UPDATE = "UPDATE groups SET name = ?, description = ?, creator_id = ? " +
                                                 " WHERE group_id = ?";
     private static final String SQL_FIND_ALL = "SELECT * FROM groups";
-    private static final String SQL_FIND_USER_GROUPS = "SELECT group_id, name, description, creator_id " +
-                                                        " FROM groups JOIN user_group " +
-                                                        " ON groups.group_id = user_group.group_id " +
-                                                        " JOIN users " +
-                                                        " ON user_group.user_id = users.user_id " +
-                                                        " WHERE user_group.user_id = ?";
+    private static final String SQL_FIND_USER_GROUPS
+            = "SELECT groups.group_id, groups.name, groups.description, groups.creator_id " +
+            " FROM groups JOIN user_group " +
+            " ON groups.group_id = user_group.group_id " +
+            " JOIN users " +
+            " ON user_group.user_id = users.user_id " +
+            " WHERE user_group.user_id = ?";
 
 
     @Override
