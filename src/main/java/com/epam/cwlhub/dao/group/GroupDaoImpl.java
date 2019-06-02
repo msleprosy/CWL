@@ -76,8 +76,11 @@ public class GroupDaoImpl implements GroupDao {
         try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            return Optional.ofNullable(Optional.ofNullable(mapGroup(rs)).orElseThrow(() ->
-                    new GroupException("Error while mapping group")));
+            if (rs.next()) {
+                return Optional.ofNullable(Optional.ofNullable(mapGroup(rs)).orElseThrow(() ->
+                        new GroupException("Error while mapping group")));
+
+        } else { return Optional.empty();}
         } catch (Exception e) {
             throw new GroupException("Error while trying to find group with id: " + id, e);
         }
