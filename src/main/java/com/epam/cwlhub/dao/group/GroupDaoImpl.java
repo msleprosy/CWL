@@ -34,10 +34,11 @@ public class GroupDaoImpl implements GroupDao {
         return localDaoInstance;
     }
 
-    private static final String SQL_ADD = "INSERT INTO users (name, description, creator_id) Values (?, ?, ?)";
+    private static final String SQL_ADD = "INSERT INTO groups (name, description, creator_id) Values (?, ?, ?)";
     private static final String SQL_FIND_BY_ID = "SELECT * FROM groups WHERE group_id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM groups WHERE group_id  = ?";
-    private static final String SQL_UPDATE = "UPDATE groups SET name = ?, description = ?, creator_id = ?";
+    private static final String SQL_UPDATE = "UPDATE groups SET name = ?, description = ?, creator_id = ? " +
+                                            " WHERE group_id = ?";
     private static final String SQL_FIND_ALL = "SELECT * FROM groups";
 
 
@@ -45,14 +46,17 @@ public class GroupDaoImpl implements GroupDao {
     public Group insert(Group group) {
 
         try (Connection connection = dbConnector.getDBConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD);
-            preparedStatement.setString(1, group.getName());
-            preparedStatement.setString(2, group.getDescription());
-            preparedStatement.setLong(3, group.getCreatorId());
-            preparedStatement.executeQuery();
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD,
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+                appendPreparedStatementParametersToInsertGroup(preparedStatement, group);
+                preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
             long id = generatedKeys.getLong(0);
-            group.setId(id);
+            try (ResultSet generatedId = preparedStatement.getGeneratedKeys()) {
+                if (generatedId.next()) {
+                    group.setId(generatedId.getLong(1));
+                }
+            }
             return group;
         } catch (Exception e) {
             throw new GroupException("Error inserting group: " + group.getName(), e);
@@ -66,7 +70,7 @@ public class GroupDaoImpl implements GroupDao {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                return Optional.ofNullable(mapGroup(rs));
+                return Optional.ofNullable(mapGroup(rs)).orElseThrow(()->new GroupException("s"));
             } else {
                 return Optional.empty();
             }
@@ -97,6 +101,7 @@ public class GroupDaoImpl implements GroupDao {
             preparedStatement.setString(1, group.getName());
             preparedStatement.setString(2, group.getDescription());
             preparedStatement.setLong(3, group.getCreatorId());
+            preparedStatement.setLong(4, group.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,11 +132,19 @@ public class GroupDaoImpl implements GroupDao {
             group.setId(rs.getLong("group_id"));
             group.setName(rs.getString("name"));
             group.setDescription(rs.getString("description"));
+            group.setCreatorId(rs.getLong("creator_id"));
 
             return group;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
+    }
+    private void appendPreparedStatementParametersToInsertGroup(PreparedStatement preparedStatement, Group group) throws SQLException {
+
+        preparedStatement.setString(1, group.getName());
+        preparedStatement.setString(2, group.getDescription());
+        preparedStatement.setLong(3, group.getCreatorId());
+
     }
 }
