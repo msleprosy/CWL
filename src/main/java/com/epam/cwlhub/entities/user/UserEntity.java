@@ -83,13 +83,13 @@ public class UserEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserEntity that = (UserEntity) o;
-        return id == that.id &&
-                banned == that.banned &&
-                firstName.equals(that.firstName) &&
-                lastName.equals(that.lastName) &&
-                email.equals(that.email) &&
-                password.equals(that.password) &&
-                userType == that.userType;
+        return id == that.id
+                && banned == that.banned
+                && firstName.equals(that.firstName)
+                && lastName.equals(that.lastName)
+                && email.equals(that.email)
+                && password.equals(that.password)
+                && userType == that.userType;
     }
 
     @Override
@@ -99,15 +99,15 @@ public class UserEntity {
 
     @Override
     public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", userType=" + userType +
-                ", banned=" + banned +
-                '}';
+        return "UserEntity{"
+                + "id=" + id
+                + ", firstName='" + firstName + '\''
+                + ", lastName='" + lastName + '\''
+                + ", email='" + email + '\''
+                + ", password='" + password + '\''
+                + ", userType=" + userType
+                + ", banned=" + banned
+                + '}';
     }
 }
 
