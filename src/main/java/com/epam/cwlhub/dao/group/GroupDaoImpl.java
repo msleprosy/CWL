@@ -41,9 +41,10 @@ public class GroupDaoImpl implements GroupDao {
     private static final String SQL_FIND_BY_ID = "SELECT * FROM groups WHERE group_id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM groups WHERE group_id  = ?";
     private static final String SQL_UPDATE = "UPDATE groups SET name = ?, description = ?, creator_id = ? " +
-                                            " WHERE group_id = ?";
+                                                " WHERE group_id = ?";
     private static final String SQL_FIND_ALL = "SELECT * FROM groups";
-    private static final String SQL_FIND_USER_GROUPS = "SELECT * FROM groups JOIN user_group " +
+    private static final String SQL_FIND_USER_GROUPS = "SELECT group_id, name, description, creator_id " +
+                                                        " FROM groups JOIN user_group " +
                                                         " ON groups.group_id = user_group.group_id " +
                                                         " JOIN users " +
                                                         " ON user_group.user_id = users.user_id " +
@@ -56,10 +57,8 @@ public class GroupDaoImpl implements GroupDao {
         try (Connection connection = dbConnector.getDBConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD,
                     PreparedStatement.RETURN_GENERATED_KEYS);
-                appendPreparedStatementParametersToInsertGroup(preparedStatement, group);
-                preparedStatement.executeUpdate();
-            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            long id = generatedKeys.getLong(0);
+            appendPreparedStatementParametersToInsertGroup(preparedStatement, group);
+            preparedStatement.executeUpdate();
             try (ResultSet generatedId = preparedStatement.getGeneratedKeys()) {
                 if (generatedId.next()) {
                     group.setId(generatedId.getLong(1));
@@ -73,15 +72,11 @@ public class GroupDaoImpl implements GroupDao {
 
     @Override
     public Optional<Group> findById(long id) {
-        try (Connection connection = dbConnector.getDBConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID);
+        try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return Optional.ofNullable(mapGroup(rs)).orElseThrow(()->new GroupException("s"));
-            } else {
-                return Optional.empty();
-            }
+            return Optional.ofNullable(Optional.ofNullable(mapGroup(rs)).orElseThrow(() ->
+                    new GroupException("Error while mapping group")));
         } catch (Exception e) {
             throw new GroupException("Error while trying to find group with id: " + id, e);
         }
@@ -89,13 +84,12 @@ public class GroupDaoImpl implements GroupDao {
 
     @Override
     public void deleteById(long id) throws GroupException {
-        try (Connection connection = dbConnector.getDBConnection()) {
+        try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_ID)) {
             Optional<Group> found = findById(id);
-
-            if (id == 0) {throw new IllegalArgumentException("You can't delete common group");}
-
+            if (id == 0) {
+                throw new IllegalArgumentException("You can't delete common group");
+            }
             if (found.isPresent()) {
-                PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_ID);
                 preparedStatement.setLong(1, id);
                 preparedStatement.executeUpdate();
             }
@@ -107,12 +101,9 @@ public class GroupDaoImpl implements GroupDao {
     @Override
     public void update(Group group) {
 
-        try (Connection connection = dbConnector.getDBConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE);
-            preparedStatement.setString(1, group.getName());
-            preparedStatement.setString(2, group.getDescription());
-            preparedStatement.setLong(3, group.getCreatorId());
-            preparedStatement.setLong(4, group.getId());
+        try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+
+            appendPreparedStatementParametersToUpdateGroup(preparedStatement, group);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,15 +114,12 @@ public class GroupDaoImpl implements GroupDao {
     @Override
     public List<Group> findAll() {
 
-        try (Connection connection = dbConnector.getDBConnection()) {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL);
+        try (Connection connection = dbConnector.getDBConnection(); Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL)) {
             List<Group> result = new ArrayList<>();
-
             while (resultSet.next()) {
                 result.add(mapGroup(resultSet));
             }
-
             return result;
         } catch (Exception e) {
             throw new GroupException("Can't select *", e);
@@ -140,8 +128,7 @@ public class GroupDaoImpl implements GroupDao {
 
     @Override
     public List<Group> findUsersGroups(long id) {
-        try (Connection connection = dbConnector.getDBConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_USER_GROUPS);
+        try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_USER_GROUPS)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             List<Group> result = new ArrayList<>();
@@ -153,7 +140,6 @@ public class GroupDaoImpl implements GroupDao {
             throw new GroupException("Error while trying to find groups for user with id: " + id, e);
         }
     }
-
 
 
     private static Group mapGroup(ResultSet rs) {
@@ -170,11 +156,20 @@ public class GroupDaoImpl implements GroupDao {
             return null;
         }
     }
+
     private void appendPreparedStatementParametersToInsertGroup(PreparedStatement preparedStatement, Group group) throws SQLException {
 
         preparedStatement.setString(1, group.getName());
         preparedStatement.setString(2, group.getDescription());
         preparedStatement.setLong(3, group.getCreatorId());
 
+    }
+
+    private void appendPreparedStatementParametersToUpdateGroup(PreparedStatement preparedStatement, Group group) throws SQLException {
+
+        preparedStatement.setString(1, group.getName());
+        preparedStatement.setString(2, group.getDescription());
+        preparedStatement.setLong(3, group.getCreatorId());
+        preparedStatement.setLong(4, group.getId());
     }
 }
