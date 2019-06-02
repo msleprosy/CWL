@@ -13,9 +13,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
-import static com.epam.cwlhub.constants.Endpoints.SNIPPET_VIEW;
+import static com.epam.cwlhub.constants.Endpoints.UPDATE_SNIPPET_URL;
 
-@WebServlet(name = "UpdateSnippet", urlPatterns = "/update")
+@WebServlet(name = "UpdateSnippet", urlPatterns = UPDATE_SNIPPET_URL)
 public class SnippetUpdateServlet extends HttpServlet {
     private static final String SNIPPET_NAME = "name";
     private static final String CONTENT = "content";
@@ -32,19 +32,17 @@ public class SnippetUpdateServlet extends HttpServlet {
 
             if (receivedSnippet.isPresent()) {
                 Snippet snippet = receivedSnippet.get();
-
-                String newName = req.getParameter(SNIPPET_NAME).trim();
-                String newTag = req.getParameter(TAG).trim();
-                String newContent = req.getParameter(CONTENT).trim();
-
-                snippet.setName(newName);
-                snippet.setTag(newTag);
-                snippet.setContent(newContent);
-                snippet.setModificationDate(MODIFICATION_DATE);
-
+                mapUpdatedParametersToSnippet(req, snippet);
                 snippetService.update(snippet);
                 resp.sendRedirect(req.getHeader("referer"));
             }
         }
+    }
+
+    private void mapUpdatedParametersToSnippet(HttpServletRequest req, Snippet snippet) {
+        snippet.setName(req.getParameter(SNIPPET_NAME).trim());
+        snippet.setTag(req.getParameter(TAG).trim());
+        snippet.setContent(req.getParameter(CONTENT).trim());
+        snippet.setModificationDate(MODIFICATION_DATE);
     }
 }
