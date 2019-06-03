@@ -1,8 +1,10 @@
 package com.epam.cwlhub.servlets;
 
 import com.epam.cwlhub.constants.Endpoints;
-import com.epam.cwlhub.dao.UserDaoImpl;
+
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.services.user.UserService;
+import com.epam.cwlhub.services.user.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +15,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class LoginServlet extends HttpServlet {
-    private UserDaoImpl userDao = UserDaoImpl.getInstance();
+    private UserService userService = UserServiceImpl.getInstance();
     private static final long serialVersionUID = 1L;
     private static final String ERROR = "errorString";
     private static final String USER = "user";
@@ -42,7 +44,7 @@ public class LoginServlet extends HttpServlet {
             hasError = true;
             errorString = AUTHORIZATION_ERROR;
         } else {
-            signInUser = userDao.signInUser(email, password);
+            signInUser = userService.findUserByEmailAndPassword(email, password);
             if (signInUser.equals(Optional.empty())) {
                 hasError = true;
                 errorString = LOGIN_ERROR;
