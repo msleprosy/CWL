@@ -8,9 +8,9 @@
     <title>CWL Upload</title>
 </head>
 <body>
-<center>
     <h1>Upload CWL File</h1>
-    <form method="post" action="SnippetUploadServlet" enctype="multipart/form-data">
+    <form method="post" action="<%=request.getContextPath()+ "/upload"%>" enctype="multipart/form-data">
+        <div style="color: #FF0000;">${errorMessage}</div><br>
         <table border="0">
             <tr>
                 <td>File Name: </td>
@@ -31,6 +31,5 @@
             </tr>
         </table>
     </form>
-</center>
 </body>
 </html>

@@ -3,11 +3,17 @@ package com.epam.cwlhub.services.impl;
 import com.epam.cwlhub.dao.SnippetDao;
 import com.epam.cwlhub.dao.impl.SnippetDaoImpl;
 import com.epam.cwlhub.entities.snippet.Snippet;
+import com.epam.cwlhub.exceptions.unchecked.SnippetException;
 import com.epam.cwlhub.services.SnippetService;
+import com.oracle.tools.packager.IOUtils;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+import java.io.*;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SnippetServiceImpl implements SnippetService {
     private final SnippetDao snippetDao = SnippetDaoImpl.getInstance();
@@ -68,5 +74,45 @@ public class SnippetServiceImpl implements SnippetService {
     @Override
     public List<Snippet> findAll() {
         return snippetDao.findAll();
+    }
+
+    @Override
+    public Optional<Snippet> findByFileName(String fileName) {
+        if (fileName != null) {
+            return snippetDao.findByFileName(fileName);
+        }
+        return Optional.empty();
+    }
+
+    public Boolean createSnippetObjectFromRequest(HttpServletRequest request)
+            throws ServletException, IOException {
+
+        String fileName = request.getParameter("fileName");
+        String tags = request.getParameter("tags");
+
+        InputStream inputStream = null;
+        Part filePart = request.getPart("cwl");
+        if (filePart != null) {
+            inputStream = filePart.getInputStream();
+        }
+
+        Optional<Snippet> file = findByFileName(fileName);
+        if (file.isPresent()){
+            return false;
+        }
+
+        String content = new BufferedReader(new InputStreamReader(inputStream))
+                .lines().collect(Collectors.joining("\n"));
+        Snippet snippet = new Snippet();
+        snippet.setName(fileName);
+        snippet.setOwnerId(2);
+        snippet.setGroupId(1);
+        snippet.setContent(content);
+        snippet.setCreationDate(LocalDate.now());
+        snippet.setModificationDate(LocalDate.now());
+        snippet.setTag(tags);
+        snippetDao.insert(snippet);
+
+        return true;
     }
 }
