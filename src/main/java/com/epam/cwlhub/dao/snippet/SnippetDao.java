@@ -1,5 +1,6 @@
-package com.epam.cwlhub.dao;
+package com.epam.cwlhub.dao.snippet;
 
+import com.epam.cwlhub.dao.BaseDao;
 import com.epam.cwlhub.entities.snippet.Snippet;
 
 import java.util.List;

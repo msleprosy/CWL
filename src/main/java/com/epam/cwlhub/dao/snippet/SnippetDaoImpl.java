@@ -1,14 +1,18 @@
-package com.epam.cwlhub.dao.impl;
+package com.epam.cwlhub.dao.snippet;
 
-import com.epam.cwlhub.dao.SnippetDao;
 import com.epam.cwlhub.entities.snippet.Snippet;
 import com.epam.cwlhub.exceptions.unchecked.SnippetException;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
 import com.epam.cwlhub.storage.dbconnection.DBConnector;
 
-import java.sql.*;
+import java.sql.Connection;
 import java.sql.Date;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class SnippetDaoImpl implements SnippetDao {
     private final DBConnection dbConnection = DBConnector.getInstance();
