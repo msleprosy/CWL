@@ -20,7 +20,6 @@ public class UserEntity {
         this.banned = banned;
     }
 
-
     public long getId() {
         return id;
     }
