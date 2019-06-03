@@ -1,5 +1,7 @@
 package com.epam.cwlhub.entities.user;
 
+import java.util.Objects;
+
 public class UserEntity {
     private long id;
     private String firstName;
@@ -8,6 +10,17 @@ public class UserEntity {
     private String password;
     private UserType userType;
     private boolean banned;
+
+    public UserEntity(){}
+
+    public UserEntity(long id, String firstName, String lastName, String email, String password, boolean banned) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.banned = banned;
+    }
 
     public long getId() {
         return id;
@@ -64,4 +77,38 @@ public class UserEntity {
     public void setBanned(boolean banned) {
         this.banned = banned;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return id == that.id
+                && banned == that.banned
+                && firstName.equals(that.firstName)
+                && lastName.equals(that.lastName)
+                && email.equals(that.email)
+                && password.equals(that.password)
+                && userType == that.userType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, email, password, userType, banned);
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{"
+                + "id=" + id
+                + ", firstName='" + firstName + '\''
+                + ", lastName='" + lastName + '\''
+                + ", email='" + email + '\''
+                + ", password='" + password + '\''
+                + ", userType=" + userType
+                + ", banned=" + banned
+                + '}';
+    }
 }
+
+
