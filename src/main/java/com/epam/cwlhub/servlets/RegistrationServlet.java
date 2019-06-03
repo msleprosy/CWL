@@ -2,22 +2,15 @@ package com.epam.cwlhub.servlets;
 
 
 import com.epam.cwlhub.constants.Endpoints;
-
-import com.epam.cwlhub.dao.impl.UserDaoImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.entities.user.UserType;
-import com.epam.cwlhub.services.UserService;
 import com.epam.cwlhub.services.impl.UserServiceImpl;
-import com.epam.cwlhub.storage.dbconnection.DBConnection;
-import com.epam.cwlhub.storage.dbconnection.DBConnector;
-
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Endpoint;
 import java.io.IOException;
-import java.sql.Connection;
 
 public class RegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1;
@@ -42,6 +35,8 @@ public class RegistrationServlet extends HttpServlet {
         user.setUserType(UserType.SIMPLE_USER);
         user.setBanned(false);
         userService.insert(user);
-        response.sendRedirect(Endpoints.USERDETAILS);
+        RequestDispatcher dispatcher
+                = this.getServletContext().getRequestDispatcher(Endpoints.USERDETAILS);
+        dispatcher.forward(request, response);
     }
 }
