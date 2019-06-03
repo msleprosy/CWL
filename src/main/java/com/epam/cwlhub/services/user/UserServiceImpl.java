@@ -41,6 +41,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<UserEntity> signInUser(String email, String password) {
+        if (email != null && password != null){
+            return userDao.signInUser(email, password);
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public UserEntity insert(UserEntity user) {
         if (user != null){
             userDao.insert(user);
