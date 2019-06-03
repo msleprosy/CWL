@@ -1,11 +1,9 @@
 package com.epam.cwlhub.services.impl;
 
-import com.epam.cwlhub.dao.SnippetDao;
-import com.epam.cwlhub.dao.impl.SnippetDaoImpl;
+import com.epam.cwlhub.dao.snippet.SnippetDao;
+import com.epam.cwlhub.dao.snippet.SnippetDaoImpl;
 import com.epam.cwlhub.entities.snippet.Snippet;
-import com.epam.cwlhub.exceptions.unchecked.SnippetException;
 import com.epam.cwlhub.services.SnippetService;
-import com.oracle.tools.packager.IOUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

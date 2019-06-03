@@ -8,4 +8,10 @@
         <welcome-file>UploadSnippet.jsp</welcome-file>
     </welcome-file-list>
 
+    <listener>
+        <listener-class>
+            com.epam.cwlhub.listeners.CWLAppServletContextListener
+        </listener-class>
+    </listener>
+
 </web-app>
