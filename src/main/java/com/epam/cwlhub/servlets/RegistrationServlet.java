@@ -6,6 +6,8 @@ import com.epam.cwlhub.constants.Endpoints;
 import com.epam.cwlhub.dao.impl.UserDaoImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.entities.user.UserType;
+import com.epam.cwlhub.services.UserService;
+import com.epam.cwlhub.services.impl.UserServiceImpl;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
 import com.epam.cwlhub.storage.dbconnection.DBConnector;
 
@@ -19,7 +21,7 @@ import java.sql.Connection;
 
 public class RegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1;
-    private UserDaoImpl userDao = UserDaoImpl.getInstance();
+    private UserServiceImpl userService = UserServiceImpl.getInstance();
     private static final String EMAIL_PARAMETER = "email";
     private static final String PASSWORD_PARAMETER = "password";
     private static final String LASTNAME_PARAMETER = "lastName";
@@ -39,7 +41,7 @@ public class RegistrationServlet extends HttpServlet {
         user.setPassword(password);
         user.setUserType(UserType.SIMPLE_USER);
         user.setBanned(false);
-        userDao.insert(user);
+        userService.insert(user);
         response.sendRedirect(Endpoints.USERDETAILS);
     }
 }
