@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 public class GroupDaoImpl implements GroupDao {
 
     private static volatile GroupDaoImpl daoInstance;
@@ -31,7 +30,6 @@ public class GroupDaoImpl implements GroupDao {
         }
         return daoInstance;
     }
-
 
     private static final String SQL_ADD_GROUP = "INSERT INTO groups (name, description, creator_id) VALUES (?, ?, ?)";
     private static final String SQL_FIND_BY_ID = "SELECT * FROM groups WHERE group_id = ?";
@@ -51,8 +49,8 @@ public class GroupDaoImpl implements GroupDao {
 
     @Override
     public Group insert(Group group) {
-
-        try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_GROUP,
+        try (Connection connection = dbConnector.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_GROUP,
                 PreparedStatement.RETURN_GENERATED_KEYS)) {
             appendPreparedStatementParametersToInsertGroup(preparedStatement, group);
             preparedStatement.executeUpdate();
@@ -69,13 +67,13 @@ public class GroupDaoImpl implements GroupDao {
 
     @Override
     public Optional<Group> findById(long id) {
-        try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID)) {
+        try (Connection connection = dbConnector.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                return Optional.ofNullable(Optional.ofNullable(mapGroup(rs)).orElseThrow(() ->
-                        new GroupException("Error while mapping group")));
-
+                return Optional.ofNullable(Optional.ofNullable(mapGroup(rs))
+                                .orElseThrow(() -> new GroupException("Error while mapping group")));
             } else {
                 return Optional.empty();
             }
@@ -86,11 +84,12 @@ public class GroupDaoImpl implements GroupDao {
 
     @Override
     public void deleteById(long id) throws GroupException {
-        try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_ID)) {
-            Optional<Group> found = findById(id);
+        try (Connection connection = dbConnector.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_ID)) {
             if (id == 0) {
                 throw new IllegalArgumentException("You can't delete common group");
             }
+            Optional<Group> found = findById(id);
             if (found.isPresent()) {
                 preparedStatement.setLong(1, id);
                 preparedStatement.executeUpdate();
@@ -102,9 +101,8 @@ public class GroupDaoImpl implements GroupDao {
 
     @Override
     public void update(Group group) {
-
-        try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
-
+        try (Connection connection = dbConnector.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
             appendPreparedStatementParametersToUpdateGroup(preparedStatement, group);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
@@ -112,11 +110,10 @@ public class GroupDaoImpl implements GroupDao {
         }
     }
 
-
     @Override
     public List<Group> findAll() {
-
-        try (Connection connection = dbConnector.getDBConnection(); Statement statement = connection.createStatement();
+        try (Connection connection = dbConnector.getDBConnection();
+             Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_GROUPS)) {
             List<Group> result = new ArrayList<>();
             while (resultSet.next()) {
@@ -130,7 +127,8 @@ public class GroupDaoImpl implements GroupDao {
 
     @Override
     public List<Group> findUserGroupsByUserId(long id) {
-        try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_USER_GROUPS)) {
+        try (Connection connection = dbConnector.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_USER_GROUPS)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             List<Group> result = new ArrayList<>();
@@ -153,36 +151,32 @@ public class GroupDaoImpl implements GroupDao {
             preparedStatement.executeUpdate();
 
         } catch (Exception e) {
-            throw new GroupException("Error adding user " + user.getFirstName() + " " + user.getLastName() + " to group " + group.getName(), e);
+            throw new GroupException("Error adding user " + user.getFirstName() + " "
+                    + user.getLastName() + " to group " + group.getName(), e);
         }
     }
 
 
-    private static Group mapGroup(ResultSet rs) {
-        try {
-            Group group = new Group();
-            group.setId(rs.getLong("group_id"));
-            group.setName(rs.getString("name"));
-            group.setDescription(rs.getString("description"));
-            group.setCreatorId(rs.getLong("creator_id"));
+    private static Group mapGroup(ResultSet rs) throws SQLException {
+        Group group = new Group();
+        group.setId(rs.getLong("group_id"));
+        group.setName(rs.getString("name"));
+        group.setDescription(rs.getString("description"));
+        group.setCreatorId(rs.getLong("creator_id"));
 
-            return group;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return group;
     }
 
-    private void appendPreparedStatementParametersToInsertGroup(PreparedStatement preparedStatement, Group group) throws SQLException {
-
+    private void appendPreparedStatementParametersToInsertGroup(PreparedStatement preparedStatement, Group group)
+            throws SQLException {
         preparedStatement.setString(1, group.getName());
         preparedStatement.setString(2, group.getDescription());
         preparedStatement.setLong(3, group.getCreatorId());
 
     }
 
-    private void appendPreparedStatementParametersToUpdateGroup(PreparedStatement preparedStatement, Group group) throws SQLException {
-
+    private void appendPreparedStatementParametersToUpdateGroup(PreparedStatement preparedStatement, Group group)
+            throws SQLException {
         preparedStatement.setString(1, group.getName());
         preparedStatement.setString(2, group.getDescription());
         preparedStatement.setLong(3, group.getCreatorId());

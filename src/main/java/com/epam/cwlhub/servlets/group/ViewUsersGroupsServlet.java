@@ -8,6 +8,7 @@ import com.epam.cwlhub.services.group.GroupServiceImpl;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,26 +16,21 @@ import java.util.List;
 import java.util.Optional;
 
 @WebServlet(name = "ViewUsersGroups", urlPatterns = "/usersgroups")
-public class ViewUsersGroupsServlet {
+public class ViewUsersGroupsServlet extends HttpServlet {
 
-    private GroupService groupService = GroupServiceImpl.getInstance();
     private String TARGET_PAGE_ROOT = "/WEB-INF/jsp/";
-
+    private GroupService groupService = GroupServiceImpl.getInstance();
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            List<Group> groups = groupService.
-                    findUsersGroups(getUserId(req).
-                            orElseThrow(() -> new GroupException("Can't get user_id from request")));
-
+            List<Group> groups = groupService.findUsersGroups(getUserId(req)
+                            .orElseThrow(() -> new GroupException("Can't get user_id from request")));
             if (!groups.isEmpty()) {
                 req.setAttribute("groups", groups);
             }
             forwardToPage(req, resp, "usersGroups.jsp");
-
         } catch (Exception e) {
             throw new GroupException("Can't display user's groups", e);
-
         }
     }
 
