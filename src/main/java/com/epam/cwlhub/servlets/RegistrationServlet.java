@@ -2,9 +2,8 @@ package com.epam.cwlhub.servlets;
 
 
 import com.epam.cwlhub.constants.Endpoints;
-import com.epam.cwlhub.dao.AuthentificationService;
-import com.epam.cwlhub.dao.AuthentificationServiceImpl;
-import com.epam.cwlhub.dao.UserDaoImpl;
+
+import com.epam.cwlhub.dao.impl.UserDaoImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.entities.user.UserType;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
