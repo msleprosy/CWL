@@ -25,6 +25,7 @@ public class SnippetDaoImpl implements SnippetDao {
 
     private static final String SELECT_SNIPPET_BY_ID_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "snippet_id = ?";
     private static final String SELECT_SNIPPET_BY_GROUP_ID_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "group_id = ?";
+    private static final String SELECT_SNIPPET_BY_FILENAME_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "snippets.name = ?";
 
     private static final String DELETE_SNIPPET_SQL_STATEMENT = "DELETE FROM snippets " +
                                                                "WHERE ";
@@ -127,6 +128,22 @@ public class SnippetDaoImpl implements SnippetDao {
             return getSnippetsFromResultSet(rs);
         } catch (Exception e) {
             throw new SnippetException("Can't find any snippets", e);
+        }
+    }
+
+    @Override
+    public Optional<Snippet> findByFileName(String fileName) {
+        try (Connection connection = dbConnection.getDBConnection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_SNIPPET_BY_FILENAME_SQL_STATEMENT)) {
+            ps.setString(1, fileName);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return Optional.ofNullable(mapSnippet(rs));
+            } else {
+                return Optional.empty();
+            }
+        } catch (Exception e) {
+            throw new SnippetException("Can't find the snippet with name = " + fileName, e);
         }
     }
 

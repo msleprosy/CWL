@@ -10,6 +10,7 @@
 <body>
     <h1>Upload CWL File</h1>
     <form method="post" action="<%=request.getContextPath()+ "/upload"%>" enctype="multipart/form-data">
+        <div style="color: #FF0000;">${errorMessage}</div><br>
         <table border="0">
             <tr>
                 <td>File Name: </td>
