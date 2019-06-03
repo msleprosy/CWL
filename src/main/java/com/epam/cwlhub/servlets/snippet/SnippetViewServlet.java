@@ -1,8 +1,8 @@
 package com.epam.cwlhub.servlets.snippet;
 
 import com.epam.cwlhub.entities.snippet.Snippet;
-import com.epam.cwlhub.services.SnippetService;
-import com.epam.cwlhub.services.impl.SnippetServiceImpl;
+import com.epam.cwlhub.services.snippet.SnippetService;
+import com.epam.cwlhub.services.snippet.impl.SnippetServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,10 +18,10 @@ import static com.epam.cwlhub.constants.Endpoints.SNIPPET_VIEW_URL;
 
 @WebServlet(name = "SnippetView", urlPatterns = SNIPPET_VIEW_URL)
 public class SnippetViewServlet extends HttpServlet {
+    private final SnippetService snippetService = SnippetServiceImpl.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SnippetService snippetService = SnippetServiceImpl.getInstance();
-
         if (req.getParameterMap().containsKey("id")) {
             Long id = Long.parseLong(req.getParameter("id"));
             Optional<Snippet> snippetView = snippetService.findById(id);

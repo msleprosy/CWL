@@ -1,7 +1,7 @@
 package com.epam.cwlhub.servlets.snippet;
 
-import com.epam.cwlhub.services.SnippetService;
-import com.epam.cwlhub.services.impl.SnippetServiceImpl;
+import com.epam.cwlhub.services.snippet.SnippetService;
+import com.epam.cwlhub.services.snippet.impl.SnippetServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,10 +14,15 @@ import static com.epam.cwlhub.constants.Endpoints.DELETE_SNIPPET_URL;
 
 @WebServlet(name = "DeleteSnippet", urlPatterns = DELETE_SNIPPET_URL)
 public class SnippetDeleteServlet extends HttpServlet {
+    private final SnippetService snippetService = SnippetServiceImpl.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SnippetService snippetService = SnippetServiceImpl.getInstance();
+        doPost(req, resp);
+    }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameterMap().containsKey("id")) {
             Long id = Long.parseLong(req.getParameter("id"));
             snippetService.deleteById(id);
