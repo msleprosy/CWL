@@ -18,4 +18,10 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+    <listener>
+        <listener-class>
+            com.epam.cwlhub.listeners.CWLAppServletContextListener
+        </listener-class>
+    </listener>
+
 </web-app>

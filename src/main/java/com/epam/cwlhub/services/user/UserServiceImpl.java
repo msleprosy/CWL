@@ -3,6 +3,7 @@ package com.epam.cwlhub.services.user;
 import com.epam.cwlhub.dao.user.UserDao;
 import com.epam.cwlhub.dao.user.impl.UserDaoImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,8 +51,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<UserEntity> findUserByEmailAndPassword(String email, String password) {
+        if (email != null && password != null) {
+            String passwordWithHash = DigestUtils.md5Hex(password);
+            Optional<UserEntity> user = userDao.findUserByEmailAndPassword(email, passwordWithHash);
+            if (user.isPresent()) {
+                    return user;
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public UserEntity insert(UserEntity user) {
         if (user != null){
+            String password = user.getPassword();
+            String passwordWithHash = DigestUtils.md5Hex(password);
+            user.setPassword(passwordWithHash);
             userDao.insert(user);
         }
         return user;
