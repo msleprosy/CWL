@@ -1,7 +1,7 @@
 plugins {
     id 'java'
 }
-apply plugin: 'war'
+
 group 'CWLProject'
 version '1.0-SNAPSHOT'
 
@@ -10,10 +10,7 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
 }
-war {
-webXml = file('src/main/webapp/WEB-INF/web.xml')
-enabled = true
-}
+
 configurations {
     provided
 }
