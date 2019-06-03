@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface UserService extends BaseService<UserEntity> {
     Optional<UserEntity> findByEmail(String email);
     void deleteByEmail(String email);
+    Optional<UserEntity> findUserByEmailAndPassword(String email, String password);
 }
