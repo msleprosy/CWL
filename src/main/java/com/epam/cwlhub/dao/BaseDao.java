@@ -9,4 +9,5 @@ public interface BaseDao<T> {
     Optional<T> findById(long id);
     void update(T entity);
     List<T> findAll();
+
 }
