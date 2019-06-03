@@ -1,7 +1,6 @@
 package com.epam.cwlhub.servlets;
 
 import com.epam.cwlhub.entities.snippet.Snippet;
-import com.epam.cwlhub.services.SnippetService;
 import com.epam.cwlhub.services.impl.SnippetServiceImpl;
 import java.io.IOException;
 import javax.servlet.ServletException;

@@ -9,6 +9,6 @@
 </head>
 <body>
     <h3><%=request.getAttribute("Message")%></h3>
-    <meta http-equiv="refresh" content="3;url=<%=request.getContextPath()+ "/upload"%>"/>
+    <meta http-equiv="Refresh" content="3;url=UploadSnippet.jsp"/>
 </body>
 </html>
