@@ -23,6 +23,5 @@ dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
     implementation group: 'com.mchange', name: 'c3p0', version: '0.9.5.4'
-    implementation group: 'commons-codec', name: 'commons-codec', version: '1.12'
     provided group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 }

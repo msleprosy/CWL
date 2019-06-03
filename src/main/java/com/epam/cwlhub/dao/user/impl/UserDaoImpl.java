@@ -123,7 +123,7 @@ public class UserDaoImpl implements UserDao {
                 return Optional.empty();
             }
         } catch (Exception ex) {
-            throw new UserException("Can't sign in user with email " + email, ex);
+            throw new UserException("Can't find user with email " + email, ex);
         }
     }
 
