@@ -54,7 +54,8 @@ public class UserDaoImpl implements UserDao {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USER_SQL_STATEMENT,
              PreparedStatement.RETURN_GENERATED_KEYS)) {
-            appendPreparedStatementParametersToInsertUser(preparedStatement, user);
+            appendPreparedStatementParameters(preparedStatement, user);
+            preparedStatement.setString(6, UserType.SIMPLE_USER.toString());
             preparedStatement.executeUpdate();
             try (ResultSet generatedId = preparedStatement.getGeneratedKeys()) {
                 if (generatedId.next()) {
@@ -153,7 +154,8 @@ public class UserDaoImpl implements UserDao {
     public void update(UserEntity user) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_SQL_STATEMENT)) {
-            appendPreparedStatementParametersToIUpdateUser(preparedStatement, user);
+            appendPreparedStatementParameters(preparedStatement, user);
+            preparedStatement.setString(6, UserType.SIMPLE_USER.toString());
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
             throw new UserException("Can't update the user with id " + user.getId(), ex);
@@ -168,17 +170,7 @@ public class UserDaoImpl implements UserDao {
         return result;
     }
 
-    private void appendPreparedStatementParametersToInsertUser(PreparedStatement preparedStatement, UserEntity user) throws SQLException {
-        String userType = String.valueOf(UserType.SIMPLE_USER);
-        preparedStatement.setString(1, user.getFirstName());
-        preparedStatement.setString(2, user.getLastName());
-        preparedStatement.setString(3, user.getEmail());
-        preparedStatement.setString(4, user.getPassword());
-        preparedStatement.setBoolean(5, user.isBanned());
-        preparedStatement.setString(6, userType);
-    }
-
-    private void appendPreparedStatementParametersToIUpdateUser(PreparedStatement preparedStatement, UserEntity user) throws SQLException {
+    private void appendPreparedStatementParameters(PreparedStatement preparedStatement, UserEntity user) throws SQLException {
         preparedStatement.setString(1, user.getFirstName());
         preparedStatement.setString(2, user.getLastName());
         preparedStatement.setString(3, user.getEmail());
