@@ -3,6 +3,7 @@
 <%@ page import="com.epam.cwlhub.entities.user.UserType" %>
 <%@ page import="com.epam.cwlhub.services.user.UserServiceImpl" %>
 <%@ page import="java.util.Optional" %>
+<%@ page import="static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <style>
     a {
@@ -18,7 +19,8 @@
 
     <div style="float: right; padding: 10px; text-align: right;">
         <%
-            Long id = ((Map<String, Long>) request.getServletContext().getAttribute("UserSessionData")).get(request.getSession().getId());
+            Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
+                                                                      .get(request.getSession().getId());
             Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
             if (receivedUser.isPresent()) {
                 UserEntity user = receivedUser.get();
