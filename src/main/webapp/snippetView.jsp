@@ -1,4 +1,8 @@
 <%@ page import="com.epam.cwlhub.entities.snippet.Snippet" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="com.epam.cwlhub.entities.user.UserEntity" %>
+<%@ page import="java.util.Optional" %>
+<%@ page import="com.epam.cwlhub.services.user.UserServiceImpl" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -26,27 +30,37 @@
             <td width="60%" height="60%">
                 <% if (request.getAttribute("snippet") != null) {
                     Snippet snippet = (Snippet) request.getAttribute("snippet");
+
+                    Long id = ((Map<String, Long>) request.getServletContext().getAttribute("UserSessionData")).get(request.getSession().getId());
+                    Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
+                    boolean isOwner = false;
+                    if (receivedUser.isPresent()) {
+                        UserEntity user = receivedUser.get();
+                        isOwner = snippet.getOwnerId() == user.getId();
+                    }
                 %>
-                <form method="POST" action="<%=request.getContextPath()+"/update?id=" + snippet.getId()%>">
+                <form method="post" action="<%=request.getContextPath()+"/update?id=" + snippet.getId()%>">
                     <table border="2px solid black" width="100%">
                         <tr>
                             <td>
                                 <p><b>Name</b></p>
-                                <input width="100%" name="name" value="<%= snippet.getName()%>" <%if (false) {%> readonly <%}%>/>
+                                <input width="100%" name="name" value="<%= snippet.getName()%>" <%if (!isOwner) {%> readonly <%}%>/>
                             </td>
-                            <td width="20%" height="60%">
-                                <input type="submit" <%if (false) {%> disabled <%}%> value="Save"/>
-                            </td>
+                            <%if (isOwner) {%>
+                                <td width="20%" height="60%">
+                                    <input type="submit" value="Save"/>
+                                </td>
+                            <%}%>
                         </tr>
                         <tr>
                             <td colspan="2">
                                 <p><b>Tags</b></p>
-                                <input width="100%" name="tag" value="<%= snippet.getTag()%>" <%if (false) {%> readonly <%}%> />
+                                <input width="100%" name="tag" value="<%= snippet.getTag()%>" <%if (!isOwner) {%> readonly <%}%> />
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <textarea style="text-align: left" cols="120" name="content"  <%if (false) {%> readonly <%}%> >
+                                <textarea style="text-align: left" cols="120" name="content"  <%if (!isOwner) {%> readonly <%}%> >
                                     <%= snippet.getContent()%>
                                 </textarea>
                             </td>

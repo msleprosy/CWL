@@ -18,11 +18,7 @@
                 <%= group.getId()%>
             </td>
             <td>
-                <% if (group.getId() == 1L) {%>
-                    <a href='/home'><%= group.getName()%></a>
-                <%} else { %>
-                    <a href='<%=request.getContextPath()+"/groups?id=" + group.getId()%>'><%= group.getName()%></a>
-                <%} %>
+                <a href='<%=request.getContextPath()+"/groups?id=" + group.getId()%>'><%= group.getName()%></a>
             </td>
         </tr>
         <%} %>

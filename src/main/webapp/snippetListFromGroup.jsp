@@ -1,5 +1,9 @@
 <%@ page import="com.epam.cwlhub.entities.snippet.Snippet" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="com.epam.cwlhub.entities.user.UserEntity" %>
+<%@ page import="java.util.Optional" %>
+<%@ page import="com.epam.cwlhub.services.user.UserServiceImpl" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <table border="2px black" width="100%">
     <thead>
@@ -14,7 +18,23 @@
         if (request.getAttribute("snippets") != null) {
             List<Snippet> snippets = (List<Snippet>) request.getAttribute("snippets");
 
+            if (snippets.isEmpty()) {
+    %>
+    <tbody>
+        <tr>
+            <td colspan="6">There are no files to show</td>
+        </tr>
+    </tbody>
+    <%      } else
+
             for (Snippet snippet : snippets) {
+                Long id = ((Map<String, Long>) request.getServletContext().getAttribute("UserSessionData")).get(request.getSession().getId());
+                Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
+                boolean isOwner = false;
+                if (receivedUser.isPresent()) {
+                    UserEntity user = receivedUser.get();
+                    isOwner = snippet.getOwnerId() == user.getId();
+                }
     %>
     <tbody>
     <tr>
@@ -37,13 +57,14 @@
             <button formmethod="post" formaction="SnippetViewServlet">
                 <a href='<%=request.getContextPath()+"/snippets?id=" + snippet.getId()%>'>Open</a>
             </button>
-            <button>Download</button>
-            <button id="show" <%if (false) {%> disabled <%}%> >
-                <a href='<%=request.getContextPath()+"/delete?id=" + snippet.getId()%>'>Delete</a>
-            </button>
+            <% if (isOwner) {%>
+                <button>
+                    <a href='<%=request.getContextPath()+"/delete?id=" + snippet.getId()%>'>Delete</a>
+                </button>
+            <%}%>
         </td>
     </tr>
-    <%}%>
+    <%} %>
     </tbody>
     <%}%>
 </table>

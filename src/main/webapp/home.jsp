@@ -26,7 +26,7 @@
                 <jsp:include page="snippetListFromGroup.jsp"></jsp:include>
             </td>
             <td width="20%" height="60%">
-                <button>Load file</button>
+                <button formmethod="post" formaction="<%=request.getContextPath()+"/upload?id=1"%>">Load file</button>
             </td>
         </tr>
 
