@@ -1,9 +1,9 @@
-package com.epam.cwlhub.services.impl;
+package com.epam.cwlhub.services.snippet.impl;
 
 import com.epam.cwlhub.dao.SnippetDao;
 import com.epam.cwlhub.dao.impl.SnippetDaoImpl;
 import com.epam.cwlhub.entities.snippet.Snippet;
-import com.epam.cwlhub.services.SnippetService;
+import com.epam.cwlhub.services.snippet.SnippetService;
 
 import java.util.*;
 
