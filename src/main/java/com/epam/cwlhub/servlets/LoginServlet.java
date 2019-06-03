@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
         UserEntity user = null;
-        Optional<UserEntity> signInUser;
+        Optional<UserEntity> signInUser = null;
         boolean hasError = false;
         String errorString = null;
         if (email == null || password == null || email.length() == 0 || password.length() == 0) {
@@ -58,8 +59,9 @@ public class LoginServlet extends HttpServlet {
                     = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
             dispatcher.forward(request, response);
         } else {
-            System.out.println("User logined");
-        }
+            HttpSession session = request.getSession();
+            session.setAttribute("loginedUser", signInUser.get());
+            response.sendRedirect(request.getContextPath() + Endpoints.USERINFO_URL);}
     }
 }
 
