@@ -23,3 +23,6 @@ public class SnippetUploadServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/Message.jsp").forward(request, response);
     }
 }
+
+
+
