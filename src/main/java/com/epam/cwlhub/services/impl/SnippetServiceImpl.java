@@ -95,26 +95,18 @@ public class SnippetServiceImpl implements SnippetService {
 
         Snippet snippet = new Snippet();
         snippet.setName(fileName);
-        ServletContext context = request.getServletContext();
-        Map<HttpSession, Long> userSessionData = (Map<HttpSession, Long>) context.getAttribute("UserSessionData");
-        Iterator it = userSessionData.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            if (((HttpSession)pair.getKey()).getId().equals(request.getSession().getId())){
-                snippet.setOwnerId((Long)pair.getValue());
-                break;
-            }
-        }
+//        ServletContext context = request.getServletContext();
+//        Map<HttpSession, Long> userSessionData = (Map<HttpSession, Long>) context.getAttribute("UserSessionData");
+//        Iterator it = userSessionData.entrySet().iterator();
+//        while (it.hasNext()) {
+//            Map.Entry pair = (Map.Entry)it.next();
+//            if (((HttpSession)pair.getKey()).getId().equals(request.getSession().getId())){
+//                snippet.setOwnerId((Long)pair.getValue());
+//                break;
+//            }
+//        }
         snippet.setOwnerId(2);
-        //?id=
-        String adr = request.getHeader("referer");
-
-
-
-        Pattern pattern = Pattern.compile("[^=]+$");//. represents single character
-        Matcher matcher = pattern.matcher(adr);
-        snippet.setGroupId(Integer.parseInt(matcher.group(1)));
-
+        //snippet.setGroupId(Long.parseLong(request.getParameter("id")));
         snippet.setGroupId(1); // !!!! Change
         snippet.setContent(content);
         snippet.setCreationDate(LocalDate.now());

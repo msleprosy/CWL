@@ -8,8 +8,7 @@
     <title>Message</title>
 </head>
 <body>
-<center>
     <h3><%=request.getAttribute("Message")%></h3>
-</center>
+    <meta http-equiv="refresh" content="3;url=<%=request.getContextPath()+ "/upload"%>"/>
 </body>
 </html>
