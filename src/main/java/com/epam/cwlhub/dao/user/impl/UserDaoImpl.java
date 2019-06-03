@@ -6,6 +6,7 @@ import com.epam.cwlhub.entities.user.UserType;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
 import com.epam.cwlhub.storage.dbconnection.DBConnector;
 import com.epam.cwlhub.exceptions.unchecked.UserException;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,6 +34,7 @@ public class UserDaoImpl implements UserDao {
     private static final String DELETE_USER_BY_EMAIL_SQL_STATEMENT = DELETE_USER_SQL_STATEMENT + "email = ?";
     private static final String UPDATE_USER_SQL_STATEMENT = "UPDATE users SET firstname = ?, lastname = ?, "
                                                                     + "email = ?, password = ?, banned = ?";
+    private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD = SELECT_USER_SQL_STATEMENT + "email = ? AND password = ?";
 
     public static UserDaoImpl getInstance() {
         UserDaoImpl localInstance = INSTANCE;
@@ -61,7 +63,7 @@ public class UserDaoImpl implements UserDao {
             }
             return user;
         } catch (Exception ex) {
-            throw new UserException("Can't insert new user", ex);
+            throw new UserException("Can't insert new user ", ex);
         }
     }
 
@@ -77,7 +79,7 @@ public class UserDaoImpl implements UserDao {
                 return Optional.empty();
             }
         } catch (Exception ex) {
-            throw new UserException("Can't find the user with id" + id, ex);
+            throw new UserException("Can't find the user with id " + id, ex);
         }
     }
 
@@ -88,7 +90,7 @@ public class UserDaoImpl implements UserDao {
             ResultSet rs = preparedStatement.executeQuery();
             return getUsersFromResultSet(rs);
         } catch (Exception ex) {
-            throw new UserException("Can't find any users", ex);
+            throw new UserException("Can't find any users ", ex);
         }
     }
 
@@ -104,7 +106,24 @@ public class UserDaoImpl implements UserDao {
                 return Optional.empty();
             }
         } catch (Exception ex) {
-            throw new UserException("Can't find the user with email" + email, ex);
+            throw new UserException("Can't find the user with email " + email, ex);
+        }
+    }
+
+    @Override
+    public Optional<UserEntity> findUserByEmailAndPassword(String email, String password){
+        try (Connection connection = dbConnection.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD)) {
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return Optional.ofNullable(mapUser(rs));
+            } else {
+                return Optional.empty();
+            }
+        } catch (Exception ex) {
+            throw new UserException("Can't find user with email " + email, ex);
         }
     }
 
@@ -115,7 +134,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
-            throw new UserException("Can't delete the user with id" + id, ex);
+            throw new UserException("Can't delete the user with id " + id, ex);
         }
     }
 
@@ -126,7 +145,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(1, email);
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
-            throw new UserException("Can't delete the user with email" + email, ex);
+            throw new UserException("Can't delete the user with email " + email, ex);
         }
     }
 
@@ -137,7 +156,7 @@ public class UserDaoImpl implements UserDao {
             appendPreparedStatementParametersToIUpdateUser(preparedStatement, user);
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
-            throw new UserException("Can't update the user with id" + user.getId(), ex);
+            throw new UserException("Can't update the user with id " + user.getId(), ex);
         }
     }
 
