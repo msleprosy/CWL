@@ -1,11 +1,9 @@
-package com.epam.cwlhub.services.impl;
+package com.epam.cwlhub.services.snippet.impl;
 
 import com.epam.cwlhub.dao.SnippetDao;
 import com.epam.cwlhub.dao.impl.SnippetDaoImpl;
 import com.epam.cwlhub.entities.snippet.Snippet;
-import com.epam.cwlhub.exceptions.unchecked.SnippetException;
-import com.epam.cwlhub.services.SnippetService;
-import com.oracle.tools.packager.IOUtils;
+import com.epam.cwlhub.services.snippet.SnippetService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -58,10 +56,12 @@ public class SnippetServiceImpl implements SnippetService {
 
     @Override
     public List<Snippet> findByGroupId(Long id) {
+        List<Snippet> result = new ArrayList<>();
         if (id != null) {
-            return snippetDao.findByGroupId(id);
+            result = snippetDao.findByGroupId(id);
+            result.sort(Comparator.comparingLong(Snippet::getId));
         }
-        return Collections.emptyList();
+        return result;
     }
 
     @Override
