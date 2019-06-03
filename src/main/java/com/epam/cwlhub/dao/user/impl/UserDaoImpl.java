@@ -6,6 +6,7 @@ import com.epam.cwlhub.entities.user.UserType;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
 import com.epam.cwlhub.storage.dbconnection.DBConnector;
 import com.epam.cwlhub.exceptions.unchecked.UserException;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -113,8 +114,9 @@ public class UserDaoImpl implements UserDao {
     public Optional<UserEntity> signInUser(String email, String password){
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD)) {
+            String passwordWithHash = DigestUtils.md5Hex(password);
             preparedStatement.setString(1, email);
-            preparedStatement.setString(2, password);
+            preparedStatement.setString(2, passwordWithHash);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 return Optional.ofNullable(mapUser(rs));
@@ -169,10 +171,11 @@ public class UserDaoImpl implements UserDao {
 
     private void appendPreparedStatementParametersToInsertUser(PreparedStatement preparedStatement, UserEntity user) throws SQLException {
         String userType = String.valueOf(UserType.SIMPLE_USER);
+        String passwordWithHash = DigestUtils.md5Hex(user.getPassword());
         preparedStatement.setString(1, user.getFirstName());
         preparedStatement.setString(2, user.getLastName());
         preparedStatement.setString(3, user.getEmail());
-        preparedStatement.setString(4, user.getPassword());
+        preparedStatement.setString(4, passwordWithHash);
         preparedStatement.setBoolean(5, user.isBanned());
         preparedStatement.setString(6, userType);
     }
