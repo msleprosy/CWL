@@ -1,12 +1,11 @@
-package com.epam.cwlhub.dao.user.impl;
+package com.epam.cwlhub.dao.impl;
 
-import com.epam.cwlhub.dao.user.UserDao;
+import com.epam.cwlhub.dao.UserDao;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.entities.user.UserType;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
 import com.epam.cwlhub.storage.dbconnection.DBConnector;
 import com.epam.cwlhub.exceptions.unchecked.UserException;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

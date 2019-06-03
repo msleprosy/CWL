@@ -1,13 +1,12 @@
-package com.epam.cwlhub.services.user;
+package com.epam.cwlhub.dao;
 
+import com.epam.cwlhub.dao.BaseDao;
 import com.epam.cwlhub.entities.user.UserEntity;
-import com.epam.cwlhub.services.BaseService;
 
 import java.util.Optional;
 
-public interface UserService extends BaseService<UserEntity> {
+public interface UserDao extends BaseDao<UserEntity> {
     Optional<UserEntity> findByEmail(String email);
-    Boolean checkUserPassword(String password, UserEntity user);
     void deleteByEmail(String email);
     Optional<UserEntity> findUserByEmailAndPassword(String email, String password);
 }

@@ -1,5 +1,7 @@
-package com.epam.cwlhub.dao.group;
+package com.epam.cwlhub.dao.impl;
 
+import com.epam.cwlhub.dao.GroupDao;
+import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.entities.group.Group;
 
 import com.epam.cwlhub.entities.user.UserEntity;

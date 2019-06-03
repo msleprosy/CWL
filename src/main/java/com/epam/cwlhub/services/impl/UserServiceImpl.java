@@ -1,8 +1,9 @@
-package com.epam.cwlhub.services.user;
+package com.epam.cwlhub.services.impl;
 
-import com.epam.cwlhub.dao.user.UserDao;
-import com.epam.cwlhub.dao.user.impl.UserDaoImpl;
+import com.epam.cwlhub.dao.UserDao;
+import com.epam.cwlhub.dao.impl.UserDaoImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.services.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;

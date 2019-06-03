@@ -1,4 +1,4 @@
-package com.epam.cwlhub.dao.group;
+package com.epam.cwlhub.exceptions.unchecked;
 
 public class GroupException extends RuntimeException {
 
