@@ -3,6 +3,7 @@ package com.epam.cwlhub.dao.group;
 import com.epam.cwlhub.entities.group.Group;
 
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
 import com.epam.cwlhub.storage.dbconnection.DBConnector;
 

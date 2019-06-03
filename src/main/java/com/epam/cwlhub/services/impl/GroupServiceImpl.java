@@ -1,9 +1,10 @@
-package com.epam.cwlhub.services.group;
+package com.epam.cwlhub.services.impl;
 
 import com.epam.cwlhub.dao.group.GroupDao;
 import com.epam.cwlhub.dao.group.GroupDaoImpl;
 import com.epam.cwlhub.entities.group.Group;
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.services.GroupService;
 
 import java.util.List;
 import java.util.Optional;

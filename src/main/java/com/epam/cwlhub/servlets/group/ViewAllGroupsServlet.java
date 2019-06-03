@@ -1,9 +1,9 @@
 package com.epam.cwlhub.servlets.group;
 
-import com.epam.cwlhub.dao.group.GroupException;
+import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.entities.group.Group;
-import com.epam.cwlhub.services.group.GroupService;
-import com.epam.cwlhub.services.group.GroupServiceImpl;
+import com.epam.cwlhub.services.GroupService;
+import com.epam.cwlhub.services.impl.GroupServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;

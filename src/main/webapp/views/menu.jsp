@@ -1,7 +1,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="com.epam.cwlhub.entities.user.UserEntity" %>
 <%@ page import="com.epam.cwlhub.entities.user.UserType" %>
-<%@ page import="com.epam.cwlhub.services.user.UserServiceImpl" %>
+<%@ page import="com.epam.cwlhub.services.impl.UserServiceImpl" %>
 <%@ page import="java.util.Optional" %>
 <%@ page import="static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>

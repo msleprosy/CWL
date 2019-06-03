@@ -1,4 +1,4 @@
-package com.epam.cwlhub.services.snippet;
+package com.epam.cwlhub.services;
 
 import com.epam.cwlhub.entities.snippet.Snippet;
 import com.epam.cwlhub.services.BaseService;

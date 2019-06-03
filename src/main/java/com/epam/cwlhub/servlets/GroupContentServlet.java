@@ -1,8 +1,8 @@
 package com.epam.cwlhub.servlets;
 
 import com.epam.cwlhub.entities.snippet.Snippet;
-import com.epam.cwlhub.services.snippet.SnippetService;
-import com.epam.cwlhub.services.snippet.impl.SnippetServiceImpl;
+import com.epam.cwlhub.services.SnippetService;
+import com.epam.cwlhub.services.impl.SnippetServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-
-import static com.epam.cwlhub.constants.Endpoints.*;
 
 @WebServlet(name = "SnippetsList", urlPatterns = GROUP_URL)
 public class GroupContentServlet extends HttpServlet {

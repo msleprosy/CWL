@@ -1,4 +1,4 @@
-package com.epam.cwlhub.services.user;
+package com.epam.cwlhub.services;
 
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.services.BaseService;
