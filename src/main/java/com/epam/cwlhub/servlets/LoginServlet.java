@@ -1,11 +1,8 @@
 package com.epam.cwlhub.servlets;
 
 import com.epam.cwlhub.constants.Endpoints;
-import com.epam.cwlhub.dao.AuthentificationService;
-import com.epam.cwlhub.dao.AuthentificationServiceImpl;
+import com.epam.cwlhub.dao.UserDaoImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
-import com.epam.cwlhub.storage.dbconnection.DBConnection;
-import com.epam.cwlhub.storage.dbconnection.DBConnector;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,12 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.Optional;
 
 public class LoginServlet extends HttpServlet {
-    private final DBConnection dbConnection = DBConnector.getInstance();
-    private AuthentificationService authentificationService = new AuthentificationServiceImpl();
+    private UserDaoImpl userDao = UserDaoImpl.getInstance();
     private static final long serialVersionUID = 1L;
     private static final String ERROR = "errorString";
     private static final String USER = "user";
@@ -40,22 +35,17 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
         UserEntity user = null;
+        Optional<UserEntity> signInUser;
         boolean hasError = false;
         String errorString = null;
         if (email == null || password == null || email.length() == 0 || password.length() == 0) {
             hasError = true;
             errorString = AUTHORIZATION_ERROR;
-        }
-        else {
-            try {
-                Connection conn = dbConnection.getDBConnection();
-                user =  authentificationService.signInUser(conn, email, password);
-                if (user == null) {
-                    hasError = true;
-                    errorString = LOGIN_ERROR;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        } else {
+            signInUser = userDao.signInUser(email, password);
+            if (signInUser.equals(Optional.empty())) {
+                hasError = true;
+                errorString = LOGIN_ERROR;
             }
         }
         if (hasError) {
@@ -67,8 +57,7 @@ public class LoginServlet extends HttpServlet {
             RequestDispatcher dispatcher
                     = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
             dispatcher.forward(request, response);
-        }
-        else {
+        } else {
             System.out.println("User logined");
         }
     }
