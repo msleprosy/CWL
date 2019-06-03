@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface GroupDao extends BaseDao<Group> {
 
-    List<Group> findUsersGroups(long id);
+    List<Group> findUserGroupsByUserId(long id);
 
     void joinGroup(UserEntity user, Group group);
 }

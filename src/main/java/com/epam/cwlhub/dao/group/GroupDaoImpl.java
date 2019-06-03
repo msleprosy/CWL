@@ -26,24 +26,19 @@ public class GroupDaoImpl implements GroupDao {
     private DBConnection dbConnector = DBConnector.getInstance();
 
     public static GroupDaoImpl getInstance() {
-        GroupDaoImpl localDaoInstance = daoInstance;
-        if (localDaoInstance == null) {
-            synchronized (GroupDaoImpl.class) {
-                localDaoInstance = daoInstance;
-                if (localDaoInstance == null) {
-                    daoInstance = localDaoInstance = new GroupDaoImpl();
-                }
-            }
+        if (daoInstance == null) {
+            daoInstance = new GroupDaoImpl();
         }
-        return localDaoInstance;
+        return daoInstance;
     }
 
-    private static final String SQL_ADD = "INSERT INTO groups (name, description, creator_id) VALUES (?, ?, ?)";
+
+    private static final String SQL_ADD_GROUP = "INSERT INTO groups (name, description, creator_id) VALUES (?, ?, ?)";
     private static final String SQL_FIND_BY_ID = "SELECT * FROM groups WHERE group_id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM groups WHERE group_id  = ?";
     private static final String SQL_UPDATE = "UPDATE groups SET name = ?, description = ?, creator_id = ? " +
-                                                " WHERE group_id = ?";
-    private static final String SQL_FIND_ALL = "SELECT * FROM groups";
+            " WHERE group_id = ?";
+    private static final String SQL_FIND_ALL_GROUPS = "SELECT * FROM groups";
     private static final String SQL_FIND_USER_GROUPS
             = "SELECT groups.group_id, groups.name, groups.description, groups.creator_id " +
             " FROM groups JOIN user_group " +
@@ -57,9 +52,8 @@ public class GroupDaoImpl implements GroupDao {
     @Override
     public Group insert(Group group) {
 
-        try (Connection connection = dbConnector.getDBConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD,
-                    PreparedStatement.RETURN_GENERATED_KEYS);
+        try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_GROUP,
+                PreparedStatement.RETURN_GENERATED_KEYS)) {
             appendPreparedStatementParametersToInsertGroup(preparedStatement, group);
             preparedStatement.executeUpdate();
             try (ResultSet generatedId = preparedStatement.getGeneratedKeys()) {
@@ -82,7 +76,9 @@ public class GroupDaoImpl implements GroupDao {
                 return Optional.ofNullable(Optional.ofNullable(mapGroup(rs)).orElseThrow(() ->
                         new GroupException("Error while mapping group")));
 
-        } else { return Optional.empty();}
+            } else {
+                return Optional.empty();
+            }
         } catch (Exception e) {
             throw new GroupException("Error while trying to find group with id: " + id, e);
         }
@@ -121,7 +117,7 @@ public class GroupDaoImpl implements GroupDao {
     public List<Group> findAll() {
 
         try (Connection connection = dbConnector.getDBConnection(); Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL)) {
+             ResultSet resultSet = statement.executeQuery(SQL_FIND_ALL_GROUPS)) {
             List<Group> result = new ArrayList<>();
             while (resultSet.next()) {
                 result.add(mapGroup(resultSet));
@@ -133,7 +129,7 @@ public class GroupDaoImpl implements GroupDao {
     }
 
     @Override
-    public List<Group> findUsersGroups(long id) {
+    public List<Group> findUserGroupsByUserId(long id) {
         try (Connection connection = dbConnector.getDBConnection(); PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_USER_GROUPS)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
@@ -157,7 +153,7 @@ public class GroupDaoImpl implements GroupDao {
             preparedStatement.executeUpdate();
 
         } catch (Exception e) {
-            throw new GroupException("Error adding user "+ user.getFirstName()+" "+user.getLastName() + " to group " + group.getName(), e);
+            throw new GroupException("Error adding user " + user.getFirstName() + " " + user.getLastName() + " to group " + group.getName(), e);
         }
     }
 
