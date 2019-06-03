@@ -51,6 +51,17 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public Optional<UserEntity> findUserByEmailAndPassword(String email, String password) {
+        if (email != null && password != null) {
+            String passwordWithHash = DigestUtils.md5Hex(password);
+            Optional<UserEntity> user = userDao.findUserByEmailAndPassword(email, passwordWithHash);
+            if (user.isPresent()) {
+                return user;
+            }
+        }
+        return Optional.empty();
+    }
 
     @Override
     public UserEntity insert(UserEntity user) {
