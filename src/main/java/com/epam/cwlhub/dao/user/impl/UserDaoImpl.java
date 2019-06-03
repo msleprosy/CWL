@@ -111,12 +111,11 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Optional<UserEntity> signInUser(String email, String password){
+    public Optional<UserEntity> findUserByEmailAndPassword(String email, String password){
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD)) {
-            String passwordWithHash = DigestUtils.md5Hex(password);
             preparedStatement.setString(1, email);
-            preparedStatement.setString(2, passwordWithHash);
+            preparedStatement.setString(2, password);
             ResultSet rs = preparedStatement.executeQuery();
             if (rs.next()) {
                 return Optional.ofNullable(mapUser(rs));
@@ -171,11 +170,10 @@ public class UserDaoImpl implements UserDao {
 
     private void appendPreparedStatementParametersToInsertUser(PreparedStatement preparedStatement, UserEntity user) throws SQLException {
         String userType = String.valueOf(UserType.SIMPLE_USER);
-        String passwordWithHash = DigestUtils.md5Hex(user.getPassword());
         preparedStatement.setString(1, user.getFirstName());
         preparedStatement.setString(2, user.getLastName());
         preparedStatement.setString(3, user.getEmail());
-        preparedStatement.setString(4, passwordWithHash);
+        preparedStatement.setString(4, user.getPassword());
         preparedStatement.setBoolean(5, user.isBanned());
         preparedStatement.setString(6, userType);
     }
