@@ -1,4 +1,4 @@
-package com.epam.cwlhub.dao.snippet;
+package com.epam.cwlhub.dao;
 
 import com.epam.cwlhub.dao.BaseDao;
 import com.epam.cwlhub.entities.snippet.Snippet;

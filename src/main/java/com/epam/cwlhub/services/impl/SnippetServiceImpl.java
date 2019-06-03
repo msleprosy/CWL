@@ -1,7 +1,7 @@
 package com.epam.cwlhub.services.impl;
 
-import com.epam.cwlhub.dao.snippet.SnippetDao;
-import com.epam.cwlhub.dao.snippet.SnippetDaoImpl;
+import com.epam.cwlhub.dao.SnippetDao;
+import com.epam.cwlhub.dao.impl.SnippetDaoImpl;
 import com.epam.cwlhub.entities.snippet.Snippet;
 import com.epam.cwlhub.services.SnippetService;
 

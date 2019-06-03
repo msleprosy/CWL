@@ -1,5 +1,6 @@
-package com.epam.cwlhub.dao.user;
+package com.epam.cwlhub.dao.impl;
 
+import com.epam.cwlhub.dao.UserDao;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.entities.user.UserType;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;

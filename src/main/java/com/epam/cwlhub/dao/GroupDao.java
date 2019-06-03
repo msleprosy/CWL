@@ -1,4 +1,4 @@
-package com.epam.cwlhub.dao.group;
+package com.epam.cwlhub.dao;
 
 import com.epam.cwlhub.dao.BaseDao;
 import com.epam.cwlhub.entities.group.Group;

@@ -1,5 +1,6 @@
-package com.epam.cwlhub.dao.snippet;
+package com.epam.cwlhub.dao.impl;
 
+import com.epam.cwlhub.dao.SnippetDao;
 import com.epam.cwlhub.entities.snippet.Snippet;
 import com.epam.cwlhub.exceptions.unchecked.SnippetException;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
