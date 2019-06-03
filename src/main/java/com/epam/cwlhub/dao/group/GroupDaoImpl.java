@@ -2,6 +2,7 @@ package com.epam.cwlhub.dao.group;
 
 import com.epam.cwlhub.entities.group.Group;
 
+import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
 import com.epam.cwlhub.storage.dbconnection.DBConnector;
 
@@ -37,7 +38,7 @@ public class GroupDaoImpl implements GroupDao {
         return localDaoInstance;
     }
 
-    private static final String SQL_ADD = "INSERT INTO groups (name, description, creator_id) Values (?, ?, ?)";
+    private static final String SQL_ADD = "INSERT INTO groups (name, description, creator_id) VALUES (?, ?, ?)";
     private static final String SQL_FIND_BY_ID = "SELECT * FROM groups WHERE group_id = ?";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM groups WHERE group_id  = ?";
     private static final String SQL_UPDATE = "UPDATE groups SET name = ?, description = ?, creator_id = ? " +
@@ -50,6 +51,7 @@ public class GroupDaoImpl implements GroupDao {
             " JOIN users " +
             " ON user_group.user_id = users.user_id " +
             " WHERE user_group.user_id = ?";
+    private static final String SQL_ADD_USER_TO_GROUP = "INSERT INTO user_group (user_id, group_id) VALUES (?, ?)";
 
 
     @Override
@@ -142,6 +144,20 @@ public class GroupDaoImpl implements GroupDao {
             return result;
         } catch (Exception e) {
             throw new GroupException("Error while trying to find groups for user with id: " + id, e);
+        }
+    }
+
+    @Override
+    public void joinGroup(UserEntity user, Group group) {
+
+        try (Connection connection = dbConnector.getDBConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_USER_TO_GROUP);
+            preparedStatement.setLong(1, user.getId());
+            preparedStatement.setLong(2, group.getId());
+            preparedStatement.executeUpdate();
+
+        } catch (Exception e) {
+            throw new GroupException("Error adding user "+ user.getFirstName()+" "+user.getLastName() + " to group " + group.getName(), e);
         }
     }
 

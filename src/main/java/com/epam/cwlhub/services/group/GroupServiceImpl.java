@@ -3,6 +3,7 @@ package com.epam.cwlhub.services.group;
 import com.epam.cwlhub.dao.group.GroupDao;
 import com.epam.cwlhub.dao.group.GroupDaoImpl;
 import com.epam.cwlhub.entities.group.Group;
+import com.epam.cwlhub.entities.user.UserEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,5 +57,10 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public List<Group> findUsersGroups(long id) {
         return groupDao.findUsersGroups(id);
+    }
+
+    @Override
+    public void joinGroup(UserEntity user, Group group) {
+        groupDao.joinGroup(user, group);
     }
 }
