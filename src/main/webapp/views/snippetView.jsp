@@ -19,13 +19,13 @@
     <table width="100%">
         <tr>
             <td colspan="3">
-                <jsp:include page="menu.jsp"></jsp:include>
+                <jsp:include page="/views/menu.jsp"></jsp:include>
             </td>
         </tr>
 
         <tr>
             <td width="20%" height="60%">
-                <jsp:include page="userGroups.jsp"></jsp:include>
+                <jsp:include page="/views/userGroups.jsp"></jsp:include>
             </td>
             <td width="60%" height="60%">
                 <% if (request.getAttribute("snippet") != null) {
@@ -73,7 +73,7 @@
 
         <tr>
             <td height="20%" colspan="3">
-                <jsp:include page="footer.jsp"></jsp:include>
+                <jsp:include page="/views/footer.jsp"></jsp:include>
             </td>
         </tr>
     </table>

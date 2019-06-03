@@ -14,16 +14,16 @@
     <table width="100%">
         <tr>
             <td colspan="3">
-                <jsp:include page="menu.jsp"></jsp:include>
+                <jsp:include page="/views/menu.jsp"></jsp:include>
             </td>
         </tr>
 
         <tr>
             <td width="20%" height="60%">
-                <jsp:include page="userGroups.jsp"></jsp:include>
+                <jsp:include page="/views/userGroups.jsp"></jsp:include>
             </td>
             <td width="60%" height="60%">
-                <jsp:include page="snippetListFromGroup.jsp"></jsp:include>
+                <jsp:include page="/views/snippetListFromGroup.jsp"></jsp:include>
             </td>
             <td width="20%" height="60%">
                 <button formmethod="post" formaction="<%=request.getContextPath()+"/upload?id=1"%>">Load file</button>
@@ -32,7 +32,7 @@
 
         <tr>
             <td height="20%" colspan="3">
-                <jsp:include page="footer.jsp"></jsp:include>
+                <jsp:include page="/views/footer.jsp"></jsp:include>
             </td>
         </tr>
     </table>
