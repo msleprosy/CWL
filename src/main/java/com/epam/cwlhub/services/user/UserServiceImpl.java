@@ -27,6 +27,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Boolean checkUserPassword (String password, UserEntity user) {
+        Boolean check = false;
+            if (password.equals(user.getPassword())) {
+                 check = true;
+            }
+            return check;
+    }
+
+    @Override
     public Optional<UserEntity> findByEmail(String email) {
         if (email != null){
             return userDao.findByEmail(email);
