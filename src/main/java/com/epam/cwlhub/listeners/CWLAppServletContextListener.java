@@ -11,9 +11,10 @@ public class CWLAppServletContextListener implements ServletContextListener{
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        Map<Long, HttpSession> userSessionData = new ConcurrentHashMap<>();
+        Map<HttpSession, Long> userSessionData = new ConcurrentHashMap<>();
         ServletContext context = servletContextEvent.getServletContext();
         context.setAttribute("UserSessionData", userSessionData);
+
     }
 }
 
