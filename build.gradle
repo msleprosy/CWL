@@ -1,7 +1,7 @@
 plugins {
     id 'java'
+    apply plugin: 'war'
 }
-apply plugin: 'war'
 group 'CWLProject'
 version '1.0-SNAPSHOT'
 
