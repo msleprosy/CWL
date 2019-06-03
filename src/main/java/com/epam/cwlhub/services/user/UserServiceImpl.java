@@ -24,13 +24,16 @@ public class UserServiceImpl implements UserService {
         }
         return localInstance;
     }
+
     @Override
-    public Optional<UserEntity> findUserByEmailAndPassword(String email, String password) {
-        if (email != null){
-            return userDao.findByEmailAndPassword(email,password);
-        }
-        return Optional.empty();
+    public Boolean checkUserPassword (String password, UserEntity user) {
+        Boolean check = false;
+            if (password.equals(user.getPassword())) {
+                 check = true;
+            }
+            return check;
     }
+
     @Override
     public Optional<UserEntity> findByEmail(String email) {
         if (email != null){

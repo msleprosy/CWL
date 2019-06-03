@@ -94,31 +94,17 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<UserEntity> findByEmail(String email) {
-        try (Connection connection = dbConnection.getDBConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL_STATEMENT)) {
-            preparedStatement.setString(1, email);
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return Optional.ofNullable(mapUser(rs));
-            } else {
-                return Optional.empty();
-            }
-        } catch (Exception ex) {
-            throw new UserException("Can't find the user with email" + email, ex);
-        }
+        UserEntity user = new UserEntity();
+        user.setBanned(false);
+        user.setEmail("serg@mail.ru");
+        user.setLastName("Sergeev");
+        user.setFirstName("Sergei");
+        user.setId(2);
+        user.setPassword("234b");
+        user.setUserType(UserType.SIMPLE_USER);
+        return Optional.ofNullable(user);
     }
-    @Override
-    public Optional<UserEntity> findByEmailAndPassword(String email, String password) {
-                UserEntity user = new UserEntity();
-                user.setBanned(false);
-                user.setEmail("serg@mail.ru");
-                user.setLastName("Sergeev");
-                user.setFirstName("Sergei");
-                user.setId(2);
-                user.setPassword("234b");
-                user.setUserType(UserType.SIMPLE_USER);
-                return Optional.ofNullable(user);
-    }
+
     @Override
     public void deleteById(long id) {
         try (Connection connection = dbConnection.getDBConnection();

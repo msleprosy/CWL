@@ -24,6 +24,7 @@ public class LoginServlet extends HttpServlet {
     private static final String AUTHORIZATION_ERROR = "Required username and password!";
     private static final String LOGIN_ERROR = "User Name or password invalid";
 
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -44,11 +45,17 @@ public class LoginServlet extends HttpServlet {
             hasError = true;
             errorString = AUTHORIZATION_ERROR;
         } else {
-            signInUser = userService.findUserByEmailAndPassword(email, password);
+            signInUser = userService.findByEmail(email);
             if (signInUser.equals(Optional.empty())) {
                 hasError = true;
                 errorString = LOGIN_ERROR;
+            } else {
+                if (!userService.checkUserPassword(password, signInUser.get())) {
+                    hasError = true;
+                    errorString = LOGIN_ERROR;
+                }
             }
+
         }
         if (hasError) {
             user = new UserEntity();
