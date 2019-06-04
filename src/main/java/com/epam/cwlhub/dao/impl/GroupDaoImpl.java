@@ -159,15 +159,14 @@ public class GroupDaoImpl implements GroupDao {
     }
 
     @Override
-    public void leaveGroup(UserEntity user, Group group) {
+    public void leaveGroup(Long user_id, Long group_id) {
         try (Connection connection = dbConnector.getDBConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_USER_GROUP_GROUP);
-            preparedStatement.setLong(1, user.getId());
-            preparedStatement.setLong(2, group.getId());
+            preparedStatement.setLong(1, user_id);
+            preparedStatement.setLong(2, group_id);
             preparedStatement.executeQuery();
         } catch (Exception e) {
-            throw new GroupException("Error deleting user " + user.getFirstName() + " "
-                    + user.getLastName() + " from group " + group.getName(), e);
+            throw new GroupException("Error deleting user " + user_id + " from group " + group_id, e);
         }
     }
 
