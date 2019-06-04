@@ -11,9 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
+
+import static com.epam.cwlhub.constants.Endpoints.HOME_URL;
+import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
 
 public class LoginServlet extends HttpServlet {
     private UserService userService = UserServiceImpl.getInstance();
@@ -56,6 +59,7 @@ public class LoginServlet extends HttpServlet {
                     errorString = LOGIN_ERROR;
                 }
             }
+
         }
         if (hasError) {
             user = new UserEntity();
@@ -67,9 +71,10 @@ public class LoginServlet extends HttpServlet {
                     = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
             dispatcher.forward(request, response);
         } else {
-            HttpSession session = request.getSession();
-            session.setAttribute("loginedUser", signInUser.get());
-            response.sendRedirect(request.getContextPath() + Endpoints.USERINFO_URL);}
+            Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
+            userSessionData.put(request.getSession().getId(), signInUser.get().getId());
+            response.sendRedirect(HOME_URL);
+        }
     }
 }
 

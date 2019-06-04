@@ -29,10 +29,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean checkUserPassword (String password, UserEntity user) {
-        String passwordWithHashFromFront = DigestUtils.md5Hex(password);
-        String passwordWithHash = user.getPassword();
         Boolean check = false;
-            if (passwordWithHash.equals(passwordWithHashFromFront)) {
+        String passwordWithHash = DigestUtils.md5Hex(password);
+            if (passwordWithHash.equals(user.getPassword())) {
                  check = true;
             }
             return check;
