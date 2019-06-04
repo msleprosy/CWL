@@ -40,12 +40,12 @@ VALUES (1, 1),
        (9, 6);
 
 INSERT INTO snippets (name, owner_id, creation_date, modification_date, content, tag, group_id)
-VALUES ('cwl1', 1, '2018-06-23', '2019-03-03', 'cwl-content', 'tag1', 2),
-       ('cwl2', 2, '2019-06-23', '2019-06-23', 'cw2-content', 'tag2', 1),
+VALUES ('cwl1', 1, '2018-05-23', '2019-03-03', 'cwl-content', 'tag1', 2),
+       ('cwl2', 2, '2019-05-23', '2019-05-23', 'cw2-content', 'tag2', 1),
        ('cwl3', 2, '2018-12-13', '2019-05-13', 'cw3-content', 'tag3', 2),
-       ('cwl4', 3, '2018-06-23', '2019-01-15', 'cw4-content', 'tag4', 1),
+       ('cwl4', 3, '2018-05-23', '2019-01-15', 'cw4-content', 'tag4', 1),
        ('cwl5', 4, '2018-01-23', '2019-03-03', 'cw5-content', 'tag2', 3),
-       ('cwl6', 5, '2018-06-23', '2019-03-03', 'cw6-content', 'tag1', 1),
+       ('cwl6', 5, '2018-05-23', '2019-03-03', 'cw6-content', 'tag1', 1),
        ('file1', 6, '2000-01-01', '2010-02-01', 'file1', 'filetag1', 4),
        ('file2', 7, '2000-02-02', '2010-03-02', 'file2', 'filetag1', 5),
        ('file3', 8, '2000-02-02', '2010-04-02', 'file3', 'filetag1', 5),
