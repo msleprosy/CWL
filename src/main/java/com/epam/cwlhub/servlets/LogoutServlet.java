@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Map;
 
-import static com.epam.cwlhub.constants.Endpoints.LOGIN_PAGE;
+import static com.epam.cwlhub.constants.Endpoints.LOGIN_URL;
 import static com.epam.cwlhub.constants.Endpoints.LOGOUT_URL;
 import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
 
@@ -29,7 +29,7 @@ public class LogoutServlet extends HttpServlet {
             userSessionData.remove(session.getId());
             session.removeAttribute(USER);
             session.invalidate();
-            response.sendRedirect(LOGIN_PAGE);
+            response.sendRedirect(LOGIN_URL);
         }
     }
 }
