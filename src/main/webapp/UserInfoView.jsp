@@ -8,16 +8,21 @@
 </head>
 <body>
 
-<jsp:include page="_header.jsp"></jsp:include>
-<jsp:include page="_menu.jsp"></jsp:include>
+<jsp:include page="views/menu.jsp"></jsp:include>
 
-<h3>Hello: ${user.email}</h3>
+<h3>Email: ${user.email}</h3>
 
-Email: <b>${user.email}</b>
+First Name: <b>${user.firstName}</b>
 <br />
 Last Name: ${user.lastName } <br />
 
-<jsp:include page="_footer.jsp"></jsp:include>
+<tr>
+    <td colspan="2">
+        <input type="submit" value="Edit data"/>
+    </td>
+</tr>
+
+<jsp:include page="views/footer.jsp"></jsp:include>
 
 </body>
 </html>

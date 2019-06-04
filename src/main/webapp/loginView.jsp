@@ -7,7 +7,7 @@
     <title>Login</title>
 </head>
 <body>
-<jsp:include page="_header.jsp"></jsp:include>
+<jsp:include page="views/menu.jsp"></jsp:include>
 
 <h3>Login Page</h3>
 <p style="color: red;">${errorString}</p>
@@ -33,6 +33,6 @@
 
 <p style="color:blue;">There's no such thing like a free lunch</p>
 
-<jsp:include page="_footer.jsp"></jsp:include>
+<jsp:include page="views/footer.jsp"></jsp:include>
 </body>
 </html>

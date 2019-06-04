@@ -2,7 +2,7 @@ package com.epam.cwlhub.servlets;
 
 
 import com.epam.cwlhub.constants.Endpoints;
-import com.epam.cwlhub.dao.UserDaoImpl;
+import com.epam.cwlhub.dao.impl.UserDaoImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.entities.user.UserType;
 

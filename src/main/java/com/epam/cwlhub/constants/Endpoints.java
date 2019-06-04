@@ -3,6 +3,7 @@ package com.epam.cwlhub.constants;
 public abstract class Endpoints {
     public static final String LOGIN_PAGE = "/loginView.jsp";
     public static final String LOGIN_URL = "/login";
+    public static final String LOGOUT = "/logout";
     public static final String HOME = "/views/home.jsp";
     public static final String HOME_URL = "/home";
     public static final String SNIPPET_VIEW_URL = "/snippets";

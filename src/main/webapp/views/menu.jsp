@@ -29,7 +29,7 @@
         <a href="">Users</a>
         <%} }%>
         <a href="">Groups</a>
-        <a href="">Profile</a>
+        <a href="${pageContext.request.contextPath}/userInfo">Profile</a>
         <a href="">Logout</a>
     </div>
 </div>
