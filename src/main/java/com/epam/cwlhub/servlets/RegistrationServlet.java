@@ -19,16 +19,26 @@ public class RegistrationServlet extends HttpServlet {
     private static final String PASSWORD_PARAMETER = "password";
     private static final String LASTNAME_PARAMETER = "lastName";
     private static final String FIRSTNAME_PARAMETER = "firstName";
+    private static final String USER = "user";
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher dispatcher
+                = this.getServletContext().getRequestDispatcher(Endpoints.REGISTRATION_PAGE);
+        dispatcher.forward(request, response);
+    }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserEntity user = UserInstatiate(request);
+       UserEntity user = userInstatiate(request);
+        request.setAttribute(USER, user);
         RequestDispatcher dispatcher
                 = this.getServletContext().getRequestDispatcher(Endpoints.USERDETAILS);
         dispatcher.forward(request, response);
     }
 
-    private UserEntity UserInstatiate(HttpServletRequest request) {
+    private UserEntity userInstatiate(HttpServletRequest request) {
         String firstName = request.getParameter(FIRSTNAME_PARAMETER);
         String lastName = request.getParameter(LASTNAME_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
@@ -41,8 +51,7 @@ public class RegistrationServlet extends HttpServlet {
         user.setPassword(password);
         user.setUserType(UserType.SIMPLE_USER);
         user.setBanned(false);
-        userService.insert(user);
-        return user;
+        return  userService.insert(user);
     }
 
 }

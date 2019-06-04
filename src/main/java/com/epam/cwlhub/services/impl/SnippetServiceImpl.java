@@ -3,6 +3,7 @@ package com.epam.cwlhub.services.impl;
 import com.epam.cwlhub.dao.SnippetDao;
 import com.epam.cwlhub.dao.impl.SnippetDaoImpl;
 import com.epam.cwlhub.entities.snippet.Snippet;
+import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.services.SnippetService;
 
 import javax.servlet.ServletException;
@@ -12,6 +13,8 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
 
 public class SnippetServiceImpl implements SnippetService {
     private final SnippetDao snippetDao = SnippetDaoImpl.getInstance();
@@ -56,10 +59,12 @@ public class SnippetServiceImpl implements SnippetService {
 
     @Override
     public List<Snippet> findByGroupId(Long id) {
+        List<Snippet> result = new ArrayList<>();
         if (id != null) {
-            return snippetDao.findByGroupId(id);
+            result = snippetDao.findByGroupId(id);
+            result.sort(Comparator.comparingLong(Snippet::getId));
         }
-        return Collections.emptyList();
+        return result;
     }
 
     @Override
@@ -82,35 +87,43 @@ public class SnippetServiceImpl implements SnippetService {
         return Optional.empty();
     }
 
-    public Boolean createSnippetObjectFromRequest(HttpServletRequest request)
-            throws ServletException, IOException {
+    @Override
+    public boolean createSnippetObjectFromRequest(HttpServletRequest request) throws ServletException, IOException {
+        Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
+                                                                  .get(request.getSession().getId());
+        Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
+        if (receivedUser.isPresent() && request.getParameterMap().containsKey("group_id")) {
+            UserEntity user = receivedUser.get();
 
-        String fileName = request.getParameter("fileName");
-        String tags = request.getParameter("tags");
+            String fileName = request.getParameter("fileName");
+            String tags = request.getParameter("tags");
 
-        InputStream inputStream = null;
-        Part filePart = request.getPart("cwl");
-        if (filePart != null) {
-            inputStream = filePart.getInputStream();
+            InputStream inputStream = null;
+            Part filePart = request.getPart("cwl");
+            if (filePart != null) {
+                inputStream = filePart.getInputStream();
+            }
+
+            Optional<Snippet> file = findByFileName(fileName);
+            if (file.isPresent()) {
+                return false;
+            }
+
+            String content = new BufferedReader(new InputStreamReader(inputStream))
+                    .lines().collect(Collectors.joining("\n"));
+            Snippet snippet = new Snippet();
+            snippet.setName(fileName);
+            snippet.setOwnerId(user.getId());
+            snippet.setGroupId(Long.parseLong(request.getParameter("group_id")));
+            snippet.setContent(content);
+            snippet.setCreationDate(LocalDate.now());
+            snippet.setModificationDate(LocalDate.now());
+            snippet.setTag(tags);
+            snippetDao.insert(snippet);
+
+            return true;
         }
 
-        Optional<Snippet> file = findByFileName(fileName);
-        if (file.isPresent()){
-            return false;
-        }
-
-        String content = new BufferedReader(new InputStreamReader(inputStream))
-                .lines().collect(Collectors.joining("\n"));
-        Snippet snippet = new Snippet();
-        snippet.setName(fileName);
-        snippet.setOwnerId(2);
-        snippet.setGroupId(1);
-        snippet.setContent(content);
-        snippet.setCreationDate(LocalDate.now());
-        snippet.setModificationDate(LocalDate.now());
-        snippet.setTag(tags);
-        snippetDao.insert(snippet);
-
-        return true;
+        return false;
     }
 }

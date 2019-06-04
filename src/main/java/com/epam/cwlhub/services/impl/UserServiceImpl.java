@@ -30,7 +30,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean checkUserPassword (String password, UserEntity user) {
         Boolean check = false;
-            if (password.equals(user.getPassword())) {
+        String passwordWithHash = DigestUtils.md5Hex(password);
+            if (passwordWithHash.equals(user.getPassword())) {
                  check = true;
             }
             return check;

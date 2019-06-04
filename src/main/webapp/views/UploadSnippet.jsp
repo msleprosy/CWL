@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Upload CWL File</h1>
-    <form method="post" action="<%=request.getContextPath()+ "/upload"%>" enctype="multipart/form-data">
+    <form method="post" action="<%=request.getContextPath()+"/upload?group_id=" + request.getParameter("group_id")%>" enctype="multipart/form-data">
         <div style="color: #FF0000;">${errorMessage}</div><br>
         <table border="0">
             <tr>
@@ -21,7 +21,7 @@
                 <td><input type="text" name="tags" size="50"/></td>
             </tr>
             <tr>
-                <td>File</td>: </td>
+                <td>File: </td>
                 <td><input type="file" name="cwl" size="50"/></td>
             </tr>
             <tr>
