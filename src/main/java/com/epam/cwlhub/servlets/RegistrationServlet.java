@@ -41,6 +41,7 @@ public class RegistrationServlet extends HttpServlet {
         String password = request.getParameter(PASSWORD_PARAMETER);
         String email = request.getParameter(EMAIL_PARAMETER);
         Optional<UserEntity> signUpUser;
+        UserEntity user = null;
         boolean hasError = false;
         String errorString = null;
         if (email == null || password == null || firstName == null || lastName == null || email.length() == 0 || password.length() == 0
@@ -49,13 +50,13 @@ public class RegistrationServlet extends HttpServlet {
             errorString = REGISTRATION_ERROR;
         } else {
             signUpUser = userService.findByEmail(email);
-            if (!signUpUser.equals(Optional.empty())) {
+            if (!(signUpUser.equals(Optional.empty()))) {
                 hasError = true;
                 errorString = EMAIL_ERROR;
             }
         }
         if (hasError) {
-            UserEntity user = new UserEntity();
+            user = new UserEntity();
             user.setEmail(email);
             user.setPassword(password);
             request.setAttribute(USER, user);
@@ -64,7 +65,7 @@ public class RegistrationServlet extends HttpServlet {
                     = this.getServletContext().getRequestDispatcher(Endpoints.REGISTRATION_PAGE);
             dispatcher.forward(request, response);
         } else {
-            UserEntity user = userInstatiate(request);
+            user = userInstatiate(request);
             request.setAttribute(USER, user);
             RequestDispatcher dispatcher
                     = this.getServletContext().getRequestDispatcher(Endpoints.USERDETAILS);
