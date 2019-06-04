@@ -54,9 +54,15 @@
 
                 </td>
                 <td align="center">
+                    <% if (true) { %>
                     <button>
-                        Ban
+                        <a href="">Ban</a>
                     </button>
+                    <%} else { %>
+                    <button>
+                        <a href="">Unban</a>
+                    </button>
+                    <%} %>
                 </td>
             </tbody>
         </table>

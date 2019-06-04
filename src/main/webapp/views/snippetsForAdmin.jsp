@@ -59,11 +59,11 @@
             </td>
             <td align="center">
                 <button>
-                    Open
+                    <a href="">Open</a>
                 </button>
 
                 <button>
-                    Delete
+                    <a href="">Delete</a>
                 </button>
             </td>
             </tbody>
