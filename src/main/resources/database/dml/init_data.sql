@@ -1,16 +1,16 @@
 TRUNCATE users, groups, user_group, snippets RESTART IDENTITY;
 
 INSERT INTO users (firstname, lastname, email, password, user_type)
-VALUES ('admin', 'admin', 'admin@epam.com', 'admin', 'ADMINISTRATOR'),
-       ('Sergei', 'Sergeev', 'serg@mail.ru', '234b', 'SIMPLE_USER'),
-       ('Olga', 'Olgina', 'olg_olg@gmail.com', '456c', 'SIMPLE_USER'),
-       ('Pavel', 'Pavlov', 'pav_pav@yandex.ru', '567d', 'SIMPLE_USER'),
-       ('Ivan', 'Ivanov', 'ivan@gmail.com', '123a', 'SIMPLE_USER'),
-       ('user1', 'user1', 'user1@user1', '1111', 'SIMPLE_USER'),
-       ('user2', 'user2', 'user2@user2', '1111', 'SIMPLE_USER'),
-       ('user3', 'user3', 'user3@user3', '1111', 'SIMPLE_USER'),
-       ('user4', 'user4', 'user4@user4', '1111', 'SIMPLE_USER'),
-       ('user5', 'user5', 'user5@user5', '1111', 'SIMPLE_USER');
+VALUES ('admin', 'admin', 'admin@epam.com', '21232f297a57a5a743894a0e4a801fc3', 'ADMINISTRATOR'),
+       ('Sergei', 'Sergeev', 'serg@mail.ru', '258749fca16faf5a243c14bddaa3afe4', 'SIMPLE_USER'),
+       ('Olga', 'Olgina', 'olg_olg@gmail.com', '950f3f950ffdbecac83f234e17a6e876', 'SIMPLE_USER'),
+       ('Pavel', 'Pavlov', 'pav_pav@yandex.ru', 'cb8642b77a177cfa23f984a45be6036d', 'SIMPLE_USER'),
+       ('Ivan', 'Ivanov', 'ivan@gmail.com', '1552c03e78d38d5005d4ce7b8018addf', 'SIMPLE_USER'),
+       ('user1', 'user1', 'user1@user1', 'b59c67bf196a4758191e42f76670ceba', 'SIMPLE_USER'),
+       ('user2', 'user2', 'user2@user2', 'b59c67bf196a4758191e42f76670ceba', 'SIMPLE_USER'),
+       ('user3', 'user3', 'user3@user3', 'b59c67bf196a4758191e42f76670ceba', 'SIMPLE_USER'),
+       ('user4', 'user4', 'user4@user4', 'b59c67bf196a4758191e42f76670ceba', 'SIMPLE_USER'),
+       ('user5', 'user5', 'user5@user5', 'b59c67bf196a4758191e42f76670ceba', 'SIMPLE_USER');
 
 INSERT INTO groups (name, description, creator_id)
 VALUES ('Common', 'For everyone', 1),

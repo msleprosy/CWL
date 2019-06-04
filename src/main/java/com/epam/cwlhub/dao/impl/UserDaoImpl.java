@@ -185,6 +185,7 @@ public class UserDaoImpl implements UserDao {
             user.setLastName(rs.getString("lastname"));
             user.setFirstName(rs.getString("firstname"));
             user.setEmail(rs.getString("email"));
+            user.setPassword(rs.getString("password"));
             user.setBanned(rs.getBoolean("banned"));
             if (id == 1) {
                 user.setUserType(UserType.ADMINISTRATOR);
