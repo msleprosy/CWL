@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
             String passwordWithHash = DigestUtils.md5Hex(password);
             Optional<UserEntity> user = userDao.findUserByEmailAndPassword(email, passwordWithHash);
             if (user.isPresent()) {
-                    return user;
+                return user;
             }
         }
         return Optional.empty();

@@ -1,6 +1,5 @@
 package com.epam.cwlhub.dao;
 
-import com.epam.cwlhub.dao.BaseDao;
 import com.epam.cwlhub.entities.user.UserEntity;
 
 import java.util.Optional;
