@@ -3,6 +3,7 @@ package com.epam.cwlhub.servlets;
 import com.epam.cwlhub.constants.Endpoints;
 
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.exceptions.unchecked.UserException;
 import com.epam.cwlhub.services.UserService;
 import com.epam.cwlhub.services.impl.UserServiceImpl;
 
@@ -19,6 +20,7 @@ import static com.epam.cwlhub.constants.Endpoints.HOME_URL;
 import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
 
 public class LoginServlet extends HttpServlet {
+
     private UserService userService = UserServiceImpl.getInstance();
     private static final long serialVersionUID = 1L;
     private static final String ERROR = "errorString";
@@ -32,8 +34,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher
-                = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
+        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
         dispatcher.forward(request, response);
     }
 
@@ -41,21 +42,19 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
-        Optional<UserEntity> signInUser = Optional.empty();
         String errorString = loginValidation(request);
-        if (errorString!=null) {
+        if (errorString != null) {
             UserEntity user = new UserEntity();
             user.setEmail(email);
             user.setPassword(password);
             request.setAttribute(ERROR, errorString);
             request.setAttribute(USER, user);
-            RequestDispatcher dispatcher
-                    = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
             dispatcher.forward(request, response);
         } else {
-            signInUser = userService.findByEmail(email);
+            UserEntity userEntity = userService.findByEmail(email).orElseThrow(() -> new UserException("cant find by emai"));
             Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
-            userSessionData.put(request.getSession().getId(), signInUser.get().getId());
+            userSessionData.put(request.getSession().getId(), userEntity.getId());
             response.sendRedirect(request.getContextPath() + HOME_URL);
         }
     }
@@ -65,11 +64,11 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
         Optional<UserEntity> signInUser;
         String errorString = null;
-        if (email == null || password == null || email.length() == 0 || password.length() == 0) {
+        if (email.length() == 0 || password.length() == 0) {
             errorString = AUTHORIZATION_ERROR;
         } else {
             signInUser = userService.findByEmail(email);
-            if (signInUser.equals(Optional.empty())) {
+            if (!signInUser.isPresent()) {
                 errorString = LOGIN_ERROR;
             } else {
                 if (!userService.checkUserPassword(password, signInUser.get())) {
