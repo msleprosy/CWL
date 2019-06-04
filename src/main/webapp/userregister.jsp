@@ -9,6 +9,7 @@
 <body>
 <div align="center">
     <h1>User Register Form</h1>
+    <p style="color: red;">${errorString}</p>
     <form action="/register" method="post">
         <table style="with: 80%">
             <tr>

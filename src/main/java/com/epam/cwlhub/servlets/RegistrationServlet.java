@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 public class RegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1;
@@ -19,7 +20,11 @@ public class RegistrationServlet extends HttpServlet {
     private static final String PASSWORD_PARAMETER = "password";
     private static final String LASTNAME_PARAMETER = "lastName";
     private static final String FIRSTNAME_PARAMETER = "firstName";
+    private static final String ERROR = "errorString";
     private static final String USER = "user";
+    private static final String REGISTRATION_ERROR = "Need to fill all empty lines";
+    private static final String EMAIL_ERROR = "User with that email already exists";
+
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -31,19 +36,46 @@ public class RegistrationServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       UserEntity user = userInstatiate(request);
-        request.setAttribute(USER, user);
-        RequestDispatcher dispatcher
-                = this.getServletContext().getRequestDispatcher(Endpoints.USERDETAILS);
-        dispatcher.forward(request, response);
+        String firstName = request.getParameter(FIRSTNAME_PARAMETER);
+        String lastName = request.getParameter(LASTNAME_PARAMETER);
+        String password = request.getParameter(PASSWORD_PARAMETER);
+        String email = request.getParameter(EMAIL_PARAMETER);
+        Optional<UserEntity> signUpUser;
+        boolean hasError = false;
+        String errorString = null;
+        if (email == null || password == null || firstName == null || lastName == null || email.length() == 0 || password.length() == 0
+                || firstName.length() == 0 || lastName.length() == 0) {
+            hasError = true;
+            errorString = REGISTRATION_ERROR;
+        } else {
+            signUpUser = userService.findByEmail(email);
+            if (!signUpUser.equals(Optional.empty())) {
+                hasError = true;
+                errorString = EMAIL_ERROR;
+            }
+        }
+        if (hasError) {
+            UserEntity user = new UserEntity();
+            user.setEmail(email);
+            user.setPassword(password);
+            request.setAttribute(USER, user);
+            request.setAttribute(ERROR, errorString);
+            RequestDispatcher dispatcher
+                    = this.getServletContext().getRequestDispatcher(Endpoints.REGISTRATION_PAGE);
+            dispatcher.forward(request, response);
+        } else {
+            UserEntity user = userInstatiate(request);
+            request.setAttribute(USER, user);
+            RequestDispatcher dispatcher
+                    = this.getServletContext().getRequestDispatcher(Endpoints.USERDETAILS);
+            dispatcher.forward(request, response);
+        }
     }
-
     private UserEntity userInstatiate(HttpServletRequest request) {
         String firstName = request.getParameter(FIRSTNAME_PARAMETER);
         String lastName = request.getParameter(LASTNAME_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
         String email = request.getParameter(EMAIL_PARAMETER);
-
         UserEntity user = new UserEntity();
         user.setFirstName(firstName);
         user.setLastName(lastName);
