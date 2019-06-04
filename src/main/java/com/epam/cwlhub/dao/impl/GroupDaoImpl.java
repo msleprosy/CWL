@@ -1,9 +1,7 @@
 package com.epam.cwlhub.dao.impl;
 
 import com.epam.cwlhub.dao.GroupDao;
-import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.entities.group.Group;
-
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
@@ -48,6 +46,8 @@ public class GroupDaoImpl implements GroupDao {
             " ON user_group.user_id = users.user_id " +
             " WHERE user_group.user_id = ?";
     private static final String SQL_ADD_USER_TO_GROUP = "INSERT INTO user_group (user_id, group_id) VALUES (?, ?)";
+    private static final String SQL_DELETE_USER_GROUP_GROUP = "DELETE FROM user_group (user_id, group_id) VALUES (?, ?)";
+    private static final String SQL_CHECK_MEMBERSHIP = "SELECT user_id, group_id  FROM user_group WHERE user_id = ? AND group_id = ?";
 
 
     @Override
@@ -147,15 +147,42 @@ public class GroupDaoImpl implements GroupDao {
     @Override
     public void joinGroup(UserEntity user, Group group) {
 
-        try (Connection connection = dbConnector.getDBConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_USER_TO_GROUP);
+        try (Connection connection = dbConnector.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_USER_TO_GROUP)) {
             preparedStatement.setLong(1, user.getId());
             preparedStatement.setLong(2, group.getId());
             preparedStatement.executeUpdate();
-
         } catch (Exception e) {
             throw new GroupException("Error adding user " + user.getFirstName() + " "
                     + user.getLastName() + " to group " + group.getName(), e);
+        }
+    }
+
+    @Override
+    public void leaveGroup(UserEntity user, Group group) {
+        try (Connection connection = dbConnector.getDBConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_USER_GROUP_GROUP);
+            preparedStatement.setLong(1, user.getId());
+            preparedStatement.setLong(2, group.getId());
+            preparedStatement.executeQuery();
+        } catch (Exception e) {
+            throw new GroupException("Error deleting user " + user.getFirstName() + " "
+                    + user.getLastName() + " from group " + group.getName(), e);
+        }
+    }
+
+    @Override
+    public boolean checkMembership(Long user_id, Long group_id) {
+        try (Connection connection = dbConnector.getDBConnection();
+             Statement statement = connection.createStatement()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_CHECK_MEMBERSHIP);
+            preparedStatement.setLong(1, user_id);
+            preparedStatement.setLong(2, group_id);
+            ResultSet rs = preparedStatement.executeQuery();
+            return rs.next();
+
+        } catch (Exception e) {
+            throw new GroupException("Error checking user's membership in group", e);
         }
     }
 
