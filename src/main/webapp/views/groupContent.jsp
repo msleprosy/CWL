@@ -26,8 +26,8 @@
             <jsp:include page="/views/snippetListFromGroup.jsp"></jsp:include>
         </td>
         <td width="20%" height="60%">
-            <button formmethod="post" formaction="<%=request.getContextPath()+"/upload?group_id="+request.getParameter("id")%>">
-                Load file
+            <button formmethod="get" formaction="SnippetUploadServlet>">
+                <a href="<%=request.getContextPath()+"/upload?group_id="+request.getParameter("id")%>">Load file</a>
             </button>
         </td>
     </tr>

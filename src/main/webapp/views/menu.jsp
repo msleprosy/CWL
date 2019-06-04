@@ -27,8 +27,8 @@
                 if (UserType.ADMINISTRATOR.equals(user.getUserType())) {
         %>
         <a href="">Users</a>
-        <a href="">Groups</a>
         <%} }%>
+        <a href="">Groups</a>
         <a href="">Profile</a>
         <a href="">Logout</a>
     </div>
