@@ -38,6 +38,7 @@ public class DBConnector implements DBConnection {
     }
 
     public Connection getDBConnection() throws Exception {
+        Class.forName("org.postgresql.Driver");
         return cpds.getConnection();
     }
 }
