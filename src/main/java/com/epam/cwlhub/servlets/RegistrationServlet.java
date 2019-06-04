@@ -36,26 +36,11 @@ public class RegistrationServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String firstName = request.getParameter(FIRSTNAME_PARAMETER);
-        String lastName = request.getParameter(LASTNAME_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
         String email = request.getParameter(EMAIL_PARAMETER);
-        Optional<UserEntity> signUpUser;
         UserEntity user = null;
-        boolean hasError = false;
-        String errorString = null;
-        if (email == null || password == null || firstName == null || lastName == null || email.length() == 0 || password.length() == 0
-                || firstName.length() == 0 || lastName.length() == 0) {
-            hasError = true;
-            errorString = REGISTRATION_ERROR;
-        } else {
-            signUpUser = userService.findByEmail(email);
-            if (!(signUpUser.equals(Optional.empty()))) {
-                hasError = true;
-                errorString = EMAIL_ERROR;
-            }
-        }
-        if (hasError) {
+        String errorString = registrationValidation(request,response);
+        if (errorString!=null) {
             user = new UserEntity();
             user.setEmail(email);
             user.setPassword(password);
@@ -71,7 +56,9 @@ public class RegistrationServlet extends HttpServlet {
                     = this.getServletContext().getRequestDispatcher(Endpoints.USERDETAILS);
             dispatcher.forward(request, response);
         }
+
     }
+
     private UserEntity userInstatiate(HttpServletRequest request) {
         String firstName = request.getParameter(FIRSTNAME_PARAMETER);
         String lastName = request.getParameter(LASTNAME_PARAMETER);
@@ -85,6 +72,25 @@ public class RegistrationServlet extends HttpServlet {
         user.setUserType(UserType.SIMPLE_USER);
         user.setBanned(false);
         return  userService.insert(user);
+    }
+
+    private String registrationValidation(HttpServletRequest request, HttpServletResponse response){
+        String firstName = request.getParameter(FIRSTNAME_PARAMETER);
+        String lastName = request.getParameter(LASTNAME_PARAMETER);
+        String password = request.getParameter(PASSWORD_PARAMETER);
+        String email = request.getParameter(EMAIL_PARAMETER);
+        Optional<UserEntity> signUpUser;
+        String errorString = null;
+        if (email == null || password == null || firstName == null || lastName == null || email.length() == 0 || password.length() == 0
+                || firstName.length() == 0 || lastName.length() == 0) {
+            errorString = REGISTRATION_ERROR;
+        } else {
+            signUpUser = userService.findByEmail(email);
+            if (!(signUpUser.equals(Optional.empty()))) {
+                errorString = EMAIL_ERROR;
+            }
+        }
+      return errorString;
     }
 
 }
