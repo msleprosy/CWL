@@ -41,11 +41,10 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
-        UserEntity user = null;
         Optional<UserEntity> signInUser = Optional.empty();
-        String errorString = loginValidation(request,response);
+        String errorString = loginValidation(request);
         if (errorString!=null) {
-            user = new UserEntity();
+            UserEntity user = new UserEntity();
             user.setEmail(email);
             user.setPassword(password);
             request.setAttribute(ERROR, errorString);
@@ -54,17 +53,17 @@ public class LoginServlet extends HttpServlet {
                     = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
             dispatcher.forward(request, response);
         } else {
+            signInUser = userService.findByEmail(email);
             Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
             userSessionData.put(request.getSession().getId(), signInUser.get().getId());
-            response.sendRedirect(HOME_URL);
+            response.sendRedirect(request.getContextPath() + HOME_URL);
         }
     }
 
-    private String loginValidation(HttpServletRequest request, HttpServletResponse response) {
+    private String loginValidation(HttpServletRequest request) {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
-        UserEntity user = null;
-        Optional<UserEntity> signInUser = Optional.empty();
+        Optional<UserEntity> signInUser;
         String errorString = null;
         if (email == null || password == null || email.length() == 0 || password.length() == 0) {
             errorString = AUTHORIZATION_ERROR;
