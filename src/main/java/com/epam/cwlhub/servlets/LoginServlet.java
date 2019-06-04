@@ -43,25 +43,8 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
         UserEntity user = null;
         Optional<UserEntity> signInUser = Optional.empty();
-        boolean hasError = false;
-        String errorString = null;
-        if (email == null || password == null || email.length() == 0 || password.length() == 0) {
-            hasError = true;
-            errorString = AUTHORIZATION_ERROR;
-        } else {
-            signInUser = userService.findByEmail(email);
-            if (signInUser.equals(Optional.empty())) {
-                hasError = true;
-                errorString = LOGIN_ERROR;
-            } else {
-                if (!userService.checkUserPassword(password, signInUser.get())) {
-                    hasError = true;
-                    errorString = LOGIN_ERROR;
-                }
-            }
-
-        }
-        if (hasError) {
+        String errorString = loginValidation(request,response);
+        if (errorString!=null) {
             user = new UserEntity();
             user.setEmail(email);
             user.setPassword(password);
@@ -75,6 +58,27 @@ public class LoginServlet extends HttpServlet {
             userSessionData.put(request.getSession().getId(), signInUser.get().getId());
             response.sendRedirect(HOME_URL);
         }
+    }
+
+    private String loginValidation(HttpServletRequest request, HttpServletResponse response) {
+        String email = request.getParameter(EMAIL_PARAMETER).trim();
+        String password = request.getParameter(PASSWORD_PARAMETER).trim();
+        UserEntity user = null;
+        Optional<UserEntity> signInUser = Optional.empty();
+        String errorString = null;
+        if (email == null || password == null || email.length() == 0 || password.length() == 0) {
+            errorString = AUTHORIZATION_ERROR;
+        } else {
+            signInUser = userService.findByEmail(email);
+            if (signInUser.equals(Optional.empty())) {
+                errorString = LOGIN_ERROR;
+            } else {
+                if (!userService.checkUserPassword(password, signInUser.get())) {
+                    errorString = LOGIN_ERROR;
+                }
+            }
+        }
+        return errorString;
     }
 }
 
