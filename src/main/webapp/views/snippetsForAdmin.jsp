@@ -34,30 +34,38 @@
     <tr>
         <table border="2px black" style="margin: auto">
             <thead>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Ban</th>
+                <th style="display: none;">ID</th>
+                <th>Name</th>
+                <th>Creation date</th>
+                <th>Modification date</th>
+                <th>Tag</th>
+                <th>Action</th>
             </thead>
             <tbody>
-                <td>
+            <td>
 
-                </td>
-                <td>
+            </td>
+            <td>
 
-                </td>
-                <td>
+            </td>
+            <td>
 
-                </td>
-                <td>
+            </td>
+            <td>
 
-                </td>
-                <td align="center">
-                    <button>
-                        Ban
-                    </button>
-                </td>
+            </td>
+            <td>
+
+            </td>
+            <td align="center">
+                <button>
+                    Open
+                </button>
+
+                <button>
+                    Delete
+                </button>
+            </td>
             </tbody>
         </table>
     </tr>

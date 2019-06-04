@@ -24,6 +24,7 @@
             <div style="float: right; padding: 10px; text-align: right;">
                 <a href="<%=request.getContextPath()+"/views/usersForAdmin.jsp"%>">Users</a>
                 <a href="<%=request.getContextPath()+"/views/groupsForAdmin.jsp"%>">Groups</a>
+                <a href="<%=request.getContextPath()+"/views/groupsForAdmin.jsp"%>">Snippets</a>
                 <a href="">Profile</a>
                 <a href="<%=request.getContextPath()+"/logout"%>">Logout</a>
             </div>
@@ -32,14 +33,27 @@
 
     <tr>
         <table border="2px black" style="margin: auto">
-            <thead>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Action</th>
+                <thead>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
             </thead>
             <tbody>
+                <td>
 
+                </td>
+                <td>
+
+                </td>
+                <td>
+
+                </td>
+                <td align="center">
+                    <button>
+                        Delete
+                    </button>
+                </td>
             </tbody>
         </table>
     </tr>
