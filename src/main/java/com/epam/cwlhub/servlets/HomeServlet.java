@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static com.epam.cwlhub.constants.Endpoints.HOME;
+import static com.epam.cwlhub.constants.Endpoints.HOME_URL;
+
 @WebServlet(name = "HomeServlet", urlPatterns = HOME_URL)
 public class HomeServlet extends HttpServlet {
     private final SnippetService snippetService = SnippetServiceImpl.getInstance();

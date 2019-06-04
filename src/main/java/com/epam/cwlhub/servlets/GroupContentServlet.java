@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static com.epam.cwlhub.constants.Endpoints.GROUP_URL;
+
 @WebServlet(name = "SnippetsList", urlPatterns = GROUP_URL)
 public class GroupContentServlet extends HttpServlet {
     private final SnippetService snippetService = SnippetServiceImpl.getInstance();

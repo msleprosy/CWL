@@ -12,7 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
+
+import static com.epam.cwlhub.constants.Endpoints.HOME_URL;
+import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
 
 public class LoginServlet extends HttpServlet {
     private UserService userService = UserServiceImpl.getInstance();
@@ -38,7 +42,7 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
         UserEntity user = null;
-        Optional<UserEntity> signInUser;
+        Optional<UserEntity> signInUser = Optional.empty();
         boolean hasError = false;
         String errorString = null;
         if (email == null || password == null || email.length() == 0 || password.length() == 0) {
@@ -67,7 +71,10 @@ public class LoginServlet extends HttpServlet {
                     = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
             dispatcher.forward(request, response);
         } else {
-            System.out.println("User logined");
+            Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
+            userSessionData.put(request.getSession().getId(), signInUser.get().getId());
+            request.setAttribute("UserSessionData", userSessionData);
+            response.sendRedirect(HOME_URL);
         }
     }
 }
