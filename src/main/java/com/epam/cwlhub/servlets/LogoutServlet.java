@@ -29,8 +29,7 @@ public class LogoutServlet extends HttpServlet {
             userSessionData.remove(session.getId());
             session.removeAttribute(USER);
             session.invalidate();
-            RequestDispatcher dispatcher = request.getRequestDispatcher(LOGIN_PAGE);
-            dispatcher.include(request, response);
+            response.sendRedirect(LOGIN_PAGE);
         }
     }
 }
