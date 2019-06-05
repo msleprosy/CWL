@@ -9,10 +9,10 @@ public interface GroupDao extends BaseDao<Group> {
 
     List<Group> findUserGroupsByUserId(Long id);
 
-    void joinGroup(Long user_id, Long group_id);
+    void joinGroup(Long userId, Long groupId);
 
-    void leaveGroup(Long user_id, Long group_id);
+    void leaveGroup(Long userId, Long groupId);
 
-    boolean checkMembership(Long user_id, Long group_id);
+    boolean checkMembership(Long userId, Long groupId);
 
 }

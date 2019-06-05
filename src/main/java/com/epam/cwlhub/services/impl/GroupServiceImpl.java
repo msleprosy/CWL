@@ -61,18 +61,17 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void joinGroup(Long user_id, Long group_id) {
-        groupDao.joinGroup(user_id, user_id);
+    public void joinGroup(Long userId, Long groupId) {
+        groupDao.joinGroup(userId, userId);
     }
 
     @Override
-    public void leaveGroup(Long user_id, Long group_id) {
-        groupDao.leaveGroup(user_id, group_id);
+    public void leaveGroup(Long userId, Long groupId) {
+        groupDao.leaveGroup(userId, groupId);
     }
 
     @Override
-    public boolean checkMembership(Long user_id, Long group_id) {
-        return groupDao.checkMembership(user_id, group_id);
-
+    public boolean checkMembership(Long userId, Long groupId) {
+        return groupDao.checkMembership(userId, groupId);
     }
 }
