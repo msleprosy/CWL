@@ -22,14 +22,10 @@ import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSIO
 public class ProfileServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private UserServiceImpl userService = UserServiceImpl.getInstance();
-    private static final String EMAIL_PARAMETER = "email";
     private static final String PASSWORD_PARAMETER = "password";
     private static final String LASTNAME_PARAMETER = "lastName";
     private static final String FIRSTNAME_PARAMETER = "firstName";
-    private static final String ERROR = "errorString";
     private static final String USER = "user";
-    private static final String REGISTRATION_ERROR = "Need to fill all empty lines";
-    private static final String EMAIL_ERROR = "User with that email already exists";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -55,9 +51,6 @@ public class ProfileServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
-        String firstName = request.getParameter(FIRSTNAME_PARAMETER);
-        String lastName = request.getParameter(LASTNAME_PARAMETER);
-        String password = request.getParameter(PASSWORD_PARAMETER);
         boolean hasError = false;
         String errorString = null;
         Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
