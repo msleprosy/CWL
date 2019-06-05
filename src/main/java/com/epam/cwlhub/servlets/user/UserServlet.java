@@ -15,17 +15,18 @@ import java.util.Optional;
 
 public class UserServlet extends HttpServlet {
 
-private final UserService userService = UserServiceImpl.getInstance();
-
-/*    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        req.setAttribute("name", "userServlet");
-        req.getRequestDispatcher("/views/userView.jsp").forward(req, resp);
-
-    }*/
+    private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        //req.setAttribute("name", "userServlet");
+        req.getRequestDispatcher("/views/userView.jsp").forward(req, resp);
+
+    }
+}
+
+/*    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             if (req.getParameterMap().containsKey("id")) {
                 Long id = Long.parseLong(req.getParameter("id"));
@@ -42,4 +43,4 @@ private final UserService userService = UserServiceImpl.getInstance();
             }
 
     }
-}
+}*/
