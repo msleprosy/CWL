@@ -64,4 +64,15 @@ public class GroupServiceImpl implements GroupService {
     public void joinGroup(UserEntity user, Group group) {
         groupDao.joinGroup(user, group);
     }
+
+    @Override
+    public void leaveGroup(UserEntity user, Group group) {
+        groupDao.leaveGroup(user, group);
+    }
+
+    @Override
+    public boolean checkMembership(Long user_id, Long group_id) {
+        return groupDao.checkMembership(user_id, group_id);
+
+    }
 }
