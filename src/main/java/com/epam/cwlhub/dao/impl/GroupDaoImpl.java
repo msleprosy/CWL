@@ -129,7 +129,7 @@ public class GroupDaoImpl implements GroupDao {
     }
 
     @Override
-    public List<Group> findUserGroupsByUserId(long id) {
+    public List<Group> findUserGroupsByUserId(Long id) {
         try (Connection connection = dbConnector.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_USER_GROUPS)) {
             preparedStatement.setLong(1, id);

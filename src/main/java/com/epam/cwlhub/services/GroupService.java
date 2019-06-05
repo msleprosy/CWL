@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface GroupService extends BaseService<Group> {
 
-    List<Group> findUsersGroups(long id);
+    List<Group> findUsersGroups(Long id);
 
     void joinGroup(Long user_id, Long group_id);
 
