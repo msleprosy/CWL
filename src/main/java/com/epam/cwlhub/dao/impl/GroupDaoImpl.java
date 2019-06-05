@@ -145,16 +145,15 @@ public class GroupDaoImpl implements GroupDao {
     }
 
     @Override
-    public void joinGroup(UserEntity user, Group group) {
+    public void joinGroup(Long user_id, Long group_id) {
 
         try (Connection connection = dbConnector.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_USER_TO_GROUP)) {
-            preparedStatement.setLong(1, user.getId());
-            preparedStatement.setLong(2, group.getId());
+            preparedStatement.setLong(1, user_id);
+            preparedStatement.setLong(2, group_id);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
-            throw new GroupException("Error adding user " + user.getFirstName() + " "
-                    + user.getLastName() + " to group " + group.getName(), e);
+            throw new GroupException("Error adding user " + user_id + " to group " + group_id, e);
         }
     }
 

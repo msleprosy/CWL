@@ -61,8 +61,8 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void joinGroup(UserEntity user, Group group) {
-        groupDao.joinGroup(user, group);
+    public void joinGroup(Long user_id, Long group_id) {
+        groupDao.joinGroup(user_id, user_id);
     }
 
     @Override

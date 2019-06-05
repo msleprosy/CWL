@@ -9,7 +9,7 @@ public interface GroupDao extends BaseDao<Group> {
 
     List<Group> findUserGroupsByUserId(long id);
 
-    void joinGroup(UserEntity user, Group group);
+    void joinGroup(Long user_id, Long group_id);
 
     void leaveGroup(Long user_id, Long group_id);
 
