@@ -149,10 +149,6 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    public static void main(String[] args){
-        new UserDaoImpl().update(new UserEntity());
-    }
-
     @Override
     public void update(UserEntity user) {
         try (Connection connection = dbConnection.getDBConnection();
