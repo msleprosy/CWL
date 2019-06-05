@@ -1,9 +1,7 @@
 package com.epam.cwlhub.dao.impl;
 
 import com.epam.cwlhub.dao.GroupDao;
-import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.entities.group.Group;
-
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
@@ -48,6 +46,8 @@ public class GroupDaoImpl implements GroupDao {
             " ON user_group.user_id = users.user_id " +
             " WHERE user_group.user_id = ?";
     private static final String SQL_ADD_USER_TO_GROUP = "INSERT INTO user_group (user_id, group_id) VALUES (?, ?)";
+    private static final String SQL_DELETE_USER_GROUP_GROUP = "DELETE FROM user_group (user_id, group_id) VALUES (?, ?)";
+    private static final String SQL_CHECK_MEMBERSHIP = "SELECT user_id, group_id  FROM user_group WHERE user_id = ? AND group_id = ?";
 
 
     @Override
@@ -129,7 +129,7 @@ public class GroupDaoImpl implements GroupDao {
     }
 
     @Override
-    public List<Group> findUserGroupsByUserId(long id) {
+    public List<Group> findUserGroupsByUserId(Long id) {
         try (Connection connection = dbConnector.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_USER_GROUPS)) {
             preparedStatement.setLong(1, id);
@@ -145,17 +145,42 @@ public class GroupDaoImpl implements GroupDao {
     }
 
     @Override
-    public void joinGroup(UserEntity user, Group group) {
+    public void joinGroup(Long userId, Long groupId) {
 
-        try (Connection connection = dbConnector.getDBConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_USER_TO_GROUP);
-            preparedStatement.setLong(1, user.getId());
-            preparedStatement.setLong(2, group.getId());
+        try (Connection connection = dbConnector.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD_USER_TO_GROUP)) {
+            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(2, groupId);
             preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            throw new GroupException("Error adding user " + userId + " to group " + groupId, e);
+        }
+    }
+
+    @Override
+    public void leaveGroup(Long userId, Long groupId) {
+        try (Connection connection = dbConnector.getDBConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_USER_GROUP_GROUP);
+            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(2, groupId);
+            preparedStatement.executeQuery();
+        } catch (Exception e) {
+            throw new GroupException("Error deleting user " + userId + " from group " + groupId, e);
+        }
+    }
+
+    @Override
+    public boolean checkMembership(Long userId, Long groupId) {
+        try (Connection connection = dbConnector.getDBConnection();
+             Statement statement = connection.createStatement()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_CHECK_MEMBERSHIP);
+            preparedStatement.setLong(1, userId);
+            preparedStatement.setLong(2, groupId);
+            ResultSet rs = preparedStatement.executeQuery();
+            return rs.next();
 
         } catch (Exception e) {
-            throw new GroupException("Error adding user " + user.getFirstName() + " "
-                    + user.getLastName() + " to group " + group.getName(), e);
+            throw new GroupException("Error checking user's membership in group", e);
         }
     }
 
@@ -175,7 +200,6 @@ public class GroupDaoImpl implements GroupDao {
         preparedStatement.setString(1, group.getName());
         preparedStatement.setString(2, group.getDescription());
         preparedStatement.setLong(3, group.getCreatorId());
-
     }
 
     private void appendPreparedStatementParametersToUpdateGroup(PreparedStatement preparedStatement, Group group)

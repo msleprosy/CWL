@@ -56,12 +56,22 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Group> findUsersGroups(long id) {
+    public List<Group> findUsersGroups(Long id) {
         return groupDao.findUserGroupsByUserId(id);
     }
 
     @Override
-    public void joinGroup(UserEntity user, Group group) {
-        groupDao.joinGroup(user, group);
+    public void joinGroup(Long userId, Long groupId) {
+        groupDao.joinGroup(userId, userId);
+    }
+
+    @Override
+    public void leaveGroup(Long userId, Long groupId) {
+        groupDao.leaveGroup(userId, groupId);
+    }
+
+    @Override
+    public boolean checkMembership(Long userId, Long groupId) {
+        return groupDao.checkMembership(userId, groupId);
     }
 }
