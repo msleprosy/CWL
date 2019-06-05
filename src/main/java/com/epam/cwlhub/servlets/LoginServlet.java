@@ -1,7 +1,6 @@
 package com.epam.cwlhub.servlets;
 
 import com.epam.cwlhub.constants.Endpoints;
-
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.services.UserService;
 import com.epam.cwlhub.services.impl.UserServiceImpl;
