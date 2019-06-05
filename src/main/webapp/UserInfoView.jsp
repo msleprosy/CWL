@@ -146,12 +146,12 @@ Last Name: ${user.lastName } <br />
 
         <div class="container">
             <label for="uname"><b>First Name</b></label>
-            <input type="text" placeholder="Enter First Name" name="firstName" >
+            <input type="text" value= ${user.firstName} placeholder="Enter First Name" name="firstName" required>
             <label for="uname"><b>Last Name</b></label>
-            <input type="text" placeholder="Enter Last Name" name="lastName" >
+            <input type="text" value= ${user.lastName} placeholder="Enter Last Name" name="lastName" required>
 
             <label for="psw"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="password">
+            <input type="password" value= ${user.password} placeholder="Enter Password" name="password" required>
 
             <button type="submit">Edit</button>
 
