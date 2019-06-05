@@ -4,10 +4,10 @@ import com.epam.cwlhub.dao.GroupDao;
 import com.epam.cwlhub.dao.impl.GroupDaoImpl;
 import com.epam.cwlhub.entities.group.Group;
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.services.GroupService;
 
 import java.util.List;
-import java.util.Optional;
 
 public class GroupServiceImpl implements GroupService {
 
@@ -32,21 +32,25 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Group insert(Group group) {
+        if (group == null) {throw new GroupException("Group entity can't be empty");}
         return groupDao.insert(group);
     }
 
     @Override
     public void deleteById(Long id) {
+        if (id == null) {throw new GroupException("ID can't be empty");}
         groupDao.deleteById(id);
     }
 
     @Override
-    public Optional<Group> findById(Long id) {
+    public Group findById(Long id) {
+        if (id == null) {throw new GroupException("ID can't be empty");}
         return groupDao.findById(id);
     }
 
     @Override
     public void update(Group group) {
+        if (group == null) {throw new GroupException("Group entity can't be empty");}
         groupDao.update(group);
     }
 
@@ -56,23 +60,29 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public List<Group> findUsersGroups(long id) {
+    public List<Group> findUsersGroups(Long id) {
+        if (id == null) {throw new GroupException("ID can't be empty");}
         return groupDao.findUserGroupsByUserId(id);
     }
 
     @Override
-    public void joinGroup(UserEntity user, Group group) {
-        groupDao.joinGroup(user, group);
+    public void joinGroup(Long userId, Long groupId) {
+        if (userId == null || userId == null) {
+            throw new GroupException("ID can't be empty");
+        }
+        groupDao.joinGroup(userId, userId);
     }
 
     @Override
-    public void leaveGroup(UserEntity user, Group group) {
-        groupDao.leaveGroup(user, group);
+    public void leaveGroup(Long userId, Long groupId) {
+        //groupDao.leaveGroup(user, group);
     }
 
     @Override
-    public boolean checkMembership(Long user_id, Long group_id) {
-        return groupDao.checkMembership(user_id, group_id);
-
+    public boolean checkMembership(Long userIdd, Long groupId) {
+        if (userIdd == null || groupId == null) {
+            throw new GroupException("ID can't be empty");
+        }
+        return groupDao.checkMembership(userIdd, groupId);
     }
 }

@@ -4,6 +4,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class DBConnector implements DBConnection {
@@ -37,8 +38,12 @@ public class DBConnector implements DBConnection {
         return dbConnector;
     }
 
-    public Connection getDBConnection() throws Exception {
-        Class.forName("org.postgresql.Driver");
-        return cpds.getConnection();
+    public Connection getDBConnection() {
+        try {
+            Class.forName("org.postgresql.Driver");
+            return cpds.getConnection();
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException("Could not retrieve connection: ", e);
+        }
     }
 }

@@ -42,7 +42,7 @@ public class LoginServlet extends HttpServlet {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
         UserEntity user = null;
-        Optional<UserEntity> signInUser = Optional.empty();
+        UserEntity signInUser = null;
         boolean hasError = false;
         String errorString = null;
         if (email == null || password == null || email.length() == 0 || password.length() == 0) {
@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
                 hasError = true;
                 errorString = LOGIN_ERROR;
             } else {
-                if (!userService.checkUserPassword(password, signInUser.get())) {
+                if (!userService.checkUserPassword(password, signInUser)) {
                     hasError = true;
                     errorString = LOGIN_ERROR;
                 }
@@ -72,7 +72,7 @@ public class LoginServlet extends HttpServlet {
             dispatcher.forward(request, response);
         } else {
             Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
-            userSessionData.put(request.getSession().getId(), signInUser.get().getId());
+            userSessionData.put(request.getSession().getId(), signInUser.getId());
             response.sendRedirect(HOME_URL);
         }
     }

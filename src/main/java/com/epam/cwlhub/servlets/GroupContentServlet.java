@@ -33,20 +33,16 @@ public class GroupContentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long userId = ((Map<String, Long>) req.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(req.getSession().getId());
-        Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(userId);
-
-        if (receivedUser.isPresent()) {
-            if (req.getParameterMap().containsKey("id")) {
-                Long groupId = Long.parseLong(req.getParameter("id"));
-                List<Snippet> snippets = snippetService.findByGroupId(groupId);
-                req.setAttribute("snippets", snippets);
-
-                List<Group> userGroups = groupService.findUsersGroups(receivedUser.get().getId());
-                req.setAttribute("userGroups", userGroups);
-
-                RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(GROUP);
-                dispatcher.forward(req, resp);
-            }
+        UserEntity receivedUser = UserServiceImpl.getInstance().findById(userId);
+        if (req.getParameterMap().containsKey("id")) {
+            Long groupId = Long.parseLong(req.getParameter("id"));
+            List<Snippet> snippets = snippetService.findByGroupId(groupId);
+            req.setAttribute("snippets", snippets);
+            List<Group> userGroups = groupService.findUsersGroups(receivedUser.getId());
+            req.setAttribute("userGroups", userGroups);
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(GROUP);
+            dispatcher.forward(req, resp);
         }
     }
 }
+

@@ -24,13 +24,10 @@ public class SnippetViewServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameterMap().containsKey("id")) {
             Long id = Long.parseLong(req.getParameter("id"));
-            Optional<Snippet> snippetView = snippetService.findById(id);
-
-            if (snippetView.isPresent()) {
-                req.setAttribute("snippet", snippetView.get());
-                RequestDispatcher dispatcher = req.getRequestDispatcher(SNIPPET_VIEW);
-                dispatcher.forward(req, resp);
-            }
+            Snippet snippetView = snippetService.findById(id);
+            req.setAttribute("snippet", snippetView);
+            RequestDispatcher dispatcher = req.getRequestDispatcher(SNIPPET_VIEW);
+            dispatcher.forward(req, resp);
         }
     }
 }
