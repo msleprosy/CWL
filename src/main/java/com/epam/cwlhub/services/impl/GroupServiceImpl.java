@@ -66,8 +66,8 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void leaveGroup(UserEntity user, Group group) {
-        groupDao.leaveGroup(user, group);
+    public void leaveGroup(Long user_id, Long group_id) {
+        groupDao.leaveGroup(user_id, group_id);
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface GroupService extends BaseService<Group> {
 
     void joinGroup(UserEntity user, Group group);
 
-    void leaveGroup(UserEntity user, Group group);
+    void leaveGroup(Long user_id, Long group_id);
 
     boolean checkMembership(Long user_id, Long group_id);
 }
