@@ -30,8 +30,7 @@ public class ProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(request.getSession().getId());
-        Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
-        UserEntity loginedUser = receivedUser.get();
+        UserEntity loginedUser = UserServiceImpl.getInstance().findById(id);
 
         if (loginedUser == null) {
             response.sendRedirect(request.getContextPath() + Endpoints.LOGIN_URL);
@@ -51,10 +50,9 @@ public class ProfileServlet extends HttpServlet {
         doGet(request, response);
         Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(request.getSession().getId());
-        Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
-        UserEntity updatedUser = receivedUser.get();
+        UserEntity updatedUser = UserServiceImpl.getInstance().findById(id);
 
-        if (receivedUser.isPresent()) {
+        if (updatedUser!=null) {
             UserEntity user = userInstatiate(request, updatedUser);
             request.setAttribute(USER, user);
             RequestDispatcher dispatcher

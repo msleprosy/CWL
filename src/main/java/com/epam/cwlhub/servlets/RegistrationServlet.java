@@ -40,7 +40,7 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = request.getParameter(LASTNAME_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
         String email = request.getParameter(EMAIL_PARAMETER);
-        Optional<UserEntity> signUpUser;
+        UserEntity signUpUser;
         boolean hasError = false;
         String errorString = null;
         if (email == null || password == null || firstName == null || lastName == null || email.length() == 0 || password.length() == 0
@@ -49,7 +49,7 @@ public class RegistrationServlet extends HttpServlet {
             errorString = REGISTRATION_ERROR;
         } else {
             signUpUser = userService.findByEmail(email);
-            if (!signUpUser.equals(Optional.empty())) {
+            if (signUpUser!=null) {
                 hasError = true;
                 errorString = EMAIL_ERROR;
             }
