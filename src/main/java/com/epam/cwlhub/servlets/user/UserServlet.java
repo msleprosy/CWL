@@ -23,15 +23,15 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         //req.setAttribute("name", "userServlet");
-        /*try {
+        try {
             List<UserEntity> users = userService.findAll();
             if (!users.isEmpty()) {
                 req.setAttribute("user", users);
-            }*/
+            }
         req.getRequestDispatcher("/views/userView.jsp").forward(req, resp);
-        /*} catch (ServletException | IOException e) {
+        } catch (ServletException | IOException e) {
             throw new UserException("Can't display all users", e);
-        }*/
+        }
 
     }
 }

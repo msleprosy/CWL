@@ -73,8 +73,8 @@
 
             </td>--%>
 
- <%
-     List<UserEntity> users=(ArrayList<UserEntity>) request.getAttribute("users");
+ <%  if (request.getAttribute("userView") != null) {
+     List<UserEntity> users=(ArrayList<UserEntity>) request.getAttribute("userView");
      for (UserEntity user: users) {
  %>
      <tr>
@@ -83,9 +83,10 @@
          <td><%=user.getLastName()%></td>
          <td><%=user.getEmail()%></td>
          <td>
-             <a href='<%=request.getContextPath()+"/groups?id=" + user.getId()%>'><%= user.getFirstName()%></a>
+             <a href='<%=request.getContextPath()+"/user?id=" + user.getId()%>'><%= user.getFirstName()%><%= user.getLastName()%><%= user.getEmail()%></a>
          </td>
      </tr>
+ <%}%>
  <%}%>
 
             <td align="center">
