@@ -27,7 +27,6 @@ public class LoginServlet extends HttpServlet {
     private static final String PASSWORD_PARAMETER = "password";
     private static final String ACCEPT_REMEMBERME = "Y";
     private static final String REMEMBERME_PARAMETER = "rememberMe";
-    private static final String ATT_NAME_USER_NAME = "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE";
     private static final String AUTHORIZATION_ERROR = "Required username and password!";
     private static final String LOGIN_ERROR = "User Name or password invalid";
 
