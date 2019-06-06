@@ -52,10 +52,10 @@ public class ProfileServlet extends HttpServlet {
         Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(request.getSession().getId());
         Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
-        UserEntity updateUser = receivedUser.get();
+        UserEntity updatedUser = receivedUser.get();
 
         if (receivedUser.isPresent()) {
-            UserEntity user = userInstatiate(request, updateUser);
+            UserEntity user = userInstatiate(request, updatedUser);
             request.setAttribute(USER, user);
             RequestDispatcher dispatcher
                     = this.getServletContext().getRequestDispatcher(Endpoints.USERINFOVIEW_PAGE);

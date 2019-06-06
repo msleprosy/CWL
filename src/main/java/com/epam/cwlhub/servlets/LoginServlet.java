@@ -60,8 +60,12 @@ public class LoginServlet extends HttpServlet {
                 UserEntity userEntity = userService.findByEmail(email).orElseThrow(() -> new UserException("cant find by email"));
                 Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
                 userSessionData.put(request.getSession().getId(), userEntity.getId());
+                Long id = userSessionData
+                        .get(request.getSession().getId());
+                Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
+                UserEntity cookieUser = receivedUser.get();
                 if (remember) {
-                    storeUserCookie(response, userEntity);
+                    storeUserCookie(response,cookieUser);
                 } else {
                     deleteUserCookie(response);
                 }
@@ -91,10 +95,10 @@ public class LoginServlet extends HttpServlet {
         return errorString;
     }
 
-    private void storeUserCookie(HttpServletResponse response, UserEntity user) {
+    private void storeUserCookie(HttpServletResponse response, UserEntity cookieUser) {
         System.out.println("Store user cookie");
-        Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, user.getEmail());
-        Cookie cookiePassword = new Cookie(ATT_NAME_PASSWORD, user.getPassword());
+        Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, cookieUser.getEmail());
+        Cookie cookiePassword = new Cookie(ATT_NAME_PASSWORD,  cookieUser.getPassword());
         cookieUserName.setMaxAge(24 * 60 * 60);
         cookiePassword.setMaxAge(24 * 60 * 60);
         response.addCookie(cookieUserName);
