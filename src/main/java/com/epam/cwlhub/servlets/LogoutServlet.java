@@ -13,7 +13,6 @@ import static com.epam.cwlhub.constants.Endpoints.LOGOUT;
 public class LogoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final String ATT_NAME_USER_NAME = "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE";
-    private static final String ATT_NAME_PASSWORD = "ATTRIBUTE_FOR_STORE_PASSWORD_IN_COOKIE";
     private static final String USER = "user";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -28,11 +27,8 @@ public class LogoutServlet extends HttpServlet {
     }
     private void deleteUserCookie(HttpServletResponse response) {
         Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, null);
-        Cookie cookiePassword = new Cookie(ATT_NAME_PASSWORD, null);
         cookieUserName.setMaxAge(0);
         response.addCookie(cookieUserName);
-        response.addCookie(cookiePassword);
-
     }
 }
 

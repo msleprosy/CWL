@@ -33,5 +33,10 @@
         <servlet-name>RegistrationServlet</servlet-name>
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
+    <session-config>
+        <cookie-config>
+            <max-age>3600</max-age>
+        </cookie-config>
+    </session-config>
 
 </web-app>

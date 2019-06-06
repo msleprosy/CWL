@@ -13,6 +13,7 @@
 <p style="color: red;">${errorString}</p>
 
 <form method="POST" action="${pageContext.request.contextPath}/login">
+
     <%
         Cookie[] cookies=request.getCookies();
         String email = "", password = "",rememberVal="";

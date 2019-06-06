@@ -11,6 +11,17 @@
     </style>
 </head>
 <body>
+<%
+    String sessionID = null;
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("JSESSIONID")) {
+                sessionID = cookie.getValue();
+            }
+        }
+    }
+%>
     <table width="100%">
         <tr>
             <td colspan="3">

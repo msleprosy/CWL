@@ -28,8 +28,6 @@ public class LoginServlet extends HttpServlet {
     private static final String ACCEPT_REMEMBERME = "Y";
     private static final String REMEMBERME_PARAMETER = "rememberMe";
     private static final String ATT_NAME_USER_NAME = "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE";
-    private static final String ATT_NAME_PASSWORD = "ATTRIBUTE_FOR_STORE_PASSWORD_IN_COOKIE";
-    private static final String ATT_NAME_REMEMBERME = "ATTRIBUTE_FOR_STORE_REMEMBERME_IN_COOKIE";
     private static final String AUTHORIZATION_ERROR = "Required username and password!";
     private static final String LOGIN_ERROR = "User Name or password invalid";
 
@@ -48,32 +46,30 @@ public class LoginServlet extends HttpServlet {
         boolean remember = ACCEPT_REMEMBERME.equals(rememberMeStr);
         String errorString = loginValidation(request);
 
-            if (errorString != null) {
-                UserEntity user = new UserEntity();
-                user.setEmail(email);
-                user.setPassword(password);
-                request.setAttribute(ERROR, errorString);
-                request.setAttribute(USER, user);
-                RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
-                dispatcher.forward(request, response);
+        if (errorString != null) {
+            UserEntity user = new UserEntity();
+            user.setEmail(email);
+            user.setPassword(password);
+            request.setAttribute(ERROR, errorString);
+            request.setAttribute(USER, user);
+            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
+            dispatcher.forward(request, response);
+        } else {
+            UserEntity userEntity = userService.findByEmail(email).orElseThrow(() -> new UserException("cant find by email"));
+            Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
+            userSessionData.put(request.getSession().getId(), userEntity.getId());
+            Long id = userSessionData
+                    .get(request.getSession().getId());
+            Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
+            UserEntity cookieUser = receivedUser.get();
+            if (remember) {
+                storeUserCookie(response, cookieUser);
             } else {
-                UserEntity userEntity = userService.findByEmail(email).orElseThrow(() -> new UserException("cant find by email"));
-                Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
-                userSessionData.put(request.getSession().getId(), userEntity.getId());
-                Long id = userSessionData
-                        .get(request.getSession().getId());
-                Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
-                UserEntity cookieUser = receivedUser.get();
-                if (remember) {
-                    storeUserCookie(response,cookieUser);
-                } else {
-                    deleteUserCookie(response);
-                }
-                response.sendRedirect(request.getContextPath() + HOME_URL);
+                deleteUserCookie(response);
             }
+            response.sendRedirect(request.getContextPath() + HOME_URL);
         }
-
-
+    }
 
     private String loginValidation(HttpServletRequest request) {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
@@ -98,21 +94,14 @@ public class LoginServlet extends HttpServlet {
     private void storeUserCookie(HttpServletResponse response, UserEntity cookieUser) {
         System.out.println("Store user cookie");
         Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, cookieUser.getEmail());
-        Cookie cookiePassword = new Cookie(ATT_NAME_PASSWORD,  cookieUser.getPassword());
         cookieUserName.setMaxAge(24 * 60 * 60);
-        cookiePassword.setMaxAge(24 * 60 * 60);
         response.addCookie(cookieUserName);
-        response.addCookie(cookiePassword);
-
     }
 
     private void deleteUserCookie(HttpServletResponse response) {
         Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, null);
-        Cookie cookiePassword = new Cookie(ATT_NAME_PASSWORD, null);
         cookieUserName.setMaxAge(0);
         response.addCookie(cookieUserName);
-        response.addCookie(cookiePassword);
-
     }
 }
 
