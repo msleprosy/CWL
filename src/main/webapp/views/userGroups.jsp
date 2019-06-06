@@ -10,7 +10,6 @@
         <%
             if (request.getAttribute("userGroups") != null) {
                 List<Group> userGroups = (List<Group>) request.getAttribute("userGroups");
-
                 for (Group group : userGroups) {
         %>
         <tr>
