@@ -6,7 +6,6 @@ import com.epam.cwlhub.entities.snippet.Snippet;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.exceptions.unchecked.SnippetException;
 import com.epam.cwlhub.services.SnippetService;
-import com.sun.xml.internal.bind.v2.TODO;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
