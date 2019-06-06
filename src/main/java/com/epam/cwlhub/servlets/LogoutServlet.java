@@ -5,16 +5,15 @@ import com.epam.cwlhub.constants.Endpoints;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import static com.epam.cwlhub.constants.Endpoints.LOGOUT;
 
 @WebServlet(name = "LogoutServlet", urlPatterns = LOGOUT)
 public class LogoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final String ATT_NAME_USER_NAME = "ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE";
+    private static final String ATT_NAME_PASSWORD = "ATTRIBUTE_FOR_STORE_PASSWORD_IN_COOKIE";
     private static final String USER = "user";
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -24,7 +23,16 @@ public class LogoutServlet extends HttpServlet {
             session.removeAttribute(USER);
             RequestDispatcher dispatcher = request.getRequestDispatcher(Endpoints.LOGIN_PAGE);
             dispatcher.forward(request, response);
+            deleteUserCookie(response);
         }
+    }
+    private void deleteUserCookie(HttpServletResponse response) {
+        Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, null);
+        Cookie cookiePassword = new Cookie(ATT_NAME_PASSWORD, null);
+        cookieUserName.setMaxAge(0);
+        response.addCookie(cookieUserName);
+        response.addCookie(cookiePassword);
+
     }
 }
 

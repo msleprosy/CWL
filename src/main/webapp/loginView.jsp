@@ -13,14 +13,29 @@
 <p style="color: red;">${errorString}</p>
 
 <form method="POST" action="${pageContext.request.contextPath}/login">
+    <%
+        Cookie[] cookies=request.getCookies();
+        String email = "", password = "",rememberVal="";
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if(cookie.getName().equals("ATTRIBUTE_FOR_STORE_USER_NAME_IN_COOKIE")) {
+                    email = cookie.getValue();
+                }
+                if(cookie.getName().equals("ATTRIBUTE_FOR_STORE_PASSWORD_IN_COOKIE")){
+                    password = cookie.getValue();
+                }
+            }
+
+        }
+    %>
     <table border="0">
         <tr>
             <td>Email</td>
-            <td><input type="email" name="email" value="${user.email}"/></td>
+            <td><input type="email" name="email" value="<%=email%>"/></td>
         </tr>
         <tr>
             <td>Password</td>
-            <td><input type="password" name="password" value="${user.password}"/></td>
+            <td><input type="password" name="password" value="<%=password%>"/></td>
         </tr>
         <tr>
         <tr>

@@ -30,7 +30,7 @@
         <%} }%>
         <a href="">Groups</a>
         <a href="${pageContext.request.contextPath}/userInfo">Profile</a>
-        <a href="">Logout</a>
+        <a href="${pageContext.request.contextPath}/logout">Logout</a>
     </div>
 </div>
 
