@@ -1,7 +1,9 @@
+<%@ page import="com.epam.cwlhub.entities.snippet.Snippet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>CWLHub Users for admin</title>
+    <title>CWLHub</title>
     <style>
         a {
             color: #000 !important;
@@ -32,30 +34,28 @@
     </tr>
 
     <tr>
-        <table border="2px black" style="margin: auto">
-                <thead>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Action</th>
-            </thead>
-            <tbody>
-                <td>
+        <td width="60%" height="60%">
+            <% if (request.getAttribute("snippet") != null) {
+                Snippet snippet = (Snippet) request.getAttribute("snippet");
+            %>
+            <table align="center" border="2px solid black" width="60%">
+                <tr>
+                    <td>
+                        <p><b>Name: </b><%= snippet.getName()%></p>
+                        <p><b>Tags: </b> <%= snippet.getTag()%></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea style="text-align: left" cols="150" name="content" readonly>
+                            <%= snippet.getContent()%>
+                        </textarea>
+                    </td>
+                </tr>
+            </table>
 
-                </td>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
-                <td align="center">
-                    <button>
-                        <a href="">Delete</a>
-                    </button>
-                </td>
-            </tbody>
-        </table>
+            <%} %>
+        </td>
     </tr>
 
     <tr>

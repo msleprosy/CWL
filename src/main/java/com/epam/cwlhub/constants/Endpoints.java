@@ -13,4 +13,9 @@ public abstract class Endpoints {
     public static final String DELETE_SNIPPET_URL = "/delete";
     public static final String GROUP = "/views/groupContent.jsp";
     public static final String GROUP_URL = "/groups";
+    public static final String ADMIN_SNIPPETS_URL = "/admin/snippets";
+    public static final String ADMIN_SNIPPETS = "/views/snippetsForAdmin.jsp";
+    public static final String ADMIN_SNIPPET_VIEW = "/views/snippetViewForAdmin.jsp";
+    public static final String ADMIN_SNIPPET_VIEW_URL = "/admin/snippets/snippet";
+    public static final String ADMIN_DELETE_SNIPPET_URL = "/admin/snippets/delete";
 }
