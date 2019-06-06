@@ -44,7 +44,7 @@ VALUES (1, 1),
        (9, 6);
 
 INSERT INTO snippets (name, owner_id, creation_date, modification_date, content, tag, group_id)
-VALUES ('alleotype.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+VALUES ('Alleotype.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -52,8 +52,8 @@ inputs:
     type: string
     inputBinding:
       position: 1
-outputs: []', 'tag1', 'bio', 2),
-       ('andromeda.cwl', 2, '2019-05-23', '2019-05-23', 'cwlVersion: v1.0
+outputs: []', 'bio', 2),
+       ('Andromeda.cwl', 2, '2019-05-23', '2019-05-23', 'cwlVersion: v1.0
 $graph:
 - id: compile
   class: CommandLineTool
@@ -130,7 +130,7 @@ $graph:
          objects: [compilesources-src1/compiled, compilesources-src2/compiled]
          output: { default: "a.out" }
       out: [executable]', 'cosmo', 1),
-       ('bonobo.cwl', 2, '2018-12-13', '2019-05-13', '#!/usr/bin/env cwl-runner
+       ('Bonobo.cwl', 2, '2018-12-13', '2019-05-13', '#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -168,7 +168,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'bio', 2),
-       ('dataflow.cwl', 3, '2018-05-23', '2019-01-15', 'cwlVersion: v1.0
+       ('Dataflow.cwl', 3, '2018-05-23', '2019-01-15', 'cwlVersion: v1.0
 
 class: CommandLineTool
 
@@ -243,7 +243,7 @@ baseCommand: [allelotype, --command, classify]
 arguments:
 - --noweb
 doc: Run lobSTR allelotype classifier.', 'common', 1),
-       ('newpath.cwl', 4, '2018-01-23', '2019-03-03', '#!/usr/bin/env cwl-runner
+       ('Newpath.cwl', 4, '2018-01-23', '2019-03-03', '#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -281,7 +281,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'innovative', 3),
-       ('celltransport', 5, '2018-05-23', '2019-03-03', '#!/usr/bin/env cwl-runner
+       ('Celltransport', 5, '2018-05-23', '2019-03-03', '#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -319,7 +319,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'bio', 1),
-       ('apox.cwl', 6, '2000-01-01', '2010-02-01', '#!/usr/bin/env cwl-runner
+       ('Apox.cwl', 6, '2000-01-01', '2010-02-01', '#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -357,7 +357,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'med', 4),
-       ('panacea.cwl', 7, '2000-02-02', '2010-03-02', '#!/usr/bin/env cwl-runner
+       ('Panacea.cwl', 7, '2000-02-02', '2010-03-02', '#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -395,7 +395,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'med', 5),
-       ('worlddomination.cwl', 8, '2000-02-02', '2010-04-02', '#!/usr/bin/env cwl-runner
+       ('Worlddomination.cwl', 8, '2000-02-02', '2010-04-02', '#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -433,6 +433,272 @@ steps:
     in:
       message: usermessage
     out: [response]', 'innovative', 5),
+       ('Blackmatter.cwl', 2, '2019-05-23', '2019-05-23', 'cwlVersion: v1.0
+$graph:
+- id: compile
+  class: CommandLineTool
+  inputs:
+    src:
+      type: File
+      inputBinding: {}
+    object:
+      type: string
+      inputBinding:
+          prefix: "-o"
+  outputs:
+    compiled:
+      type: File
+      outputBinding:
+        glob: $(inputs.object)
+  baseCommand: gcc
+  arguments:
+    - "-c"
+    - "-Wall"
+
+- id: link
+  class: CommandLineTool
+  inputs:
+    objects:
+      type:  File[]
+      inputBinding:
+        position: 2
+    output:
+      type: string
+      inputBinding:
+          position: 1
+          prefix: "-o"
+  outputs:
+    executable:
+      type: File
+      outputBinding:
+          glob: $(inputs.output)
+  baseCommand: gcc
+
+- id: main
+  class: Workflow
+  requirements:
+    - class: MultipleInputFeatureRequirement
+  inputs: []
+  outputs:
+    - id: output
+      type: File
+      outputSource: linkobj/executable
+  steps:
+    compilesources-src1:
+      run: "#compile"
+      in:
+         src:
+           default:
+             class: File
+             location: source1.c
+             secondaryFiles:
+               - class: File
+                 location: source1.h
+         object: { default: "source1.o" }
+      out: [compiled]
+
+    compilesources-src2:
+      run: "#compile"
+      in:
+         src: { default: {class: File, location: "source2.c" } }
+         object: { default: "source2.o" }
+      out: [compiled]
+
+    linkobj:
+      run: "#link"
+      in:
+         objects: [compilesources-src1/compiled, compilesources-src2/compiled]
+         output: { default: "a.out" }
+      out: [executable]', 'cosmo', 1),
+       ('Caffeine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'bio', 1),
+       ('Amphetamine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'bio', 1),
+       ('Ephedrine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'common', 1),
+       ('MDMA.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'common', 1),
+       ('MDPV.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'med', 1),
+       ('Mephedrone.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'innovative', 1),
+       ('Methamphetamine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'innovative', 1),
+       ('Methylphenidate.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'bio', 1),
+       ('Cocaine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'med', 1),
+       ('Nicotine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'bio', 1),
+       ('Phenylpropanolamine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'common', 1),
+       ('Propylhexedrine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'bio', 1),
+       ('Pseudoephedrine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'cosmo', 1),
+       ('Mercury.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'bio', 1),
+       ('Venus.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'med', 1),
+       ('Earth.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'bio', 1),
+       ('Mars.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'med', 1),
+       ('Ceres.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'cosmo', 1),
+       ('Jupiter.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'bio', 1),
+       ('Saturn.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'bio', 1),
+       ('Uranus.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+class: CommandLineTool
+baseCommand: echo
+inputs:
+  message:
+    type: string
+    inputBinding:
+      position: 1
+outputs: []', 'cosmo', 1),
        ('magnetars.cwl', 9, '2000-03-03', '2010-05-03', '#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
