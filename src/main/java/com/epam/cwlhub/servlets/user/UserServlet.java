@@ -1,6 +1,7 @@
 package com.epam.cwlhub.servlets.user;
 
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.exceptions.unchecked.UserException;
 import com.epam.cwlhub.services.UserService;
 import com.epam.cwlhub.services.impl.UserServiceImpl;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Optional;
 
 public class UserServlet extends HttpServlet {
@@ -21,7 +23,15 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         //req.setAttribute("name", "userServlet");
+        /*try {
+            List<UserEntity> users = userService.findAll();
+            if (!users.isEmpty()) {
+                req.setAttribute("user", users);
+            }*/
         req.getRequestDispatcher("/views/userView.jsp").forward(req, resp);
+        /*} catch (ServletException | IOException e) {
+            throw new UserException("Can't display all users", e);
+        }*/
 
     }
 }

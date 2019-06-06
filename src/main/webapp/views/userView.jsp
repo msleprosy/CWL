@@ -1,4 +1,6 @@
-<%--
+<%@ page import="com.epam.cwlhub.entities.user.UserEntity" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: veronika
   Date: 04.06.2019
@@ -58,7 +60,7 @@
             <th>Ban status</th>
             </thead>
             <tbody>
-            <td>
+ <%--           <td>
 
             </td>
             <td>
@@ -69,7 +71,23 @@
             </td>
             <td>
 
-            </td>
+            </td>--%>
+
+ <%
+     List<UserEntity> users=(ArrayList<UserEntity>) request.getAttribute("users");
+     for (UserEntity user: users) {
+ %>
+     <tr>
+         <td><%=user.getId()%></td>
+         <td><%=user.getFirstName()%></td>
+         <td><%=user.getLastName()%></td>
+         <td><%=user.getEmail()%></td>
+         <td>
+             <a href='<%=request.getContextPath()+"/groups?id=" + user.getId()%>'><%= user.getFirstName()%></a>
+         </td>
+     </tr>
+ <%}%>
+
             <td align="center">
                <%-- <% if (true) { %>
                 <button>
