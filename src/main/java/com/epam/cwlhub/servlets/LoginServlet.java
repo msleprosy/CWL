@@ -3,7 +3,6 @@ package com.epam.cwlhub.servlets;
 import com.epam.cwlhub.constants.Endpoints;
 
 import com.epam.cwlhub.entities.user.UserEntity;
-import com.epam.cwlhub.exceptions.unchecked.UserException;
 import com.epam.cwlhub.services.UserService;
 import com.epam.cwlhub.services.impl.UserServiceImpl;
 
@@ -14,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 
 import static com.epam.cwlhub.constants.Endpoints.HOME_URL;
+import static com.epam.cwlhub.constants.Endpoints.LOGIN_PAGE;
 import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
 
 public class LoginServlet extends HttpServlet {
@@ -34,7 +33,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
+        RequestDispatcher dispatcher
+                = this.getServletContext().getRequestDispatcher(LOGIN_PAGE);
         dispatcher.forward(request, response);
     }
 
@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
             dispatcher.forward(request, response);
         } else {
-            UserEntity userEntity = userService.findByEmail(email).orElseThrow(() -> new UserException("cant find by emai"));
+            UserEntity userEntity = userService.findByEmail(email);
             Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
             userSessionData.put(request.getSession().getId(), userEntity.getId());
             response.sendRedirect(request.getContextPath() + HOME_URL);
@@ -63,16 +63,15 @@ public class LoginServlet extends HttpServlet {
     private String loginValidation(HttpServletRequest request) {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
-        Optional<UserEntity> signInUser;
         String errorString = null;
         if (email.length() == 0 || password.length() == 0) {
             errorString = AUTHORIZATION_ERROR;
         } else {
-            signInUser = userService.findByEmail(email);
-            if (!signInUser.isPresent()) {
+            UserEntity signInUser = userService.findByEmail(email);
+            if (signInUser == null) {
                 errorString = LOGIN_ERROR;
             } else {
-                if (!userService.checkUserPassword(password, signInUser.get())) {
+                if (!userService.checkUserPassword(password, signInUser)) {
                     errorString = LOGIN_ERROR;
                 }
             }

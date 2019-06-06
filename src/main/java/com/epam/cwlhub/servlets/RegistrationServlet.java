@@ -49,7 +49,7 @@ public class RegistrationServlet extends HttpServlet {
                     = this.getServletContext().getRequestDispatcher(Endpoints.REGISTRATION_PAGE);
             dispatcher.forward(request, response);
         } else {
-            user = userInstatiate(request);
+            userInstatiate(request);
             RequestDispatcher dispatcher
                     = this.getServletContext().getRequestDispatcher(Endpoints.USERDETAILS);
             dispatcher.forward(request, response);
@@ -77,14 +77,14 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = request.getParameter(LASTNAME_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
         String email = request.getParameter(EMAIL_PARAMETER);
-        Optional<UserEntity> signUpUser;
+        UserEntity signUpUser;
         String errorString = null;
         if (email == null || password == null || firstName == null || lastName == null || email.length() == 0 || password.length() == 0
                 || firstName.length() == 0 || lastName.length() == 0) {
             errorString = REGISTRATION_ERROR;
         } else {
             signUpUser = userService.findByEmail(email);
-            if (!(signUpUser.equals(Optional.empty()))) {
+            if (signUpUser!=null) {
                 errorString = EMAIL_ERROR;
             }
         }

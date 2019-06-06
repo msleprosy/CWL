@@ -32,7 +32,7 @@ public class UserDaoImpl implements UserDao {
     private static final String DELETE_USER_BY_ID_SQL_STATEMENT = DELETE_USER_SQL_STATEMENT + "user_id = ?";
     private static final String DELETE_USER_BY_EMAIL_SQL_STATEMENT = DELETE_USER_SQL_STATEMENT + "email = ?";
     private static final String UPDATE_USER_SQL_STATEMENT = "UPDATE users SET firstname = ?, lastname = ?, "
-                                                                    + "email = ?, password = ?, banned = ?";
+                                                                    + "email = ?, password = ?, banned = ?, user_type = ? WHERE user_id = ?";
     private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD = SELECT_USER_SQL_STATEMENT + "email = ? AND password = ?";
 
     public static UserDaoImpl getInstance() {
@@ -62,23 +62,20 @@ public class UserDaoImpl implements UserDao {
                 }
             }
             return user;
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             throw new UserException("Can't insert new user ", ex);
         }
     }
 
     @Override
-    public Optional<UserEntity> findById(long id) {
+    public UserEntity findById(long id) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_ID_SQL_STATEMENT)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return Optional.ofNullable(mapUser(rs));
-            } else {
-                return Optional.empty();
-            }
-        } catch (Exception ex) {
+            rs.next();
+            return Optional.of(mapUser(rs)).orElseThrow(() -> new UserException("Can't find the user with id " + id));
+        } catch (SQLException ex) {
             throw new UserException("Can't find the user with id " + id, ex);
         }
     }
@@ -89,40 +86,37 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS_SQL_STATEMENT)) {
             ResultSet rs = preparedStatement.executeQuery();
             return getUsersFromResultSet(rs);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             throw new UserException("Can't find any users ", ex);
         }
     }
 
     @Override
-    public Optional<UserEntity> findByEmail(String email) {
+    public UserEntity findByEmail(String email) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL_STATEMENT)) {
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return Optional.ofNullable(mapUser(rs));
-            } else {
-                return Optional.empty();
-            }
-        } catch (Exception ex) {
+            rs.next();
+            return Optional.of(mapUser(rs)).
+                    orElseThrow(() -> new UserException("Can't find the user with email " + email));
+        } catch (SQLException ex) {
             throw new UserException("Can't find the user with email " + email, ex);
         }
     }
 
     @Override
-    public Optional<UserEntity> findUserByEmailAndPassword(String email, String password){
+    public UserEntity findUserByEmailAndPassword(String email, String password){
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_AND_PASSWORD)) {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
             ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return Optional.ofNullable(mapUser(rs));
-            } else {
-                return Optional.empty();
-            }
-        } catch (Exception ex) {
+            rs.next();
+            return Optional.of(mapUser(rs))
+                    .orElseThrow(() ->
+                            new UserException("Can't find the user with email " + email +"and password " + password));
+        } catch (SQLException ex) {
             throw new UserException("Can't find user with email " + email, ex);
         }
     }
@@ -133,7 +127,7 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_ID_SQL_STATEMENT)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             throw new UserException("Can't delete the user with id " + id, ex);
         }
     }
@@ -144,7 +138,7 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_USER_BY_EMAIL_SQL_STATEMENT)) {
             preparedStatement.setString(1, email);
             preparedStatement.executeUpdate();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             throw new UserException("Can't delete the user with email " + email, ex);
         }
     }
@@ -155,8 +149,9 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_SQL_STATEMENT)) {
             appendPreparedStatementParameters(preparedStatement, user);
             preparedStatement.setString(6, UserType.SIMPLE_USER.toString());
+            preparedStatement.setLong(7, user.getId());
             preparedStatement.executeUpdate();
-        } catch (Exception ex) {
+    } catch (SQLException ex) {
             throw new UserException("Can't update the user with id " + user.getId(), ex);
         }
     }

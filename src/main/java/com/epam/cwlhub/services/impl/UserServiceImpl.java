@@ -3,11 +3,11 @@ package com.epam.cwlhub.services.impl;
 import com.epam.cwlhub.dao.UserDao;
 import com.epam.cwlhub.dao.impl.UserDaoImpl;
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.exceptions.unchecked.UserException;
 import com.epam.cwlhub.services.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.List;
-import java.util.Optional;
 
 public class UserServiceImpl implements UserService {
     private final UserDao userDao = UserDaoImpl.getInstance();
@@ -28,73 +28,74 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean checkUserPassword (String password, UserEntity user) {
+    public Boolean checkUserPassword(String password, UserEntity user) {
         Boolean check = false;
         String passwordWithHash = DigestUtils.md5Hex(password);
-            if (passwordWithHash.equals(user.getPassword())) {
-                 check = true;
-            }
-            return check;
+        if (passwordWithHash.equals(user.getPassword())) {
+            check = true;
+        }
+        return check;
     }
 
     @Override
-    public Optional<UserEntity> findByEmail(String email) {
-        if (email != null){
-            return userDao.findByEmail(email);
+    public UserEntity findByEmail(String email) {
+        if (email == null) {
+            throw new UserException("Email can't be empty");
         }
-        return Optional.empty();
+        return userDao.findByEmail(email);
     }
 
     @Override
     public void deleteByEmail(String email) {
-        if (email != null) {
-            userDao.deleteByEmail(email);
+        if (email == null) {
+            throw new UserException("Email can't be empty");
         }
+        userDao.deleteByEmail(email);
     }
 
     @Override
-    public Optional<UserEntity> findUserByEmailAndPassword(String email, String password) {
-        if (email != null && password != null) {
-            String passwordWithHash = DigestUtils.md5Hex(password);
-            Optional<UserEntity> user = userDao.findUserByEmailAndPassword(email, passwordWithHash);
-            if (user.isPresent()) {
-                return user;
-            }
+    public UserEntity findUserByEmailAndPassword(String email, String password) {
+        if (email == null || password == null) {
+            throw new UserException("Email and password can't be empty");
         }
-        return Optional.empty();
+        String passwordWithHash = DigestUtils.md5Hex(password);
+        return userDao.findUserByEmailAndPassword(email, passwordWithHash);
     }
 
     @Override
     public UserEntity insert(UserEntity user) {
-        if (user != null){
-            String password = user.getPassword();
-            String passwordWithHash = DigestUtils.md5Hex(password);
-            user.setPassword(passwordWithHash);
-            userDao.insert(user);
+        if (user == null) {
+            throw new UserException("User entity can't be empty");
         }
+        String password = user.getPassword();
+        String passwordWithHash = DigestUtils.md5Hex(password);
+        user.setPassword(passwordWithHash);
+        userDao.insert(user);
         return user;
     }
 
     @Override
     public void deleteById(Long id) {
-        if (id != null) {
-            userDao.deleteById(id);
+        if (id == null) {
+            throw new UserException("ID can't be empty");
         }
+        userDao.deleteById(id);
     }
 
     @Override
-    public Optional<UserEntity> findById(Long id) {
-        if (id != null){
-            return userDao.findById(id);
+    public UserEntity findById(Long id) {
+        if (id == null) {
+            throw new UserException("ID can't be empty");
         }
-        return Optional.empty();
+        return userDao.findById(id);
     }
 
     @Override
     public void update(UserEntity user) {
-        if (user != null){
-            userDao.update(user);
+        if (user == null) {
+            throw new UserException("User entity can't be empty");
         }
+        userDao.update(user);
     }
 
     @Override
