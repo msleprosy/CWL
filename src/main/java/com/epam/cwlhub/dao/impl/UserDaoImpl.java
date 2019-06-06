@@ -32,7 +32,7 @@ public class UserDaoImpl implements UserDao {
     private static final String DELETE_USER_BY_ID_SQL_STATEMENT = DELETE_USER_SQL_STATEMENT + "user_id = ?";
     private static final String DELETE_USER_BY_EMAIL_SQL_STATEMENT = DELETE_USER_SQL_STATEMENT + "email = ?";
     private static final String UPDATE_USER_SQL_STATEMENT = "UPDATE users SET firstname = ?, lastname = ?, "
-                                                                    + "email = ?, password = ?, banned = ?";
+                                                                    + "email = ?, password = ?, banned = ?, user_type = ? WHERE user_id = ?";
     private static final String SELECT_USER_BY_EMAIL_AND_PASSWORD = SELECT_USER_SQL_STATEMENT + "email = ? AND password = ?";
 
     public static UserDaoImpl getInstance() {
@@ -149,6 +149,7 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_USER_SQL_STATEMENT)) {
             appendPreparedStatementParameters(preparedStatement, user);
             preparedStatement.setString(6, UserType.SIMPLE_USER.toString());
+            preparedStatement.setLong(7, user.getId());
             preparedStatement.executeUpdate();
         } catch (Exception ex) {
             throw new UserException("Can't update the user with id " + user.getId(), ex);

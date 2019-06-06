@@ -3,7 +3,6 @@ package com.epam.cwlhub.services.impl;
 import com.epam.cwlhub.dao.GroupDao;
 import com.epam.cwlhub.dao.impl.GroupDaoImpl;
 import com.epam.cwlhub.entities.group.Group;
-import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.services.GroupService;
 
@@ -75,14 +74,14 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public void leaveGroup(Long userId, Long groupId) {
-        //groupDao.leaveGroup(user, group);
+        groupDao.leaveGroup(userId, groupId);
     }
 
     @Override
-    public boolean checkMembership(Long userIdd, Long groupId) {
-        if (userIdd == null || groupId == null) {
+    public boolean checkMembership(Long userId, Long groupId) {
+        if (userId == null || groupId == null) {
             throw new GroupException("ID can't be empty");
         }
-        return groupDao.checkMembership(userIdd, groupId);
+        return groupDao.checkMembership(userId, groupId);
     }
 }
