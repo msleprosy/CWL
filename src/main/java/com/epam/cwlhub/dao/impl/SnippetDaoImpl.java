@@ -181,7 +181,7 @@ public class SnippetDaoImpl implements SnippetDao {
             snippet.setTag(rs.getString("tag"));
 
             return snippet;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new SnippetException("Can't map result set to a snippet entity", e);
         }
     }

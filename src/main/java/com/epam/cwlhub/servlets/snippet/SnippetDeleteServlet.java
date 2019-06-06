@@ -3,7 +3,6 @@ package com.epam.cwlhub.servlets.snippet;
 import com.epam.cwlhub.services.SnippetService;
 import com.epam.cwlhub.services.impl.SnippetServiceImpl;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +16,12 @@ public class SnippetDeleteServlet extends HttpServlet {
     private final SnippetService snippetService = SnippetServiceImpl.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         doPost(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (req.getParameterMap().containsKey("id")) {
             Long id = Long.parseLong(req.getParameter("id"));
             snippetService.deleteById(id);
@@ -31,4 +30,3 @@ public class SnippetDeleteServlet extends HttpServlet {
         }
     }
 }
-

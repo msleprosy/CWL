@@ -31,25 +31,33 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public Group insert(Group group) {
-        if (group == null) {throw new GroupException("Group entity can't be empty");}
+        if (group == null) {
+            throw new GroupException("Group entity can't be empty");
+        }
         return groupDao.insert(group);
     }
 
     @Override
     public void deleteById(Long id) {
-        if (id == null) {throw new GroupException("ID can't be empty");}
+        if (id == null) {
+            throw new GroupException("ID can't be empty");
+        }
         groupDao.deleteById(id);
     }
 
     @Override
     public Group findById(Long id) {
-        if (id == null) {throw new GroupException("ID can't be empty");}
+        if (id == null) {
+            throw new GroupException("ID can't be empty");
+        }
         return groupDao.findById(id);
     }
 
     @Override
     public void update(Group group) {
-        if (group == null) {throw new GroupException("Group entity can't be empty");}
+        if (group == null) {
+            throw new GroupException("Group entity can't be empty");
+        }
         groupDao.update(group);
     }
 
@@ -60,13 +68,15 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<Group> findUsersGroups(Long id) {
-        if (id == null) {throw new GroupException("ID can't be empty");}
+        if (id == null) {
+            throw new GroupException("ID can't be empty");
+        }
         return groupDao.findUserGroupsByUserId(id);
     }
 
     @Override
     public void joinGroup(Long userId, Long groupId) {
-        if (userId == null || userId == null) {
+        if (userId == null || groupId == null) {
             throw new GroupException("ID can't be empty");
         }
         groupDao.joinGroup(userId, userId);
