@@ -1,6 +1,5 @@
 package com.epam.cwlhub.dao;
 
-import com.epam.cwlhub.dao.BaseDao;
 import com.epam.cwlhub.entities.group.Group;
 import com.epam.cwlhub.entities.user.UserEntity;
 
@@ -8,7 +7,12 @@ import java.util.List;
 
 public interface GroupDao extends BaseDao<Group> {
 
-    List<Group> findUserGroupsByUserId(long id);
+    List<Group> findUserGroupsByUserId(Long id);
 
-    void joinGroup(UserEntity user, Group group);
+    void joinGroup(Long userId, Long groupId);
+
+    void leaveGroup(Long userId, Long groupId);
+
+    boolean checkMembership(Long userId, Long groupId);
+
 }

@@ -3,7 +3,6 @@ package com.epam.cwlhub.servlets;
 import com.epam.cwlhub.constants.Endpoints;
 
 import com.epam.cwlhub.entities.user.UserEntity;
-import com.epam.cwlhub.exceptions.unchecked.UserException;
 import com.epam.cwlhub.services.UserService;
 import com.epam.cwlhub.services.impl.UserServiceImpl;
 
@@ -12,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 
 import static com.epam.cwlhub.constants.Endpoints.HOME_URL;
 import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
@@ -54,7 +52,7 @@ public class LoginServlet extends HttpServlet {
             RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
             dispatcher.forward(request, response);
         } else {
-            UserEntity userEntity = userService.findByEmail(email).orElseThrow(() -> new UserException("cant find by email"));
+            UserEntity userEntity = userService.findByEmail(email);
             Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
             userSessionData.put(request.getSession().getId(), userEntity.getId());
             if (remember) {
@@ -70,16 +68,16 @@ public class LoginServlet extends HttpServlet {
     private String loginValidation(HttpServletRequest request) {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
-        Optional<UserEntity> signInUser;
         String errorString = null;
+        UserEntity signInUser;
         if (email.length() == 0 || password.length() == 0) {
             errorString = AUTHORIZATION_ERROR;
         } else {
             signInUser = userService.findByEmail(email);
-            if (!signInUser.isPresent()) {
+            if (signInUser != null) {
                 errorString = LOGIN_ERROR;
             } else {
-                if (!userService.checkUserPassword(password, signInUser.get())) {
+                if (!userService.checkUserPassword(password, signInUser)) {
                     errorString = LOGIN_ERROR;
                 }
             }

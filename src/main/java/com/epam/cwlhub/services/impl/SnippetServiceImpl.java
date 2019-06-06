@@ -4,6 +4,7 @@ import com.epam.cwlhub.dao.SnippetDao;
 import com.epam.cwlhub.dao.impl.SnippetDaoImpl;
 import com.epam.cwlhub.entities.snippet.Snippet;
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.exceptions.unchecked.SnippetException;
 import com.epam.cwlhub.services.SnippetService;
 
 import javax.servlet.ServletException;
@@ -36,42 +37,44 @@ public class SnippetServiceImpl implements SnippetService {
 
     @Override
     public Snippet insert(Snippet snippet) {
-        if (snippet != null) {
-            snippetDao.insert(snippet);
+        if (snippet == null) {
+            throw new SnippetException("Snippet entity can't be empty");
         }
-        return snippet;
+        return snippetDao.insert(snippet);
     }
 
     @Override
     public void deleteById(Long id) {
-        if (id != null) {
-            snippetDao.deleteById(id);
+        if (id == null) {
+            throw new SnippetException("ID can't be empty");
         }
+        snippetDao.deleteById(id);
     }
 
     @Override
-    public Optional<Snippet> findById(Long id) {
-        if (id != null) {
-            return snippetDao.findById(id);
+    public Snippet findById(Long id) {
+        if (id == null) {
+            throw new SnippetException("ID can't be empty");
         }
-        return Optional.empty();
+        return snippetDao.findById(id);
     }
 
     @Override
     public List<Snippet> findByGroupId(Long id) {
-        List<Snippet> result = new ArrayList<>();
-        if (id != null) {
-            result = snippetDao.findByGroupId(id);
-            result.sort(Comparator.comparingLong(Snippet::getId));
+        if (id == null) {
+            throw new SnippetException("ID can't be empty");
         }
+        List<Snippet> result = snippetDao.findByGroupId(id);
+        result.sort(Comparator.comparingLong(Snippet::getId));
         return result;
     }
 
     @Override
     public void update(Snippet snippet) {
-        if (snippet != null) {
-            snippetDao.update(snippet);
+        if (snippet == null) {
+            throw new SnippetException("Snippet entity can't be empty");
         }
+        snippetDao.update(snippet);
     }
 
     @Override
@@ -80,21 +83,19 @@ public class SnippetServiceImpl implements SnippetService {
     }
 
     @Override
-    public Optional<Snippet> findByFileName(String fileName) {
-        if (fileName != null) {
-            return snippetDao.findByFileName(fileName);
+    public Snippet findByFileName(String fileName) {
+        if (fileName == null) {
+            throw new SnippetException("File name can't be empty");
         }
-        return Optional.empty();
+        return snippetDao.findByFileName(fileName);
     }
 
     @Override
     public boolean createSnippetObjectFromRequest(HttpServletRequest request) throws ServletException, IOException {
         Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
-                                                                  .get(request.getSession().getId());
-        Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
-        if (receivedUser.isPresent() && request.getParameterMap().containsKey("group_id")) {
-            UserEntity user = receivedUser.get();
-
+                .get(request.getSession().getId());
+        UserEntity user = UserServiceImpl.getInstance().findById(id);
+        if (user != null && request.getParameterMap().containsKey("group_id")) {
             String fileName = request.getParameter("fileName");
             String tags = request.getParameter("tags");
 
@@ -103,9 +104,8 @@ public class SnippetServiceImpl implements SnippetService {
             if (filePart != null) {
                 inputStream = filePart.getInputStream();
             }
-
-            Optional<Snippet> file = findByFileName(fileName);
-            if (file.isPresent()) {
+            Snippet file = findByFileName(fileName);
+            if (file != null) {
                 return false;
             }
 
@@ -120,10 +120,8 @@ public class SnippetServiceImpl implements SnippetService {
             snippet.setModificationDate(LocalDate.now());
             snippet.setTag(tags);
             snippetDao.insert(snippet);
-
             return true;
         }
-
         return false;
     }
 }

@@ -26,7 +26,7 @@
                 UserEntity user = receivedUser.get();
                 if (UserType.ADMINISTRATOR.equals(user.getUserType())) {
         %>
-        <a href="">Users</a>
+        <a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin</a>
         <%} }%>
         <a href="">Groups</a>
         <a href="${pageContext.request.contextPath}/userInfo">Profile</a>
