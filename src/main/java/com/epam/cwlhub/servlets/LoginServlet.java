@@ -1,7 +1,5 @@
 package com.epam.cwlhub.servlets;
 
-import com.epam.cwlhub.constants.Endpoints;
-
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.services.UserService;
 import com.epam.cwlhub.services.impl.UserServiceImpl;
@@ -13,9 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 
 import static com.epam.cwlhub.constants.Endpoints.HOME_URL;
+import static com.epam.cwlhub.constants.Endpoints.LOGIN_PAGE;
 import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
 
 public class LoginServlet extends HttpServlet {
@@ -33,7 +31,7 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher dispatcher
-                = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
+                = this.getServletContext().getRequestDispatcher(LOGIN_PAGE);
         dispatcher.forward(request, response);
     }
 
@@ -41,38 +39,29 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
         String password = request.getParameter(PASSWORD_PARAMETER).trim();
-        UserEntity user = null;
-        Optional<UserEntity> signInUser = Optional.empty();
         boolean hasError = false;
         String errorString = null;
-        if (email == null || password == null || email.length() == 0 || password.length() == 0) {
+        if (email.length() == 0 || password.length() == 0) {
             hasError = true;
             errorString = AUTHORIZATION_ERROR;
-        } else {
-            signInUser = userService.findByEmail(email);
-            if (signInUser.equals(Optional.empty())) {
-                hasError = true;
-                errorString = LOGIN_ERROR;
-            } else {
-                if (!userService.checkUserPassword(password, signInUser.get())) {
-                    hasError = true;
-                    errorString = LOGIN_ERROR;
-                }
-            }
-
+        }
+        UserEntity signInUser = userService.findByEmail(email);
+        if (!userService.checkUserPassword(password, signInUser)) {
+            hasError = true;
+            errorString = LOGIN_ERROR;
         }
         if (hasError) {
-            user = new UserEntity();
+            UserEntity user = new UserEntity();
             user.setEmail(email);
             user.setPassword(password);
             request.setAttribute(ERROR, errorString);
             request.setAttribute(USER, user);
             RequestDispatcher dispatcher
-                    = this.getServletContext().getRequestDispatcher(Endpoints.LOGIN_PAGE);
+                    = this.getServletContext().getRequestDispatcher(LOGIN_PAGE);
             dispatcher.forward(request, response);
         } else {
             Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
-            userSessionData.put(request.getSession().getId(), signInUser.get().getId());
+            userSessionData.put(request.getSession().getId(), signInUser.getId());
             response.sendRedirect(HOME_URL);
         }
     }
