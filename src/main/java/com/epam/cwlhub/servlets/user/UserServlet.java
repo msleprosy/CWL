@@ -37,23 +37,22 @@ public class UserServlet extends HttpServlet {
         }
 
     }
-}
 
-/*    @Override
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            if (req.getParameterMap().containsKey("id")) {
+            //if (req.getParameterMap().containsKey("id")) {
                 Long id = Long.parseLong(req.getParameter("id"));
                 Optional<UserEntity> receivedUser = userService.findById(id);
                 if (receivedUser.isPresent()) {
                     UserEntity user = receivedUser.get();
-                    if (req.getParameter("button").equals("true")) {
+                    if (req.getParameter("buttonBan")!= null) {
                     user.setBanned(true);
                 }
                     else {
                         user.setBanned(false);
                     }
                 }
-            }
+            //}
 
     }
-}*/
+}
