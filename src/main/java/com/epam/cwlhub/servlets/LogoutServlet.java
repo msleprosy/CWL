@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+
 import static com.epam.cwlhub.constants.Endpoints.LOGOUT;
 
 @WebServlet(name = "LogoutServlet", urlPatterns = LOGOUT)
@@ -25,8 +26,9 @@ public class LogoutServlet extends HttpServlet {
             deleteUserCookie(response);
         }
     }
+
     private void deleteUserCookie(HttpServletResponse response) {
-        Cookie cookieUserName = new Cookie(ATT_NAME_USER_NAME, null);
+        Cookie cookieUserName = new Cookie("JSESSIONID", null);
         cookieUserName.setMaxAge(0);
         response.addCookie(cookieUserName);
     }
