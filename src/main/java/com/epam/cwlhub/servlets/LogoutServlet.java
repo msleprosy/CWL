@@ -1,15 +1,13 @@
 package com.epam.cwlhub.servlets;
 
-import com.epam.cwlhub.constants.Endpoints;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.Endpoint;
 import java.io.IOException;
+import static com.epam.cwlhub.constants.Endpoints.LOGIN_PAGE;
 
 public class LogoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -20,9 +18,8 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.removeAttribute(USER);
-            RequestDispatcher dispatcher = request.getRequestDispatcher(Endpoints.LOGIN_PAGE);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(LOGIN_PAGE);
             dispatcher.forward(request, response);
         }
     }
 }
-
