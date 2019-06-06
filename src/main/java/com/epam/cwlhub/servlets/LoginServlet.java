@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import static com.epam.cwlhub.constants.Endpoints.HOME_URL;
+import static com.epam.cwlhub.constants.Endpoints.LOGIN_PAGE;
 import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
 
 public class LoginServlet extends HttpServlet {
@@ -32,7 +33,9 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        RequestDispatcher dispatcher
+                = this.getServletContext().getRequestDispatcher(LOGIN_PAGE);
+        dispatcher.forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -98,7 +101,4 @@ public class LoginServlet extends HttpServlet {
         response.addCookie(cookieUserName);
     }
 }
-
-
-
 
