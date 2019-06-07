@@ -57,14 +57,17 @@
          <td><%=user.getEmail()%></td>
          <td><%=user.isBanned()%></td>
          <td align="center">
+             <% if (!user.isBanned()) { %>
              <form method="post" action="<%=request.getContextPath()+"/banUsers"%>">
                  <input type="hidden" name="id" value="<%=user.getId()%>">
                  <input type="submit" value="Ban">
              </form>
+             <%} else {%>
              <form method="post" action="<%=request.getContextPath()+"/unbanUsers"%>">
                  <input type="hidden" name="id" value="<%=user.getId()%>">
                  <input type="submit" value="Unban">
              </form>
+             <%}%>
          </td>
      </tr>
      <%}%>
