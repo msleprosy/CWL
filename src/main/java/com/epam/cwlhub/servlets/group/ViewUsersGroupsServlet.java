@@ -1,7 +1,7 @@
 package com.epam.cwlhub.servlets.group;
 
-import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.entities.group.Group;
+import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.services.GroupService;
 import com.epam.cwlhub.services.impl.GroupServiceImpl;
 
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @WebServlet(name = "ViewUsersGroups", urlPatterns = "/usersgroups")
 public class ViewUsersGroupsServlet extends HttpServlet {
@@ -23,8 +22,7 @@ public class ViewUsersGroupsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            List<Group> groups = groupService.findUsersGroups(getUserId(req)
-                            .orElseThrow(() -> new GroupException("Can't get user_id from request")));
+            List<Group> groups = groupService.findUsersGroups(getUserId(req));
             if (!groups.isEmpty()) {
                 req.setAttribute("groups", groups);
             }
@@ -40,11 +38,11 @@ public class ViewUsersGroupsServlet extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
-    private Optional<Long> getUserId(HttpServletRequest request) {
+    private Long getUserId(HttpServletRequest request) {
         try {
-            return Optional.of(Long.parseLong(request.getParameter("user_id")));
+            return Long.parseLong(request.getParameter("user_id"));
         } catch (Exception e) {
-            return Optional.empty();
+            throw new GroupException("Can't parse user_id parameter from request");
         }
     }
 

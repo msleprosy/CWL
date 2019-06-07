@@ -61,14 +61,13 @@ public class SnippetDaoImpl implements SnippetDao {
                                                                 PreparedStatement.RETURN_GENERATED_KEYS)) {
             appendPreparedStatementParametersToInsertSnippet(ps, snippet);
             ps.executeUpdate();
-
             try(ResultSet generatedId = ps.getGeneratedKeys()) {
                 if (generatedId.next()) {
                     snippet.setId(generatedId.getLong(1));
                 }
             }
             return snippet;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new SnippetException("Can't insert new snippet", e);
         }
     }
@@ -79,7 +78,7 @@ public class SnippetDaoImpl implements SnippetDao {
              PreparedStatement ps = connection.prepareStatement(UPDATE_SNIPPET_SQL_STATEMENT)) {
             appendPreparedStatementParametersToUpdateSnippet(ps, snippet);
             ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new SnippetException("Can't update the snippet with id = " + snippet.getId(), e);
         }
     }
@@ -90,23 +89,21 @@ public class SnippetDaoImpl implements SnippetDao {
             PreparedStatement ps = connection.prepareStatement(DELETE_SNIPPET_BY_ID_SQL_STATEMENT)) {
             ps.setLong(1, id);
             ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new SnippetException("Can't delete the snippet with id = " + id, e);
         }
     }
 
     @Override
-    public Optional<Snippet> findById(long id)  {
+    public Snippet findById(long id)  {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_SNIPPET_BY_ID_SQL_STATEMENT)) {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return Optional.ofNullable(mapSnippet(rs));
-            } else {
-                return Optional.empty();
-            }
-        } catch (Exception e) {
+            rs.next();
+            return Optional.of(mapSnippet(rs))
+                    .orElseThrow(() -> new SnippetException("Can't find snippet by id " + id));
+        } catch (SQLException e) {
             throw new SnippetException("Can't find the snippet with id = " + id, e);
         }
     }
@@ -119,7 +116,7 @@ public class SnippetDaoImpl implements SnippetDao {
             ResultSet rs = ps.executeQuery();
 
             return getSnippetsFromResultSet(rs);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new SnippetException("Can't find the snippet with id = " + id, e);
         }
     }
@@ -131,23 +128,23 @@ public class SnippetDaoImpl implements SnippetDao {
             ResultSet rs = ps.executeQuery();
 
             return getSnippetsFromResultSet(rs);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new SnippetException("Can't find any snippets", e);
         }
     }
 
+    // Method returns empty snippet for createSnippetObjectFromRequest method, so it could add
+    // only unique files
     @Override
-    public Optional<Snippet> findByFileName(String fileName) {
+    public Snippet findByFileName(String fileName) {
         try (Connection connection = dbConnection.getDBConnection();
              PreparedStatement ps = connection.prepareStatement(SELECT_SNIPPET_BY_FILENAME_SQL_STATEMENT)) {
             ps.setString(1, fileName);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return Optional.ofNullable(mapSnippet(rs));
-            } else {
-                return Optional.empty();
-            }
-        } catch (Exception e) {
+            rs.next();
+            return Optional.of(mapSnippet(rs))
+                    .orElse(null);
+        } catch (SQLException e) {
             throw new SnippetException("Can't find the snippet with name = " + fileName, e);
         }
     }
@@ -184,7 +181,7 @@ public class SnippetDaoImpl implements SnippetDao {
             snippet.setTag(rs.getString("tag"));
 
             return snippet;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new SnippetException("Can't map result set to a snippet entity", e);
         }
     }

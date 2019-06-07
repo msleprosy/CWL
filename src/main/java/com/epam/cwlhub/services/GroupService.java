@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface GroupService extends BaseService<Group> {
 
-    List<Group> findUsersGroups(long id);
+    List<Group> findUsersGroups(Long id);
 
-    void joinGroup(UserEntity user, Group group);
+    void joinGroup(Long userId, Long groupId);
 
-    void leaveGroup(UserEntity user, Group group);
+    void leaveGroup(Long userId, Long groupId);
 
-    boolean checkMembership(Long user_id, Long group_id);
+    boolean checkMembership(Long userId, Long groupId);
 }
