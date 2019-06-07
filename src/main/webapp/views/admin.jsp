@@ -18,7 +18,7 @@
                 </div>
 
                 <div style="float: left; padding-left: 20px">
-                    <h3><a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin page</a></h3>
+                    <h3><a href="<%=request.getContextPath()+"/admin"%>">Admin page</a></h3>
                 </div>
 
                 <div style="float: right; padding: 10px; text-align: right;">
