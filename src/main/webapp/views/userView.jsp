@@ -1,7 +1,6 @@
 <%@ page import="com.epam.cwlhub.entities.user.UserEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="java.util.stream.Collectors" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,6 +13,28 @@
     </style>
 </head>
 <body>
+
+<table width="100%">
+    <tr>
+        <div style="background: #E0E0E0; height: 40px; padding: 5px;">
+            <div style="float: left">
+                <h3><a href="<%=request.getContextPath()+"/home"%>">CWLHub</a></h3>
+            </div>
+
+            <div style="float: left; padding-left: 20px">
+                <h3><a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin page</a></h3>
+            </div>
+
+            <div style="float: right; padding: 10px; text-align: right;">
+                <a href="<%=request.getContextPath()+"/views/userView.jsp"%>">Users</a>
+                <a href="<%=request.getContextPath()+"/views/groupsForAdmin.jsp"%>">Groups</a>
+                <a href="<%=request.getContextPath()+"/views/groupsForAdmin.jsp"%>">Snippets</a>
+                <a href="">Profile</a>
+                <a href="<%=request.getContextPath()+"/logout"%>">Logout</a>
+            </div>
+        </div>
+    </tr>
+</table>
 
 <table border="2px black" style="margin: auto">
             <thead>
