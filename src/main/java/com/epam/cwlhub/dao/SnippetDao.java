@@ -7,4 +7,5 @@ import java.util.List;
 public interface SnippetDao extends BaseDao<Snippet> {
     List<Snippet> findByGroupId(long id);
     Snippet findByFileName(String fileName);
+    Snippet findByFileNameInGroup(String fileName, Long groupId);
 }

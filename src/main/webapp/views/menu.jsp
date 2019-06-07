@@ -21,10 +21,9 @@
         <%
             Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
                                                                       .get(request.getSession().getId());
-            Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
-            if (receivedUser.isPresent()) {
-                UserEntity user = receivedUser.get();
-                if (UserType.ADMINISTRATOR.equals(user.getUserType())) {
+            UserEntity receivedUser = UserServiceImpl.getInstance().findById(id);
+            if (receivedUser != null) {
+                if (UserType.ADMINISTRATOR.equals(receivedUser.getUserType())) {
         %>
         <a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin</a>
         <%} }%>

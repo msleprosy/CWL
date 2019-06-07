@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface SnippetService extends BaseService<Snippet> {
     List<Snippet> findByGroupId(Long id);
     Snippet findByFileName(String fileName);
-    boolean createSnippetObjectFromRequest(HttpServletRequest request) throws ServletException, IOException;
+    Snippet findByFileNameInGroup(String fileName, Long groupId);
 }
