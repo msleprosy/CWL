@@ -23,12 +23,12 @@
             </div>
 
             <div style="float: left; padding-left: 20px">
-                <h3><a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin page</a></h3>
+                <h3><a href="<%=request.getContextPath()+"/admin"%>">Admin page</a></h3>
             </div>
             <div style="float: right; padding: 10px; text-align: right;">
                 <a href="<%=request.getContextPath()+"/views/usersForAdmin.jsp"%>">Users</a>
                 <a href="<%=request.getContextPath()+"/views/groupsForAdmin.jsp"%>">Groups</a>
-                <a href="<%=request.getContextPath()+"/views/groupsForAdmin.jsp"%>">Snippets</a>
+                <a href="<%=request.getContextPath()+"/views/snippetsForAdmin.jsp"%>">Snippets</a>
                 <a href="">Profile</a>
                 <a href="<%=request.getContextPath()+"/logout"%>">Logout</a>
             </div>

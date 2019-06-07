@@ -12,14 +12,13 @@
     </style>
 </head>
 <body>
-<table width="100%">
-    <tr>
-        <div style="background: #E0E0E0; height: 40px; padding: 5px;">
-            <div style="float: left">
-                <h3><a href="<%=request.getContextPath()+"/home"%>">CWLHub</a></h3>
-            </div>
-
-            <div style="float: left; padding-left: 20px">
+    <table width="100%">
+        <tr>
+            <div style="background: #E0E0E0; height: 40px; padding: 5px;">
+                <div style="float: left">
+                    <h3><a href="<%=request.getContextPath()+"/home"%>">CWLHub</a></h3>
+                </div>
+                <div style="float: left; padding-left: 20px">
                 <h3><a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin page</a></h3>
             </div>
             <div style="float: right; padding: 10px; text-align: right;">
