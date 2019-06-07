@@ -19,7 +19,7 @@ public class UserBanServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long id = Long.parseLong(req.getParameter("id"));
+        long id = Long.parseLong(req.getParameter("id"));
         UserEntity user = userService.findById(id);
                 user.setBanned(true);
                 userService.update(user);
