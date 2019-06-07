@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
             errorString = AUTHORIZATION_ERROR;
         }
         UserEntity signInUser = userService.findByEmail(email);
-        if (false){//(!userService.checkUserPassword(password, signInUser)) {
+        if (!userService.checkUserPassword(password, signInUser)) {
             hasError = true;
             errorString = LOGIN_ERROR;
         }
