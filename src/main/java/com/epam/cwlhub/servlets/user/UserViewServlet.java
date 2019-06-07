@@ -37,6 +37,5 @@ public class UserViewServlet extends HttpServlet {
         } catch (ServletException | IOException e) {
             throw new UserException("Can't display all users", e);
         }
-
     }
 }

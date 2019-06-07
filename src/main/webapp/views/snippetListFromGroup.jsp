@@ -18,7 +18,6 @@
     <%
         if (request.getAttribute("snippets") != null) {
             List<Snippet> snippets = (List<Snippet>) request.getAttribute("snippets");
-
             if (snippets.isEmpty()) {
     %>
     <tbody>
@@ -31,12 +30,8 @@
             for (Snippet snippet : snippets) {
                 Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
                                                                           .get(request.getSession().getId());
-                Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
-                boolean isOwner = false;
-                if (receivedUser.isPresent()) {
-                    UserEntity user = receivedUser.get();
-                    isOwner = snippet.getOwnerId() == user.getId();
-                }
+                UserEntity user = UserServiceImpl.getInstance().findById(id);
+                boolean isOwner  = snippet.getOwnerId() == user.getId();
     %>
     <tbody>
     <tr>

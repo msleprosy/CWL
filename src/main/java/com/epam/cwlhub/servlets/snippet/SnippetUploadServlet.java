@@ -2,13 +2,17 @@ package com.epam.cwlhub.servlets.snippet;
 
 import com.epam.cwlhub.services.impl.SnippetServiceImpl;
 
-import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-import static com.epam.cwlhub.constants.Endpoints.*;
+import static com.epam.cwlhub.constants.Endpoints.GROUP_URL;
+import static com.epam.cwlhub.constants.Endpoints.SNIPPET_UPLOAD;
+import static com.epam.cwlhub.constants.Endpoints.SNIPPET_UPLOAD_URL;
 
 @WebServlet(name="SnippetUploadServlet", urlPatterns = SNIPPET_UPLOAD_URL)
 @MultipartConfig(maxFileSize = 16177215)

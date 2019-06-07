@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static com.epam.cwlhub.constants.Endpoints.HOME;
 import static com.epam.cwlhub.constants.Endpoints.HOME_URL;
@@ -34,17 +33,12 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long id = ((Map<String, Long>) req.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(req.getSession().getId());
-        Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
-
-        if (receivedUser.isPresent()) {
-            List<Snippet> commonSnippets = snippetService.findByGroupId(1L);
-            req.setAttribute("snippets", commonSnippets);
-
-            List<Group> userGroups = groupService.findUsersGroups(receivedUser.get().getId());
-            req.setAttribute("userGroups", userGroups);
-
-            RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(HOME);
-            dispatcher.forward(req, resp);
-        }
+        UserEntity receivedUser = UserServiceImpl.getInstance().findById(id);
+        List<Snippet> commonSnippets = snippetService.findByGroupId(1L);
+        req.setAttribute("snippets", commonSnippets);
+        List<Group> userGroups = groupService.findUsersGroups(receivedUser.getId());
+        req.setAttribute("userGroups", userGroups);
+        RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(HOME);
+        dispatcher.forward(req, resp);
     }
 }

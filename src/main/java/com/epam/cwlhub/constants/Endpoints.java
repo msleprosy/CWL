@@ -2,6 +2,8 @@ package com.epam.cwlhub.constants;
 
 public abstract class Endpoints {
     public static final String LOGIN_PAGE = "/loginView.jsp";
+    public static final String REGISTRATION_PAGE = "/userregister.jsp";
+    public static final String USERINFO_URL = "/userInfo";
     public static final String LOGIN_URL = "/login";
     public static final String HOME = "/views/home.jsp";
     public static final String HOME_URL = "/home";
@@ -15,4 +17,6 @@ public abstract class Endpoints {
     public static final String GROUP_URL = "/groups";
     public static final String USER_VIEW_URL = "/viewUsers";
     public static final String USER_VIEW = "/views/userView.jsp";
+    public static final String USERINFOVIEW_PAGE = "/UserInfoView.jsp";
+    public static final String USERDETAILS ="/userdetails.jsp";
 }
