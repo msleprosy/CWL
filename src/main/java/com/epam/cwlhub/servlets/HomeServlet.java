@@ -34,10 +34,13 @@ public class HomeServlet extends HttpServlet {
         Long id = ((Map<String, Long>) req.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(req.getSession().getId());
         UserEntity receivedUser = UserServiceImpl.getInstance().findById(id);
+
         List<Snippet> commonSnippets = snippetService.findByGroupId(1L);
         req.setAttribute("snippets", commonSnippets);
+
         List<Group> userGroups = groupService.findUsersGroups(receivedUser.getId());
         req.setAttribute("userGroups", userGroups);
+
         RequestDispatcher dispatcher = this.getServletContext().getRequestDispatcher(HOME);
         dispatcher.forward(req, resp);
     }

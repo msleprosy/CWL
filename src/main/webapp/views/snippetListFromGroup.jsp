@@ -51,13 +51,15 @@
             <%= snippet.getTag()%>
         </td>
         <td align="center">
-            <button formmethod="get" formaction="SnippetViewServlet">
-                <a href='<%=request.getContextPath()+"/snippets?id=" + snippet.getId()%>'>Open</a>
-            </button>
+            <form method="get" action="<%=request.getContextPath()+"/snippets"%>">
+                <input type="hidden" name="id" value="<%=snippet.getId()%>">
+                <input type="submit" value="Open">
+            </form>
             <% if (isOwner) {%>
-                <button formmethod="post" formaction="SnippetDeleteServlet">
-                    <a href='<%=request.getContextPath()+"/delete?id=" + snippet.getId()%>'>Delete</a>
-                </button>
+            <form method="post" action="<%=request.getContextPath()+"/delete"%>">
+                <input type="hidden" name="id" value="<%=snippet.getId()%>">
+                <input type="submit" value="Delete">
+            </form>
             <%}%>
         </td>
     </tr>

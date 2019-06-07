@@ -47,7 +47,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <textarea style="text-align: left" cols="150" name="content" readonly>
+                        <textarea style="text-align: left" rows="30" cols="150" name="content" readonly>
                             <%= snippet.getContent()%>
                         </textarea>
                     </td>

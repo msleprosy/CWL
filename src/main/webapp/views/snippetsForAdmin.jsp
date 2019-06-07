@@ -41,7 +41,7 @@
                 <th>Creation date</th>
                 <th>Modification date</th>
                 <th>Tag</th>
-                <th>Action</th>
+                <th colspan="2">Action</th>
             </thead>
             <%
                 if (request.getAttribute("snippets") != null) {
@@ -77,12 +77,14 @@
                     <%= snippet.getTag()%>
                 </td>
             <td align="center">
-                <button formmethod="get" formaction="SnippetViewServlet">
-                    <a href='<%=request.getContextPath()+"/admin/snippets/snippet?id=" + snippet.getId()%>'>Open</a>
-                </button>
-                <button formmethod="post" formaction="SnippetDeleteServlet">
-                    <a href='<%=request.getContextPath()+"/admin/snippets/delete?id=" + snippet.getId()%>'>Delete</a>
-                </button>
+                <form method="get" action="<%=request.getContextPath()+"/admin/snippets/snippet"%>">
+                    <input type="hidden" name="id" value="<%=snippet.getId()%>">
+                    <input type="submit" value="Open">
+                </form>
+                <form method="post" action="<%=request.getContextPath()+"/admin/snippets/delete"%>">
+                    <input type="hidden" name="id" value="<%=snippet.getId()%>">
+                    <input type="submit" value="Delete">
+                </form>
                 <%}%>
             </td>
             </tbody>

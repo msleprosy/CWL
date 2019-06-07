@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 import static com.epam.cwlhub.constants.Endpoints.*;
 
@@ -23,13 +22,11 @@ public class AdminSnippetViewServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getParameterMap().containsKey("id")) {
             Long id = Long.parseLong(req.getParameter("id"));
-            Optional<Snippet> snippetView = snippetService.findById(id);
+            Snippet snippetView = snippetService.findById(id);
 
-            if (snippetView.isPresent()) {
-                req.setAttribute("snippet", snippetView.get());
-                RequestDispatcher dispatcher = req.getRequestDispatcher(ADMIN_SNIPPET_VIEW);
-                dispatcher.forward(req, resp);
-            }
+            req.setAttribute("snippet", snippetView);
+            req.getRequestDispatcher(ADMIN_SNIPPET_VIEW).forward(req, resp);
+
         }
     }
 }
