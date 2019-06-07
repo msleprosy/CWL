@@ -71,9 +71,10 @@
             </td>
             <td align="center">
                 <% if (group.getId() != 1) {%>
-                <button formmethod="get" formaction="DeleteGroupServlet">
-                    <a href="<%=request.getContextPath()+DELETE_GROUP_URL_ADMIN+"?id="+group.getId()%>">Delete</a>
-                </button>
+                <form method="post" action="<%=request.getContextPath()+DELETE_GROUP_URL_ADMIN%>">
+                    <input type="hidden" name="id" value="<%=group.getId()%>">
+                    <input type="submit" value="Delete">
+                </form>
                 <%
                         }
                     }

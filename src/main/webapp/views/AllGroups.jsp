@@ -58,19 +58,22 @@
                     </td>
                     <td align="center">
                         <% if (!isOwner && GroupServiceImpl.getInstance().checkMembership(id, group.getId()) && group.getId() != 1) {%>
-                        <button formmethod="get" formaction="LeaveGroupServlet">
-                            <a href='<%=request.getContextPath()+"/allgroups/leaveGroup?id="+group.getId()%>'>Leave</a>
-                        </button>
+                        <form method="post" action="<%=request.getContextPath()+LEAVE_GROUP_URL%>">
+                            <input type="hidden" name="id" value="<%=group.getId()%>">
+                            <input type="submit" value="Leave">
+                        </form>
                         <%}%>
                         <% if (isOwner && group.getId() != 1) {%>
-                        <button formmethod="get" formaction="DeleteGroupServlet">
-                            <a href='<%=request.getContextPath()+DELETE_GROUP_URL_USER+"?id="+group.getId()%>'>Delete</a>
-                        </button>
+                        <form method="post" action="<%=request.getContextPath()+DELETE_GROUP_URL_USER%>">
+                            <input type="hidden" name="id" value="<%=group.getId()%>">
+                            <input type="submit" value="Delete">
+                        </form>
                         <%}%>
                         <% if (!isOwner && !GroupServiceImpl.getInstance().checkMembership(id, group.getId()) && group.getId() != 1) {%>
-                        <button formmethod="get" formaction="JoinGroupServlet">
-                            <a href='<%=request.getContextPath()+JOIN_GROUP_URL+"?id="+group.getId()%>'>Join</a>
-                        </button>
+                        <form method="post" action="<%=request.getContextPath()+JOIN_GROUP_URL%>">
+                            <input type="hidden" name="id" value="<%=group.getId()%>">
+                            <input type="submit" value="Join">
+                        </form>
                         <%}%>
                     </td>
                 </tr>

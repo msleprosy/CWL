@@ -71,7 +71,7 @@ public class LoginServlet extends HttpServlet {
             if (signInUser == null) {
                 errorString = LOGIN_ERROR;
             } else {
-                if (false){//(!userService.checkUserPassword(password, signInUser)) {
+                if (!userService.checkUserPassword(password, signInUser)) {
                     errorString = LOGIN_ERROR;
                 }
             }

@@ -21,11 +21,6 @@ public class LeaveGroupServlet extends HttpServlet {
     private final GroupService groupService = GroupServiceImpl.getInstance();
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long userId = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(request.getSession().getId());

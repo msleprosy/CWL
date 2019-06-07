@@ -14,13 +14,7 @@ import static com.epam.cwlhub.constants.Endpoints.*;
 
 @WebServlet(name="DeleteUserGroupServlet", urlPatterns = DELETE_GROUP_URL_USER)
 public class DeleteUserGroupServlet extends HttpServlet {
-
     private final GroupService groupService = GroupServiceImpl.getInstance();
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

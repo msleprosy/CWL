@@ -16,13 +16,7 @@ import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSIO
 
 @WebServlet(name="JoinGroupServlet", urlPatterns = JOIN_GROUP_URL)
 public class JoinGroupServlet extends HttpServlet {
-
     private final GroupService groupService = GroupServiceImpl.getInstance();
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
