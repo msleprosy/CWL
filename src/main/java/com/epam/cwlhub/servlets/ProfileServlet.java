@@ -65,9 +65,7 @@ public class ProfileServlet extends HttpServlet {
         String firstName = request.getParameter(FIRSTNAME_PARAMETER);
         String lastName = request.getParameter(LASTNAME_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setPassword(password);
+        user = new UserEntity.Builder(password).withFirstName(firstName).withLastName(lastName).build();
         userService.update(user);
         return user;
     }

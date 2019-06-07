@@ -121,12 +121,16 @@ public class UserEntity {
         private UserType userType;
         private boolean banned;
 
-        public Builder(String email, String password) {
-            if (email == null || password == null) {
+        public Builder(String password) {
+            if (password == null) {
                 throw new IllegalArgumentException("mail and passw can not be null");
             }
-            this.email = email;
             this.password = password;
+        }
+
+        public Builder withEmail(String email) {
+            this.email = email;
+            return this;
         }
 
         public Builder withFirstName(String firstName) {

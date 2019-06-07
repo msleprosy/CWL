@@ -57,7 +57,7 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = request.getParameter(LASTNAME_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
         String email = request.getParameter(EMAIL_PARAMETER);
-        UserEntity user = new UserEntity.Builder(email, password).withFirstName(firstName).
+        UserEntity user = new UserEntity.Builder(password).withEmail(email).withFirstName(firstName).
                 withLastName(lastName).withUserType(UserType.SIMPLE_USER).
                 withBanned(false).build();
         return userService.insert(user);
