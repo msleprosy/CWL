@@ -2,7 +2,6 @@ package com.epam.cwlhub.dao.impl;
 
 import com.epam.cwlhub.dao.GroupDao;
 import com.epam.cwlhub.entities.group.Group;
-import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.exceptions.unchecked.GroupException;
 import com.epam.cwlhub.storage.dbconnection.DBConnection;
 import com.epam.cwlhub.storage.dbconnection.DBConnector;
@@ -63,24 +62,21 @@ public class GroupDaoImpl implements GroupDao {
                 }
             }
             return group;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new GroupException("Error inserting group: " + group.getName(), e);
         }
     }
 
     @Override
-    public Optional<Group> findById(long id) {
+    public Group findById(long id) {
         try (Connection connection = dbConnector.getDBConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return Optional.ofNullable(Optional.ofNullable(mapGroup(rs))
-                                .orElseThrow(() -> new GroupException("Error while mapping group")));
-            } else {
-                return Optional.empty();
-            }
-        } catch (Exception e) {
+            rs.next();
+            return Optional.of(mapGroup(rs))
+                    .orElseThrow(() -> new GroupException("Error while mapping group"));
+        } catch (SQLException e) {
             throw new GroupException("Error while trying to find group with id: " + id, e);
         }
     }
@@ -92,13 +88,11 @@ public class GroupDaoImpl implements GroupDao {
             if (id == 0) {
                 throw new IllegalArgumentException("You can't delete common group");
             }
-            Optional<Group> found = findById(id);
-            if (found.isPresent()) {
-                preparedStatement.setLong(1, id);
-                preparedStatement.executeUpdate();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            findById(id);
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new GroupException("Error deleting group", e);
         }
     }
 
@@ -108,8 +102,8 @@ public class GroupDaoImpl implements GroupDao {
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
             appendPreparedStatementParametersToUpdateGroup(preparedStatement, group);
             preparedStatement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new GroupException("Can't update group " + group.getName());
         }
     }
 
@@ -123,7 +117,7 @@ public class GroupDaoImpl implements GroupDao {
                 result.add(mapGroup(resultSet));
             }
             return result;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new GroupException("Can't select *", e);
         }
     }
@@ -139,7 +133,7 @@ public class GroupDaoImpl implements GroupDao {
                 result.add(mapGroup(rs));
             }
             return result;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new GroupException("Error while trying to find groups for user with id: " + id, e);
         }
     }
@@ -152,8 +146,9 @@ public class GroupDaoImpl implements GroupDao {
             preparedStatement.setLong(1, userId);
             preparedStatement.setLong(2, groupId);
             preparedStatement.executeUpdate();
-        } catch (Exception e) {
-            throw new GroupException("Error adding user " + userId + " to group " + groupId, e);
+        } catch (SQLException e) {
+            throw new GroupException("Error adding user with ID " + userId
+                    + " to group with ID " + groupId, e);
         }
     }
 
@@ -164,7 +159,7 @@ public class GroupDaoImpl implements GroupDao {
             preparedStatement.setLong(1, userId);
             preparedStatement.setLong(2, groupId);
             preparedStatement.executeQuery();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new GroupException("Error deleting user " + userId + " from group " + groupId, e);
         }
     }
@@ -172,14 +167,12 @@ public class GroupDaoImpl implements GroupDao {
     @Override
     public boolean checkMembership(Long userId, Long groupId) {
         try (Connection connection = dbConnector.getDBConnection();
-             Statement statement = connection.createStatement()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_CHECK_MEMBERSHIP);
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CHECK_MEMBERSHIP)) {
             preparedStatement.setLong(1, userId);
             preparedStatement.setLong(2, groupId);
             ResultSet rs = preparedStatement.executeQuery();
             return rs.next();
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new GroupException("Error checking user's membership in group", e);
         }
     }
