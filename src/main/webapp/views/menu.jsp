@@ -21,13 +21,11 @@
         <%
             Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
                                                                       .get(request.getSession().getId());
-            Optional<UserEntity> receivedUser = UserServiceImpl.getInstance().findById(id);
-            if (receivedUser.isPresent()) {
-                UserEntity user = receivedUser.get();
+            UserEntity user = UserServiceImpl.getInstance().findById(id);
                 if (UserType.ADMINISTRATOR.equals(user.getUserType())) {
         %>
-        <a href="">Users</a>
-        <%} }%>
+        <a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin</a>
+        <% }%>
         <a href="">Groups</a>
         <a href="">Profile</a>
         <a href="<%=request.getContextPath()+"/logout"%>">Logout</a>
