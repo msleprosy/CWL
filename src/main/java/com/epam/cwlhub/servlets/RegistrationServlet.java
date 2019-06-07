@@ -37,14 +37,8 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String password = request.getParameter(PASSWORD_PARAMETER);
-        String email = request.getParameter(EMAIL_PARAMETER);
-        UserEntity user = null;
         String errorString = registrationValidation(request, response);
         if (errorString != null) {
-            user = new UserEntity();
-            user.setEmail(email);
-            user.setPassword(password);
             request.setAttribute(ERROR, errorString);
             RequestDispatcher dispatcher
                     = this.getServletContext().getRequestDispatcher(Endpoints.REGISTRATION_PAGE);
@@ -87,18 +81,4 @@ public class RegistrationServlet extends HttpServlet {
         }
         return errorString;
     }
-
-//    private UserEntity registrationBuilder(String firstName, String lastName,
-//                                           String email, String password
-//    ) {
-//        UserEntity user = null;
-//        user.setFirstName(firstName);
-//        user.setLastName(lastName);
-//        user.setEmail(email);
-//        user.setPassword(password);
-//        user.setUserType(UserType.SIMPLE_USER);
-//        user.setBanned(false);
-//        return user;
-//    }
-
 }
