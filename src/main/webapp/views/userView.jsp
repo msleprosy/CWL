@@ -68,15 +68,20 @@
          <td><%=user.getFirstName()%></td>
          <td><%=user.getLastName()%></td>
          <td><%=user.getEmail()%></td>
+         <td><%=user.isBanned()%></td>
          <td align="center">
-             <form action="/mainServlet" method="post">
-                 <button type="submit" name="buttonBan" <%--formmethod="post" formaction="UserServlet"--%>>
-                     <a href='<%=request.getContextPath()+"/userView?id=" + user.getId()%>'>Ban</a>
-                     </button>
-             <button type="submit" name="buttonUnban">Unban</button>
+             <form method="post" action="<%=request.getContextPath()+"/banUsers"%>">
+                 <input type="hidden" name="id" value="<%=user.getId()%>">
+                 <input type="submit" value="Ban">
+             </form>
+             <form method="post" action="<%=request.getContextPath()+"/unbanUsers"%>">
+                 <input type="hidden" name="id" value="<%=user.getId()%>">
+                 <input type="submit" value="Unban">
              </form>
          </td>
-         <td><%=user.isBanned()%></td>
+         <td>
+
+         </td>
      </tr>
  <%}%>
  <%}%>

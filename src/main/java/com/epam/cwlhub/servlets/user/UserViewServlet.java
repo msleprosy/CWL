@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
-import java.util.Optional;
 
-@WebServlet(name = "mainServlet", urlPatterns = "/mainServlet")
+import static com.epam.cwlhub.constants.Endpoints.USER_VIEW;
+import static com.epam.cwlhub.constants.Endpoints.USER_VIEW_URL;
 
-public class UserServlet extends HttpServlet {
+@WebServlet(name = "UserViewServlet", urlPatterns = USER_VIEW_URL)
+
+public class UserViewServlet extends HttpServlet {
 
     private final UserService userService = UserServiceImpl.getInstance();
 
@@ -31,14 +32,14 @@ public class UserServlet extends HttpServlet {
             if (!users.isEmpty()) {
                 req.setAttribute("user", users);
             }
-        req.getRequestDispatcher("/views/userView.jsp").forward(req, resp);
+        req.getRequestDispatcher(USER_VIEW).forward(req, resp);
         } catch (ServletException | IOException e) {
             throw new UserException("Can't display all users", e);
         }
 
     }
 
-    @Override
+    /*@Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             //if (req.getParameterMap().containsKey("id")) {
                 Long id = Long.parseLong(req.getParameter("id"));
@@ -47,6 +48,8 @@ public class UserServlet extends HttpServlet {
                     UserEntity user = receivedUser.get();
                     if (req.getParameter("buttonBan")!= null) {
                     user.setBanned(true);
+                    resp.sendRedirect(req.getHeader("refer"));
+                    //req.setAttribute("banned", true);
                 }
                     else {
                         user.setBanned(false);
@@ -54,5 +57,5 @@ public class UserServlet extends HttpServlet {
                 }
             //}
 
-    }
+    }*/
 }

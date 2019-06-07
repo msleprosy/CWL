@@ -26,14 +26,14 @@
 
 </web-app>-->
 
-    <servlet>
-    <servlet-name>mainServlet</servlet-name>
-    <servlet-class>com.epam.cwlhub.servlets.user.UserServlet</servlet-class>
+<!--    <servlet>
+    <servlet-name>UserViewServlet</servlet-name>
+    <servlet-class>com.epam.cwlhub.servlets.user.UserViewServlet</servlet-class>
 </servlet>
 
 <servlet-mapping>
-<servlet-name>mainServlet</servlet-name>
-<url-pattern>/mainServlet</url-pattern>
-</servlet-mapping>
+<servlet-name>UserViewServlet</servlet-name>
+<url-pattern>/userView</url-pattern>
+</servlet-mapping>-->
 
         </web-app>
