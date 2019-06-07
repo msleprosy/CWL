@@ -63,7 +63,9 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = request.getParameter(LASTNAME_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
         String email = request.getParameter(EMAIL_PARAMETER);
-        UserEntity user = registrationBuilder(firstName, lastName, email, password);
+        UserEntity user = new UserEntity.Builder(email, password).withFirstName(firstName).
+                withLastName(lastName).withUserType(UserType.SIMPLE_USER).
+                withBanned(false).build();
         return userService.insert(user);
     }
 
@@ -86,17 +88,17 @@ public class RegistrationServlet extends HttpServlet {
         return errorString;
     }
 
-    private UserEntity registrationBuilder(String firstName, String lastName,
-                                           String email, String password
-    ) {
-        UserEntity user = null;
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setEmail(email);
-        user.setPassword(password);
-        user.setUserType(UserType.SIMPLE_USER);
-        user.setBanned(false);
-        return user;
-    }
+//    private UserEntity registrationBuilder(String firstName, String lastName,
+//                                           String email, String password
+//    ) {
+//        UserEntity user = null;
+//        user.setFirstName(firstName);
+//        user.setLastName(lastName);
+//        user.setEmail(email);
+//        user.setPassword(password);
+//        user.setUserType(UserType.SIMPLE_USER);
+//        user.setBanned(false);
+//        return user;
+//    }
 
 }
