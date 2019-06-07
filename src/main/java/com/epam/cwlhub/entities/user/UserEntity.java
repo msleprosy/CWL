@@ -11,9 +11,10 @@ public class UserEntity {
     private UserType userType;
     private boolean banned;
 
-    public UserEntity(){}
+    public UserEntity() {
+    }
 
-    public UserEntity(long id, String firstName, String lastName, String email, String password, boolean banned) {
+    public UserEntity(Builder builder) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -109,6 +110,57 @@ public class UserEntity {
                 + ", banned=" + banned
                 + '}';
     }
+
+    public static class Builder {
+
+        private long id;
+        private String firstName;
+        private String lastName;
+        private String email;
+        private String password;
+        private UserType userType;
+        private boolean banned;
+
+        public Builder(String email, String password) {
+            if (email == null || password == null) {
+                throw new IllegalArgumentException("mail and passw can not be null");
+            }
+            this.email = email;
+            this.password = password;
+        }
+
+        public Builder withFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder withLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public Builder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withUserType(UserType userType) {
+            this.userType = userType;
+            return this;
+        }
+
+        public Builder withBanned(boolean banned) {
+            this.banned = banned;
+            return this;
+        }
+
+        public UserEntity build() {
+            return new UserEntity(this);
+        }
+    }
 }
+
+
+
 
 
