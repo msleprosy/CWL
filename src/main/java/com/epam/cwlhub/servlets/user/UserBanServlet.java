@@ -21,7 +21,6 @@ public class UserBanServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //if (req.getParameterMap().containsKey("id")) {
         Long id = Long.parseLong(req.getParameter("id"));
         Optional<UserEntity> receivedUser = userService.findById(id);
         if (receivedUser.isPresent()) {
@@ -29,9 +28,6 @@ public class UserBanServlet extends HttpServlet {
                 user.setBanned(true);
                 userService.update(user);
                 resp.sendRedirect(req.getHeader("referer"));
-
         }
-        //}
-
     }
 }

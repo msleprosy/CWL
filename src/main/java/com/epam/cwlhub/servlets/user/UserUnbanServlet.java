@@ -20,7 +20,6 @@ public class UserUnbanServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //if (req.getParameterMap().containsKey("id")) {
         Long id = Long.parseLong(req.getParameter("id"));
         Optional<UserEntity> receivedUser = userService.findById(id);
         if (receivedUser.isPresent()) {

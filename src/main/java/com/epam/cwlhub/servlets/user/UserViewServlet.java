@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.epam.cwlhub.constants.Endpoints.USER_VIEW;
 import static com.epam.cwlhub.constants.Endpoints.USER_VIEW_URL;
@@ -21,16 +22,16 @@ import static com.epam.cwlhub.constants.Endpoints.USER_VIEW_URL;
 
 public class UserViewServlet extends HttpServlet {
 
-    private final UserService userService = UserServiceImpl.getInstance();
+    private static final UserService userService = UserServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        //req.setAttribute("name", "userServlet");
         try {
             List<UserEntity> users = userService.findAll();
             if (!users.isEmpty()) {
-                req.setAttribute("user", users);
+                List<UserEntity> usersWithoutAdmin = users.stream().filter(user -> user.getId() != 1).collect(Collectors.toList());
+                req.setAttribute("user", usersWithoutAdmin);
             }
         req.getRequestDispatcher(USER_VIEW).forward(req, resp);
         } catch (ServletException | IOException e) {
@@ -38,24 +39,4 @@ public class UserViewServlet extends HttpServlet {
         }
 
     }
-
-    /*@Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            //if (req.getParameterMap().containsKey("id")) {
-                Long id = Long.parseLong(req.getParameter("id"));
-                Optional<UserEntity> receivedUser = userService.findById(id);
-                if (receivedUser.isPresent()) {
-                    UserEntity user = receivedUser.get();
-                    if (req.getParameter("buttonBan")!= null) {
-                    user.setBanned(true);
-                    resp.sendRedirect(req.getHeader("refer"));
-                    //req.setAttribute("banned", true);
-                }
-                    else {
-                        user.setBanned(false);
-                    }
-                }
-            //}
-
-    }*/
 }
