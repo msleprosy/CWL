@@ -5,6 +5,7 @@ import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.services.impl.SnippetServiceImpl;
 import com.epam.cwlhub.services.impl.UserServiceImpl;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -20,15 +21,14 @@ import java.time.LocalDate;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.epam.cwlhub.constants.Endpoints.GROUP_URL;
-import static com.epam.cwlhub.constants.Endpoints.SNIPPET_UPLOAD;
-import static com.epam.cwlhub.constants.Endpoints.SNIPPET_UPLOAD_URL;
+import static com.epam.cwlhub.constants.Endpoints.*;
 import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
 
 @WebServlet(name="SnippetUploadServlet", urlPatterns = SNIPPET_UPLOAD_URL)
 @MultipartConfig(maxFileSize = 16177215)
 public class SnippetUploadServlet extends HttpServlet {
     private final SnippetServiceImpl snippetService = SnippetServiceImpl.getInstance();
+    String pattern = "^[a-zA-Z0-9_-]+( [a-zA-Z0-9_-]+)*$";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,18 +36,36 @@ public class SnippetUploadServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("fileName").equals("")
-                || request.getParameter("tags").equals("")
-                || request.getPart("cwl").getSize() == 0){
+
+        String fileName = request.getParameter("fileName").trim();
+        String fileTags = request.getParameter("tags").trim();
+        String file = request.getPart("cwl").getSubmittedFileName();
+
+
+        if (fileName.equals("") || fileTags.equals("") || request.getPart("cwl").getSize() == 0){
             request.setAttribute("errorMessage", "Empty fields are not allowed!");
-            response.sendRedirect(request.getHeader("referer"));
+            RequestDispatcher dispatcher = request.getRequestDispatcher(UPLOAD_SNIPPET);
+            dispatcher.forward(request, response);
+        } else if ((!fileName.matches(pattern) || fileName.length() > 30)) {
+            request.setAttribute("errorMessage", "Invalid file name! It may only contain letters, numbers, \"_\" and  \"-\" and must be less than 30 symbols.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher(UPLOAD_SNIPPET);
+            dispatcher.forward(request, response);
+        } else if ((!fileTags.matches(pattern) || fileName.length() > 150)) {
+            request.setAttribute("errorMessage", "Invalid tags! This field may only contain letters, numbers, \"_\" and  \"-\" and must be less than 150 symbols.");
+            RequestDispatcher dispatcher = request.getRequestDispatcher(UPLOAD_SNIPPET);
+            dispatcher.forward(request, response);
+        } else if (!request.getPart("cwl").getContentType().equals("application/octet-stream") || !file.substring(file.length() - 4).equals(".cwl")){
+            request.setAttribute("errorMessage", "Wrong file type!");
+            RequestDispatcher dispatcher = request.getRequestDispatcher(UPLOAD_SNIPPET);
+            dispatcher.forward(request, response);
         } else {
             Boolean state = createSnippetObjectFromRequest(request);
             if (state) {
                 response.sendRedirect(GROUP_URL + "?id=" + request.getParameter("group_id"));
             } else {
-                request.setAttribute("errorMessage", "This file already exists in the database!");
-                response.sendRedirect(request.getHeader("referer"));
+                request.setAttribute("errorMessage", "This file already exists in this group!");
+                RequestDispatcher dispatcher = request.getRequestDispatcher(UPLOAD_SNIPPET);
+                dispatcher.forward(request, response);
             }
         }
     }
@@ -59,7 +77,6 @@ public class SnippetUploadServlet extends HttpServlet {
         if (user != null && request.getParameterMap().containsKey("group_id")) {
             String fileName = request.getParameter("fileName");
             String tags = request.getParameter("tags");
-
             InputStream inputStream = null;
             Part filePart = request.getPart("cwl");
             if (filePart != null) {

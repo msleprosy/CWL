@@ -8,6 +8,7 @@
     <title>CWL Upload</title>
 </head>
 <body>
+<jsp:include page="/views/menu.jsp"></jsp:include>
     <h1>Upload CWL File</h1>
     <form method="post" action="<%=request.getContextPath()+"/upload?group_id=" + request.getParameter("group_id")%>" enctype="multipart/form-data">
         <div style="color: #FF0000;">${errorMessage}</div><br>
@@ -31,5 +32,6 @@
             </tr>
         </table>
     </form>
+<jsp:include page="/views/footer.jsp"></jsp:include>
 </body>
 </html>
