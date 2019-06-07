@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String email = request.getParameter(EMAIL_PARAMETER).trim();
@@ -57,6 +58,8 @@ public class LoginServlet extends HttpServlet {
         } else {
             UserEntity userEntity = userService.findByEmail(email);
             Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
+            userSessionData.put(request.getSession().getId(), userEntity.getId());
+            response.sendRedirect(request.getContextPath() + HOME_URL);
             userSessionData.put(request.getSession().getId(), userEntity.getId());
             if (remember) {
                 HttpSession jsession = request.getSession();
