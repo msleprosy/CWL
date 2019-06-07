@@ -34,11 +34,8 @@
 
                     Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
                                                                               .get(request.getSession().getId());
-                    UserEntity receivedUser = UserServiceImpl.getInstance().findById(id);
-                    boolean isOwner = false;
-                    if (receivedUser != null) {
-                        isOwner = snippet.getOwnerId() == receivedUser.getId();
-                    }
+                    UserEntity user = UserServiceImpl.getInstance().findById(id);
+                    boolean isOwner = snippet.getOwnerId() == user.getId();
                 %>
                 <form method="post" action="<%=request.getContextPath()+"/update?id=" + snippet.getId()%>">
                     <table border="2px solid black" width="100%">
