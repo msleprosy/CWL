@@ -24,10 +24,6 @@ public class LeaveGroupServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Long userId = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(request.getSession().getId());
-        UserEntity newUser = new UserEntity();
-        newUser.setId(userId);
-        Group group = new Group();
-        group.setId(Long.parseLong(request.getParameter("id")));
         groupService.leaveGroup(userId, Long.parseLong(request.getParameter("id")));
         response.sendRedirect(ALL_GROUPS_URL);
     }

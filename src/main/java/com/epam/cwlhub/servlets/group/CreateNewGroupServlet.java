@@ -25,24 +25,22 @@ public class CreateNewGroupServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String name = req.getParameter(NAME).trim();
         String description = req.getParameter(DESCRIPTION).trim();
-
+        String pattern = "^[a-zA-Z0-9_-]+( [a-zA-Z0-9_-]+)*$";
         List<Group> groups = groupService.findAll();
         if (!groups.isEmpty()) {
             req.setAttribute("groups", groups);
         }
-
         if (name.equals("") || description.equals("")) {
             req.setAttribute("errorMessage", "Empty fields are not allowed!");
             RequestDispatcher dispatcher = req.getRequestDispatcher(ALL_GROUPS);
             dispatcher.forward(req, resp);
-        } else if ((!name.matches("^[a-zA-Z0-9_-]+( [a-zA-Z0-9_-]+)*$") || name.length() > 30)) {
+        } else if ((!name.matches(pattern) || name.length() > 30)) {
             req.setAttribute("errorMessage", "Invalid group name! It may only contain letters, numbers, \"_\" and  \"-\" and must be less than 30 symbols.");
             RequestDispatcher dispatcher = req.getRequestDispatcher(ALL_GROUPS);
             dispatcher.forward(req, resp);
-        } else if ((!description.matches("^[a-zA-Z0-9_-]+( [a-zA-Z0-9_-]+)*$") || description.length() > 150)) {
+        } else if ((!description.matches(pattern) || description.length() > 150)) {
             req.setAttribute("errorMessage", "Invalid description! It may only contain letters, numbers, \"_\" and  \"-\" and must be less than 30 symbols.");
             RequestDispatcher dispatcher = req.getRequestDispatcher(ALL_GROUPS);
             dispatcher.forward(req, resp);
