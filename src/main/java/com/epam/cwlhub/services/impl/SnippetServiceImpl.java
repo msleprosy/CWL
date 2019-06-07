@@ -68,6 +68,22 @@ public class SnippetServiceImpl implements SnippetService {
         result.sort(Comparator.comparingLong(Snippet::getId));
         return result;
     }
+    @Override
+    public List<Snippet> getRecords (int start, Long groupId) {
+        if (groupId == null) {
+            throw new SnippetException("ID can't be empty");
+        }
+        List<Snippet> result = snippetDao.getRecords(start, groupId);
+        return result;
+    }
+
+    @Override
+    public int numberOfSnippetsInGroup(Long groupId) {
+        if (groupId == null) {
+            throw new SnippetException("ID can't be empty");
+        }
+        return snippetDao.numberOfSnippetsInGroup(groupId);
+    }
 
     @Override
     public void update(Snippet snippet) {

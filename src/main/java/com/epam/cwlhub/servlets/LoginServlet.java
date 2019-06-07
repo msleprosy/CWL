@@ -62,6 +62,7 @@ public class LoginServlet extends HttpServlet {
         } else {
             Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
             userSessionData.put(request.getSession().getId(), signInUser.getId());
+            request.setAttribute("page", 1);
             response.sendRedirect(HOME_URL);
         }
     }

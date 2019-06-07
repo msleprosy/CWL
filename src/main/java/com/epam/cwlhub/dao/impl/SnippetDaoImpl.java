@@ -16,9 +16,10 @@ import java.util.List;
 import java.util.Optional;
 
 public class SnippetDaoImpl implements SnippetDao {
-    private final DBConnection dbConnection = DBConnector.getInstance();
 
+    private final DBConnection dbConnection = DBConnector.getInstance();
     private static volatile SnippetDaoImpl INSTANCE;
+    private static final Integer SNIPPETS_ON_PAGE = 5;
 
     private static final String INSERT_SNIPPET_SQL_STATEMENT = "INSERT INTO snippets (name, owner_id, creation_date, " +
                                                                "modification_date, content, tag, group_id) " +
@@ -26,20 +27,21 @@ public class SnippetDaoImpl implements SnippetDao {
 
     private static final String SELECT_ALL_SNIPPETS = "SELECT * FROM snippets";
     private static final String SELECT_SNIPPET_SQL_STATEMENT = "SELECT * FROM snippets " +
-                                                               "WHERE ";
+                                                               " WHERE ";
 
-    private static final String SELECT_SNIPPET_BY_ID_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "snippet_id = ?";
-    private static final String SELECT_SNIPPET_BY_GROUP_ID_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "group_id = ?";
-    private static final String SELECT_SNIPPET_BY_FILENAME_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "snippets.name = ?";
+    private static final String SELECT_SNIPPET_BY_ID_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + " snippet_id = ?";
+    private static final String SELECT_SNIPPET_BY_GROUP_ID_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + " group_id = ?";
+    private static final String SELECT_SNIPPET_BY_FILENAME_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + " snippets.name = ?";
 
     private static final String DELETE_SNIPPET_SQL_STATEMENT = "DELETE FROM snippets " +
-                                                               "WHERE ";
+                                                               " WHERE ";
 
     private static final String DELETE_SNIPPET_BY_ID_SQL_STATEMENT = DELETE_SNIPPET_SQL_STATEMENT + "snippet_id = ?";
 
     private static final String UPDATE_SNIPPET_SQL_STATEMENT = "UPDATE snippets SET " +
-                                                               "name = ?, modification_date = ?, content = ?, tag = ? " +
-                                                               "WHERE snippet_id = ?";
+                                                               " name = ?, modification_date = ?, content = ?, tag = ? " +
+                                                                " WHERE snippet_id = ?";
+    private static final String COUNT_ALL_SNIPPETS = "SELECT COUNT (*) FROM snippets WHERE group_id = ?";
 
     public static SnippetDaoImpl getInstance() {
         SnippetDaoImpl localInstance = INSTANCE;
@@ -183,6 +185,33 @@ public class SnippetDaoImpl implements SnippetDao {
             return snippet;
         } catch (SQLException e) {
             throw new SnippetException("Can't map result set to a snippet entity", e);
+        }
+    }
+
+    @Override
+    public int numberOfSnippetsInGroup(Long groupId) {
+        try (Connection connection = dbConnection.getDBConnection();
+             PreparedStatement ps = connection.prepareStatement(COUNT_ALL_SNIPPETS)) {
+            ps.setLong(1, groupId);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            throw new SnippetException("Can't find any snippets", e);
+        }
+    }
+
+    public List<Snippet> getRecords(int start, Long groupId) {
+        try (Connection connection = dbConnection.getDBConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "SELECT * FROM snippets WHERE group_id = ? " +
+                             "ORDER BY snippet_id OFFSET "+ SNIPPETS_ON_PAGE*(start-1)
+                             +" LIMIT "+SNIPPETS_ON_PAGE)) {
+            ps.setLong(1, groupId);
+            ResultSet rs = ps.executeQuery();
+            return getSnippetsFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new SnippetException("Can't find any snippets", e);
         }
     }
 

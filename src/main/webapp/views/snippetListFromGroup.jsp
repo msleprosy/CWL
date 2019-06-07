@@ -4,6 +4,8 @@
 <%@ page import="com.epam.cwlhub.entities.user.UserEntity" %>
 <%@ page import="java.util.Optional" %>
 <%@ page import="com.epam.cwlhub.services.impl.UserServiceImpl" %>
+<%@ page import= "com.epam.cwlhub.services.SnippetService" %>
+<%@ page import= "com.epam.cwlhub.services.impl.SnippetServiceImpl" %>
 <%@ page import="static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <table border="2px black" width="100%">
@@ -15,7 +17,9 @@
     <th>Tag</th>
     <th>Action</th>
     </thead>
+
     <%
+
         if (request.getAttribute("snippets") != null) {
             List<Snippet> snippets = (List<Snippet>) request.getAttribute("snippets");
             if (snippets.isEmpty()) {
@@ -62,6 +66,17 @@
         </td>
     </tr>
     <%} %>
+    <%
+        for (int i = 1; i <= SnippetServiceImpl.getInstance().numberOfSnippetsInGroup(1L)/5; i++) {
+
+        %>
+    <tr>
+        <th>
+            <a href='<%=request.getContextPath()+"?page="+i%>'><%=i%></a>
+        </th>
+
+    </tr>
     </tbody>
+    <%}%>
     <%}%>
 </table>
