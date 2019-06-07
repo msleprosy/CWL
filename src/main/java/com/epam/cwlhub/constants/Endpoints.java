@@ -17,4 +17,13 @@ public abstract class Endpoints {
     public static final String GROUP_URL = "/groups";
     public static final String USERINFOVIEW_PAGE = "/UserInfoView.jsp";
     public static final String USERDETAILS ="/userdetails.jsp";
+    public static final String ALL_GROUPS = "/views/AllGroups.jsp";
+    public static final String ALL_GROUPS_URL = "/allgroups";
+    public static final String ALL_ADMIN_GROUPS = "/views/groupsForAdmin.jsp";
+    public static final String ALL_ADMIN_GROUPS_URL = "/alladmingroups";
+    public static final String CREATE_GROUP_URL = "/allgroups/createGroup";
+    public static final String LEAVE_GROUP_URL = "/allgroups/leaveGroup";
+    public static final String DELETE_GROUP_URL_ADMIN = "/alladmingroups/deleteGroup";
+    public static final String DELETE_GROUP_URL_USER = "/allgroups/deleteGroup";
+    public static final String JOIN_GROUP_URL = "/allgroups/joinGroup";
 }

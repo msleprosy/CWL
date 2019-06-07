@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ViewAllGroups", urlPatterns = "/groups/all")
-public class ViewAllGroupsServlet  extends HttpServlet {
+import static com.epam.cwlhub.constants.Endpoints.*;
 
-    private String TARGET_PAGE_ROOT = "/WEB-INF/jsp/";
+@WebServlet(name = "ViewAllAdminGroups", urlPatterns = ALL_ADMIN_GROUPS_URL)
+public class ViewAllGroupsServlet extends HttpServlet {
     private GroupService groupService = GroupServiceImpl.getInstance();
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
@@ -27,7 +27,7 @@ public class ViewAllGroupsServlet  extends HttpServlet {
             if (!groups.isEmpty()) {
                 req.setAttribute("groups", groups);
             }
-            forwardToPage(req, resp, "allGroups.jsp");
+            forwardToPage(req, resp, ALL_ADMIN_GROUPS);
         } catch (ServletException | IOException e) {
             throw new GroupException("Can't display all groups", e);
         }
@@ -36,7 +36,8 @@ public class ViewAllGroupsServlet  extends HttpServlet {
     private void forwardToPage(HttpServletRequest req, HttpServletResponse resp, String dest)
             throws ServletException, IOException {
         ServletContext context = req.getServletContext();
-        RequestDispatcher dispatcher = context.getRequestDispatcher(TARGET_PAGE_ROOT + dest);
+        RequestDispatcher dispatcher = context.getRequestDispatcher(ALL_ADMIN_GROUPS);
         dispatcher.forward(req, resp);
+
     }
 }

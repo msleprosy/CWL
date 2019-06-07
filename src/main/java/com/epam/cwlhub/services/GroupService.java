@@ -14,4 +14,6 @@ public interface GroupService extends BaseService<Group> {
     void leaveGroup(Long userId, Long groupId);
 
     boolean checkMembership(Long userId, Long groupId);
+
+    Group findGroupByName(String groupName);
 }

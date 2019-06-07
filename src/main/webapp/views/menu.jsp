@@ -4,6 +4,7 @@
 <%@ page import="com.epam.cwlhub.services.impl.UserServiceImpl" %>
 <%@ page import="java.util.Optional" %>
 <%@ page import="static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA" %>
+<%@ page import="static com.epam.cwlhub.constants.Endpoints.ALL_GROUPS_URL" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <style>
     a {
@@ -20,13 +21,14 @@
     <div style="float: right; padding: 10px; text-align: right;">
         <%
             Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
-                                                                      .get(request.getSession().getId());
-            UserEntity user = UserServiceImpl.getInstance().findById(id);
-                if (UserType.ADMINISTRATOR.equals(user.getUserType())) {
+                    .get(request.getSession().getId());
+            UserEntity receivedUser = UserServiceImpl.getInstance().findById(id);
+            if (receivedUser != null) {
+                if (UserType.ADMINISTRATOR.equals(receivedUser.getUserType())) {
         %>
         <a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin</a>
-        <% }%>
-        <a href="">Groups</a>
+        <%} }%>
+        <a href="<%=request.getContextPath()+ALL_GROUPS_URL%>">Groups</a>
         <a href="">Profile</a>
         <a href="">Logout</a>
     </div>

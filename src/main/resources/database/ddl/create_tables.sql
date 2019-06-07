@@ -1,3 +1,8 @@
+drop table users cascade;
+drop table groups cascade;
+drop table user_group cascade;
+drop table snippets cascade;
+
 CREATE TABLE IF NOT EXISTS users (
 	user_id bigserial NOT NULL PRIMARY KEY,
 	firstname varchar(50) NOT NULL,
@@ -18,7 +23,7 @@ CREATE TABLE IF NOT EXISTS groups (
 
 CREATE TABLE IF NOT EXISTS user_group (
 	user_id bigint NOT NULL REFERENCES users(user_id),
-	group_id bigint NOT NULL REFERENCES groups(group_id),
+	group_id bigint NOT NULL REFERENCES groups(group_id) ON DELETE CASCADE,
 	PRIMARY KEY(user_id, group_id)
 );
 
@@ -30,5 +35,5 @@ CREATE TABLE IF NOT EXISTS snippets (
 	modification_date date NOT NULL,
 	content text NOT NULL DEFAULT '',
 	tag varchar(256),
-	group_id bigint NOT NULL REFERENCES groups(group_id)
+	group_id bigint NOT NULL REFERENCES groups(group_id) ON DELETE CASCADE
 );
