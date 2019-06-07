@@ -15,7 +15,7 @@
     <th>Creation date</th>
     <th>Modification date</th>
     <th>Tag</th>
-    <th>Action</th>
+    <th colspan="2">Action</th>
     </thead>
 
     <%
