@@ -34,7 +34,9 @@ public class GroupServiceImpl implements GroupService {
         if (group == null) {
             throw new GroupException("Group entity can't be empty");
         }
-        return groupDao.insert(group);
+        Group newGroup = groupDao.insert(group);
+        groupDao.joinGroup(newGroup.getCreatorId(), newGroup.getId());
+        return newGroup;
     }
 
     @Override
@@ -75,11 +77,19 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
+    public Group findGroupByName(String groupName) {
+        if (groupName == null) {
+            throw new GroupException("Name can't be empty");
+        }
+        return groupDao.findGroupByName(groupName);
+    }
+
+    @Override
     public void joinGroup(Long userId, Long groupId) {
         if (userId == null || groupId == null) {
             throw new GroupException("ID can't be empty");
         }
-        groupDao.joinGroup(userId, userId);
+        groupDao.joinGroup(userId, groupId);
     }
 
     @Override

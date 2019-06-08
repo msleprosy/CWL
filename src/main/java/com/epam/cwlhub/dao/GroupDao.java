@@ -15,4 +15,5 @@ public interface GroupDao extends BaseDao<Group> {
 
     boolean checkMembership(Long userId, Long groupId);
 
+    Group findGroupByName(String groupName);
 }

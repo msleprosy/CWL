@@ -1,6 +1,7 @@
 <%@ page import="com.epam.cwlhub.entities.user.UserEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="static com.epam.cwlhub.constants.Endpoints.ALL_ADMIN_GROUPS_URL" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -27,7 +28,7 @@
 
             <div style="float: right; padding: 10px; text-align: right;">
                 <a href="<%=request.getContextPath()+"/admin/viewUsers"%>">Users</a>
-                <a href="<%=request.getContextPath()+"/views/groupsForAdmin.jsp"%>">Groups</a>
+                <a href="<%=request.getContextPath()+ALL_ADMIN_GROUPS_URL%>">Groups</a>
                 <a href="<%=request.getContextPath()+"/admin/snippets"%>">Snippets</a>
                 <a href="">Profile</a>
                 <a href="<%=request.getContextPath()+"/logout"%>">Logout</a>

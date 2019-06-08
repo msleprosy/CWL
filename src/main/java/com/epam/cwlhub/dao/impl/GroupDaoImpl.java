@@ -45,8 +45,9 @@ public class GroupDaoImpl implements GroupDao {
             " ON user_group.user_id = users.user_id " +
             " WHERE user_group.user_id = ?";
     private static final String SQL_ADD_USER_TO_GROUP = "INSERT INTO user_group (user_id, group_id) VALUES (?, ?)";
-    private static final String SQL_DELETE_USER_GROUP_GROUP = "DELETE FROM user_group (user_id, group_id) VALUES (?, ?)";
+    private static final String SQL_DELETE_USER_GROUP_GROUP = "DELETE FROM user_group WHERE user_id = ? AND group_id = ?";
     private static final String SQL_CHECK_MEMBERSHIP = "SELECT user_id, group_id  FROM user_group WHERE user_id = ? AND group_id = ?";
+    private static final String SQL_FIND_GROUP_BY_NAME = "SELECT * FROM groups WHERE name = ?";
 
 
     @Override
@@ -139,6 +140,24 @@ public class GroupDaoImpl implements GroupDao {
     }
 
     @Override
+    public Group findGroupByName(String groupName) {
+        try (Connection connection = dbConnector.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_GROUP_BY_NAME)) {
+            preparedStatement.setString(1, groupName);
+            ResultSet rs = preparedStatement.executeQuery();
+            Group result = new Group();
+            if (rs.next()) {
+                result = mapGroup(rs);
+            } else {
+                result = null;
+            }
+            return result;
+        } catch (SQLException e) {
+            throw new GroupException("Error while trying to find groups with name: " + groupName, e);
+        }
+    }
+
+    @Override
     public void joinGroup(Long userId, Long groupId) {
 
         try (Connection connection = dbConnector.getDBConnection();
@@ -158,7 +177,7 @@ public class GroupDaoImpl implements GroupDao {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_USER_GROUP_GROUP);
             preparedStatement.setLong(1, userId);
             preparedStatement.setLong(2, groupId);
-            preparedStatement.executeQuery();
+            preparedStatement.execute();
         } catch (SQLException e) {
             throw new GroupException("Error deleting user " + userId + " from group " + groupId, e);
         }
