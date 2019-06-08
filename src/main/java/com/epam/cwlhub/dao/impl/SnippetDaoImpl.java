@@ -141,9 +141,10 @@ public class SnippetDaoImpl implements SnippetDao {
              PreparedStatement ps = connection.prepareStatement(SELECT_SNIPPET_BY_FILENAME_SQL_STATEMENT)) {
             ps.setString(1, fileName);
             ResultSet rs = ps.executeQuery();
-            rs.next();
-            return Optional.of(mapSnippet(rs))
-                    .orElse(null);
+            if (!rs.next()){
+                return null;
+            }
+            return mapSnippet(rs);
         } catch (SQLException e) {
             throw new SnippetException("Can't find the snippet with name = " + fileName, e);
         }
