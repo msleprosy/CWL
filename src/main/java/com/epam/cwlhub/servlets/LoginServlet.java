@@ -29,7 +29,6 @@ public class LoginServlet extends HttpServlet {
     private static final String AUTHORIZATION_ERROR = "Required username and password!";
     private static final String LOGIN_ERROR = "User Name or password invalid";
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

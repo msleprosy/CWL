@@ -31,6 +31,7 @@ public class SnippetDaoImpl implements SnippetDao {
     private static final String SELECT_SNIPPET_BY_ID_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "snippet_id = ?";
     private static final String SELECT_SNIPPET_BY_GROUP_ID_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "group_id = ?";
     private static final String SELECT_SNIPPET_BY_FILENAME_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "snippets.name = ?";
+    private static final String SELECT_SNIPPET_BY_FILENAME_IN_GROUP_SQL_STATEMENT = SELECT_SNIPPET_SQL_STATEMENT + "name = ? and group_id = ?";
 
     private static final String DELETE_SNIPPET_SQL_STATEMENT = "DELETE FROM snippets " +
                                                                "WHERE ";
@@ -151,9 +152,26 @@ public class SnippetDaoImpl implements SnippetDao {
         }
     }
 
+    @Override
+    public Snippet findByFileNameInGroup(String fileName, Long groupId) {
+        try (Connection connection = dbConnection.getDBConnection();
+             PreparedStatement ps = connection.prepareStatement(SELECT_SNIPPET_BY_FILENAME_IN_GROUP_SQL_STATEMENT)) {
+            ps.setString(1, fileName);
+            ps.setLong(2, groupId);
+            ResultSet rs = ps.executeQuery();
+            if (!rs.next()){
+                return null;
+            }
+            return Optional.of(mapSnippet(rs))
+                    .orElse(null);
+        } catch (SQLException e) {
+            throw new SnippetException("Can't find the snippet with name = " + fileName, e);
+        }
+    }
+
     private List<Snippet> getSnippetsFromResultSet(ResultSet rs) throws SQLException {
         List<Snippet> result = new ArrayList<>();
-        while (rs.next()) {
+         while (rs.next()) {
             result.add(mapSnippet(rs));
         }
 

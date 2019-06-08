@@ -91,37 +91,10 @@ public class SnippetServiceImpl implements SnippetService {
     }
 
     @Override
-    public boolean createSnippetObjectFromRequest(HttpServletRequest request) throws ServletException, IOException {
-        long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
-                .get(request.getSession().getId());
-        UserEntity user = UserServiceImpl.getInstance().findById(id);
-        if (user != null && request.getParameterMap().containsKey("group_id")) {
-            String fileName = request.getParameter("fileName");
-            String tags = request.getParameter("tags");
-
-            InputStream inputStream = null;
-            Part filePart = request.getPart("cwl");
-            if (filePart != null) {
-                inputStream = filePart.getInputStream();
-            }
-            Snippet file = findByFileName(fileName);
-            if (file != null) {
-                return false;
-            }
-
-            String content = new BufferedReader(new InputStreamReader(inputStream))
-                    .lines().collect(Collectors.joining("\n"));
-            Snippet snippet = new Snippet();
-            snippet.setName(fileName);
-            snippet.setOwnerId(user.getId());
-            snippet.setGroupId(Long.parseLong(request.getParameter("group_id")));
-            snippet.setContent(content);
-            snippet.setCreationDate(LocalDate.now());
-            snippet.setModificationDate(LocalDate.now());
-            snippet.setTag(tags);
-            snippetDao.insert(snippet);
-            return true;
+    public Snippet findByFileNameInGroup(String fileName, Long groupId) {
+        if (fileName == null || groupId == null) {
+            throw new SnippetException("File name and group id can't be empty");
         }
-        return false;
+        return snippetDao.findByFileNameInGroup(fileName, groupId);
     }
 }
