@@ -58,7 +58,6 @@ public class LoginServlet extends HttpServlet {
             userSessionData.put(request.getSession().getId(), userEntity.getId());
             response.sendRedirect(request.getContextPath() + HOME_URL);
             request.setAttribute("page", 1);
-            response.sendRedirect(HOME_URL);
         }
     }
 

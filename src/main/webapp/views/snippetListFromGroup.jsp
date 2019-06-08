@@ -71,9 +71,9 @@
 
         %>
     <tr>
-        <th>
+        <td>
             <a href='<%=request.getContextPath()+"?page="+i%>'><%=i%></a>
-        </th>
+        </td>
 
     </tr>
     </tbody>
