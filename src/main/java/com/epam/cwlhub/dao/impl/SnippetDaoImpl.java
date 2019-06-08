@@ -142,6 +142,7 @@ public class SnippetDaoImpl implements SnippetDao {
             ps.setString(1, fileName);
             ResultSet rs = ps.executeQuery();
             if (!rs.next()){
+                rs.close();
                 return null;
             }
             return mapSnippet(rs);
