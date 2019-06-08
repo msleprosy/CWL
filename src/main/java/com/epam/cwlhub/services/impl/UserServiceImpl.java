@@ -2,11 +2,14 @@ package com.epam.cwlhub.services.impl;
 
 import com.epam.cwlhub.dao.UserDao;
 import com.epam.cwlhub.dao.impl.UserDaoImpl;
+import com.epam.cwlhub.entities.user.UserByLastnameComparator;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.exceptions.unchecked.UserException;
 import com.epam.cwlhub.services.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -100,6 +103,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserEntity> findAll() {
-        return userDao.findAll();
+        List<UserEntity> result = userDao.findAll();
+        Collections.sort(result, new UserByLastnameComparator());
+        return result;
     }
 }
