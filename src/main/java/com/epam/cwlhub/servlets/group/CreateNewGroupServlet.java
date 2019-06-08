@@ -41,7 +41,7 @@ public class CreateNewGroupServlet extends HttpServlet {
             RequestDispatcher dispatcher = req.getRequestDispatcher(ALL_GROUPS);
             dispatcher.forward(req, resp);
         } else if ((!description.matches(pattern) || description.length() > 150)) {
-            req.setAttribute("errorMessage", "Invalid description! It may only contain letters, numbers, \"_\" and  \"-\" and must be less than 30 symbols.");
+            req.setAttribute("errorMessage", "Invalid description! It may only contain letters, numbers, \"_\" and  \"-\" and must be less than 150 symbols.");
             RequestDispatcher dispatcher = req.getRequestDispatcher(ALL_GROUPS);
             dispatcher.forward(req, resp);
         } else {
