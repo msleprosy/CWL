@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page errorPage="/views/error.jsp" %>
 <html>
 <head>
     <title>CWLHub Users for admin</title>
@@ -10,7 +11,6 @@
     </style>
 </head>
 <body>
-<%@ page errorPage="/views/error.jsp" %>
 <table width="100%">
     <tr>
         <div style="background: #E0E0E0; height: 40px; padding: 5px;">

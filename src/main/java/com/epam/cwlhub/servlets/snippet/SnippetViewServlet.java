@@ -29,7 +29,7 @@ public class SnippetViewServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long userId = ((Map<String, Long>) req.getServletContext().getAttribute(USER_SESSION_DATA))
+        long userId = ((Map<String, Long>) req.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(req.getSession().getId());
         UserEntity user = UserServiceImpl.getInstance().findById(userId);
 
@@ -37,7 +37,7 @@ public class SnippetViewServlet extends HttpServlet {
         req.setAttribute("userGroups", userGroups);
 
         if (req.getParameterMap().containsKey("id")) {
-            Long id = Long.parseLong(req.getParameter("id"));
+            long id = Long.parseLong(req.getParameter("id"));
             try {
                 Snippet snippetView = snippetService.findById(id);
                 req.setAttribute("snippet", snippetView);

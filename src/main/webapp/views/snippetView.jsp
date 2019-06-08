@@ -4,6 +4,7 @@
 <%@ page import="com.epam.cwlhub.services.impl.UserServiceImpl" %>
 <%@ page import="static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page errorPage="/views/error.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +17,6 @@
     </style>
 </head>
 <body>
-    <%@ page errorPage="/views/error.jsp" %>
     <table width="100%">
         <tr>
             <td colspan="3">

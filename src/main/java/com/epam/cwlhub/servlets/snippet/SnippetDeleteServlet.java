@@ -18,7 +18,7 @@ public class SnippetDeleteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (req.getParameterMap().containsKey("id")) {
-            Long id = Long.parseLong(req.getParameter("id"));
+            long id = Long.parseLong(req.getParameter("id"));
             snippetService.deleteById(id);
 
             resp.sendRedirect(req.getHeader("referer"));

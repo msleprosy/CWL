@@ -92,7 +92,7 @@ public class SnippetServiceImpl implements SnippetService {
 
     @Override
     public boolean createSnippetObjectFromRequest(HttpServletRequest request) throws ServletException, IOException {
-        Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
+        long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(request.getSession().getId());
         UserEntity user = UserServiceImpl.getInstance().findById(id);
         if (user != null && request.getParameterMap().containsKey("group_id")) {

@@ -54,6 +54,7 @@ public class LoginServlet extends HttpServlet {
             dispatcher.forward(request, response);
         } else {
             UserEntity userEntity = userService.findByEmail(email);
+            request.getSession().setAttribute(USER, userEntity);
             Map<String, Long> userSessionData = (Map<String, Long>) getServletContext().getAttribute(USER_SESSION_DATA);
             userSessionData.put(request.getSession().getId(), userEntity.getId());
             response.sendRedirect(request.getContextPath() + HOME_URL);
