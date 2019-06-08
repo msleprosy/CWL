@@ -22,13 +22,13 @@
             </div>
 
             <div style="float: left; padding-left: 20px">
-                <h3><a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin page</a></h3>
+                <h3><a href="<%=request.getContextPath()+"/admin"%>">Admin page</a></h3>
             </div>
 
             <div style="float: right; padding: 10px; text-align: right;">
-                <a href="<%=request.getContextPath()+"/views/userView.jsp"%>">Users</a>
+                <a href="<%=request.getContextPath()+"/admin/viewUsers"%>">Users</a>
                 <a href="<%=request.getContextPath()+"/views/groupsForAdmin.jsp"%>">Groups</a>
-                <a href="<%=request.getContextPath()+"/views/groupsForAdmin.jsp"%>">Snippets</a>
+                <a href="<%=request.getContextPath()+"/admin/snippets"%>">Snippets</a>
                 <a href="">Profile</a>
                 <a href="<%=request.getContextPath()+"/logout"%>">Logout</a>
             </div>
@@ -58,12 +58,12 @@
          <td><%=user.isBanned()%></td>
          <td align="center">
              <% if (!user.isBanned()) { %>
-             <form method="post" action="<%=request.getContextPath()+"/banUsers"%>">
+             <form method="post" action="<%=request.getContextPath()+"/admin/banUsers"%>">
                  <input type="hidden" name="id" value="<%=user.getId()%>">
                  <input type="submit" value="Ban">
              </form>
              <%} else {%>
-             <form method="post" action="<%=request.getContextPath()+"/unbanUsers"%>">
+             <form method="post" action="<%=request.getContextPath()+"/admin/unbanUsers"%>">
                  <input type="hidden" name="id" value="<%=user.getId()%>">
                  <input type="submit" value="Unban">
              </form>

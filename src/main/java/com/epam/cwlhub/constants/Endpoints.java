@@ -23,7 +23,7 @@ public abstract class Endpoints {
     public static final String ADMIN_SNIPPET_VIEW = "/views/snippetViewForAdmin.jsp";
     public static final String ADMIN_SNIPPET_VIEW_URL = "/admin/snippets/snippet";
     public static final String ADMIN_DELETE_SNIPPET_URL = "/admin/snippets/delete";
-    public static final String USER_VIEW_URL = "/viewUsers";
+    public static final String USER_VIEW_URL = "/admin/viewUsers";
     public static final String USER_VIEW = "/views/userView.jsp";
     public static final String USERINFOVIEW_PAGE = "/UserInfoView.jsp";
     public static final String USERDETAILS ="/userdetails.jsp";

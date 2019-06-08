@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "UserBanServlet", urlPatterns = "/banUsers")
+@WebServlet(name = "UserBanServlet", urlPatterns = "/admin/banUsers")
 
 public class UserBanServlet extends HttpServlet {
 
