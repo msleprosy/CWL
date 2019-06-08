@@ -44,7 +44,7 @@ VALUES (1, 1),
        (9, 6);
 
 INSERT INTO snippets (name, owner_id, creation_date, modification_date, content, tag, group_id)
-VALUES ('Alleotype.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+VALUES ('Alleotype.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -53,7 +53,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 2),
-       ('Andromeda.cwl', 2, '2019-05-23', '2019-05-23', 'cwlVersion: v1.0
+       ('Andromeda.cwl', 2, '2019-05-23', '2019-05-23', E'cwlVersion: v1.0
 $graph:
 - id: compile
   class: CommandLineTool
@@ -130,7 +130,7 @@ $graph:
          objects: [compilesources-src1/compiled, compilesources-src2/compiled]
          output: { default: "a.out" }
       out: [executable]', 'cosmo', 1),
-       ('Bonobo.cwl', 2, '2018-12-13', '2019-05-13', '#!/usr/bin/env cwl-runner
+       ('Bonobo.cwl', 2, '2018-12-13', '2019-05-13', E'#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -168,7 +168,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'bio', 2),
-       ('Dataflow.cwl', 3, '2018-05-23', '2019-01-15', 'cwlVersion: v1.0
+       ('Dataflow.cwl', 3, '2018-05-23', '2019-01-15', E'cwlVersion: v1.0
 
 class: CommandLineTool
 
@@ -243,7 +243,7 @@ baseCommand: [allelotype, --command, classify]
 arguments:
 - --noweb
 doc: Run lobSTR allelotype classifier.', 'common', 1),
-       ('Newpath.cwl', 4, '2018-01-23', '2019-03-03', '#!/usr/bin/env cwl-runner
+       ('Newpath.cwl', 4, '2018-01-23', '2019-03-03', E'#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -281,7 +281,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'innovative', 3),
-       ('Celltransport.cwl', 5, '2018-05-23', '2019-03-03', '#!/usr/bin/env cwl-runner
+       ('Celltransport.cwl', 5, '2018-05-23', '2019-03-03', E'#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -319,7 +319,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'bio', 1),
-       ('Apox.cwl', 6, '2000-01-01', '2010-02-01', '#!/usr/bin/env cwl-runner
+       ('Apox.cwl', 6, '2000-01-01', '2010-02-01', E'#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -357,7 +357,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'med', 4),
-       ('Panacea.cwl', 7, '2000-02-02', '2010-03-02', '#!/usr/bin/env cwl-runner
+       ('Panacea.cwl', 7, '2000-02-02', '2010-03-02', E'#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -395,7 +395,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'med', 5),
-       ('Worlddomination.cwl', 8, '2000-02-02', '2010-04-02', '#!/usr/bin/env cwl-runner
+       ('Worlddomination.cwl', 8, '2000-02-02', '2010-04-02', E'#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -433,7 +433,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'innovative', 5),
-       ('Blackmatter.cwl', 2, '2019-05-23', '2019-05-23', 'cwlVersion: v1.0
+       ('Blackmatter.cwl', 2, '2019-05-23', '2019-05-23', E'cwlVersion: v1.0
 $graph:
 - id: compile
   class: CommandLineTool
@@ -510,7 +510,7 @@ $graph:
          objects: [compilesources-src1/compiled, compilesources-src2/compiled]
          output: { default: "a.out" }
       out: [executable]', 'cosmo', 1),
-       ('Caffeine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Caffeine.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -519,7 +519,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Alpha-Centauri.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Alpha-Centauri.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -528,7 +528,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Lalande.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Lalande.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -537,7 +537,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'common', 1),
-       ('Sirius.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Sirius.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -546,7 +546,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'common', 1),
-       ('Proxima-Centauri.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Proxima-Centauri.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -555,7 +555,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'med', 1),
-       ('Luyten.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Luyten.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -564,7 +564,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'innovative', 1),
-       ('Epsilon-Eridani.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Epsilon-Eridani.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -573,7 +573,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'innovative', 1),
-       ('Lacaille.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Lacaille.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -582,7 +582,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Procyon.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Procyon.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -591,7 +591,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'med', 1),
-       ('Nicotine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Nicotine.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -600,7 +600,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Aldebaran.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Aldebaran.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -609,7 +609,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'common', 1),
-       ('Arcturus.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Arcturus.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -618,7 +618,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Pseudoephedrine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Sun.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -627,7 +627,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'cosmo', 1),
-       ('Betelgeuse.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Betelgeuse.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -636,7 +636,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Venus.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Venus.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -645,7 +645,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'med', 1),
-       ('Earth.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Earth.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -654,7 +654,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Mars.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Mars.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -663,7 +663,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'med', 1),
-       ('Ceres.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Ceres.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -672,7 +672,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'cosmo', 1),
-       ('Jupiter.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Jupiter.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -681,7 +681,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Saturn.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Saturn.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -690,7 +690,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Uranus.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Uranus.cwl', 1, '2018-05-23', '2019-03-03', E'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -699,7 +699,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'cosmo', 1),
-       ('magnetars.cwl', 9, '2000-03-03', '2010-05-03', '#!/usr/bin/env cwl-runner
+       ('magnetars.cwl', 9, '2000-03-03', '2010-05-03', E'#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
