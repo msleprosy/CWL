@@ -1,4 +1,5 @@
 <%@ page import="com.epam.cwlhub.entities.snippet.Snippet" %>
+<%@ page import="static com.epam.cwlhub.constants.Endpoints.ALL_GROUPS_URL" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -20,12 +21,12 @@
             </div>
 
             <div style="float: left; padding-left: 20px">
-                <h3><a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin page</a></h3>
+                <h3><a href="<%=request.getContextPath()+"/admin"%>">Admin page</a></h3>
             </div>
 
             <div style="float: right; padding: 10px; text-align: right;">
-                <a href="<%=request.getContextPath()+"/views/usersForAdmin.jsp"%>">Users</a>
-                <a href="<%=request.getContextPath()+"/views/groupsForAdmin.jsp"%>">Groups</a>
+                <a href="<%=request.getContextPath()+"/admin/userView"%>">Users</a>
+                <a href="<%=request.getContextPath()+ALL_GROUPS_URL%>">Groups</a>
                 <a href="<%=request.getContextPath()+"/admin/snippets"%>">Snippets</a>
                 <a href="">Profile</a>
                 <a href="<%=request.getContextPath()+"/logout"%>">Logout</a>
