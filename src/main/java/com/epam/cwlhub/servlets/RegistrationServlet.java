@@ -1,6 +1,5 @@
 package com.epam.cwlhub.servlets;
 
-
 import com.epam.cwlhub.constants.Endpoints;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.entities.user.UserType;
@@ -8,12 +7,15 @@ import com.epam.cwlhub.services.impl.UserServiceImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
+import static com.epam.cwlhub.constants.Endpoints.REGISTRATION_URL;
+
+@WebServlet(name = "RegistrationServlet", urlPatterns = REGISTRATION_URL)
 public class RegistrationServlet extends HttpServlet {
     private static final long serialVersionUID = 1;
     private UserServiceImpl userService = UserServiceImpl.getInstance();
@@ -41,7 +43,7 @@ public class RegistrationServlet extends HttpServlet {
         if (errorString != null) {
             request.setAttribute(ERROR, errorString);
             RequestDispatcher dispatcher
-                    = this.getServletContext().getRequestDispatcher(Endpoints.REGISTRATION_PAGE);
+                    = this.getServletContext().getRequestDispatcher(REGISTRATION_URL);
             dispatcher.forward(request, response);
         } else {
             userInstatiate(request);
@@ -49,7 +51,6 @@ public class RegistrationServlet extends HttpServlet {
                     = this.getServletContext().getRequestDispatcher(Endpoints.USERDETAILS);
             dispatcher.forward(request, response);
         }
-
     }
 
     private UserEntity userInstatiate(HttpServletRequest request) {
@@ -57,7 +58,7 @@ public class RegistrationServlet extends HttpServlet {
         String lastName = request.getParameter(LASTNAME_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
         String email = request.getParameter(EMAIL_PARAMETER);
-        UserEntity user = new UserEntity.Builder(email, password).withFirstName(firstName).
+        UserEntity user = new UserEntity.Builder(password).withEmail(email).withFirstName(firstName).
                 withLastName(lastName).withUserType(UserType.SIMPLE_USER).
                 withBanned(false).build();
         return userService.insert(user);

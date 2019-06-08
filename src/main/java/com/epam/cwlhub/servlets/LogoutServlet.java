@@ -1,18 +1,13 @@
 package com.epam.cwlhub.servlets;
 
-import com.epam.cwlhub.constants.Endpoints;
-
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.Map;
 
-import static com.epam.cwlhub.constants.Endpoints.LOGIN_URL;
-import static com.epam.cwlhub.constants.Endpoints.LOGOUT_URL;
+import static com.epam.cwlhub.constants.Endpoints.*;
 import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
 
 @WebServlet(name = "LogoutServlet", urlPatterns = LOGOUT_URL)
@@ -28,8 +23,14 @@ public class LogoutServlet extends HttpServlet {
             userSessionData.remove(session.getId());
             session.removeAttribute(USER);
             session.invalidate();
+            deleteUserCookie(response);
             response.sendRedirect(LOGIN_URL);
         }
     }
-}
 
+    private void deleteUserCookie(HttpServletResponse response) {
+        Cookie cookieUserName = new Cookie("JSESSIONID", null);
+        cookieUserName.setMaxAge(0);
+        response.addCookie(cookieUserName);
+    }
+}

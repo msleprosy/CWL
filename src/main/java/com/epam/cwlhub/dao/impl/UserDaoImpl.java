@@ -97,9 +97,10 @@ public class UserDaoImpl implements UserDao {
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_USER_BY_EMAIL_SQL_STATEMENT)) {
             preparedStatement.setString(1, email);
             ResultSet rs = preparedStatement.executeQuery();
-            rs.next();
-            return Optional.of(mapUser(rs)).
-                    orElseThrow(() -> new UserException("Can't find the user with email " + email));
+            if (!rs.next()){
+                return null;
+            }
+            return mapUser(rs);
         } catch (SQLException ex) {
             throw new UserException("Can't find the user with email " + email, ex);
         }

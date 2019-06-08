@@ -27,9 +27,9 @@
         %>
         <a href="<%=request.getContextPath()+"/admin"%>">Admin</a>
         <%} }%>
-        <a href="<%=request.getContextPath()+ALL_GROUPS_URL%>">Groups</a>
-        <a href="">Profile</a>
-        <a href="<%=request.getContextPath()+"/logout"%>">Logout</a>
+        <a href="<%=request.getContextPath() + ALL_GROUPS_URL%>">Groups</a>
+        <a href="${pageContext.request.contextPath}/userInfo">Profile</a>
+        <a href="${pageContext.request.contextPath}/logout">Logout</a>
     </div>
 </div>
 

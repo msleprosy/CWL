@@ -15,12 +15,15 @@ import static com.epam.cwlhub.constants.Endpoints.*;
 @WebFilter(urlPatterns = "/*")
 public class AuthentificationFilter implements Filter {
     private static final String USER = "user";
-    private static final String FORBIDDEN_PAGES = "/(?!(loginView.jsp|login|logout))\\w.*";
+    private static final String FORBIDDEN_PAGES = "/(?!(loginView.jsp|login|logout|register|userregister.jsp))\\w.*";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String requestURI = httpServletRequest.getRequestURI();
+
+        System.out.println(requestURI);
+        System.out.println(Pattern.matches(FORBIDDEN_PAGES, requestURI));
 
         if (Pattern.matches(FORBIDDEN_PAGES, requestURI)) {
             HttpSession httpSession = httpServletRequest.getSession(false);

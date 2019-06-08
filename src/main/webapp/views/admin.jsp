@@ -24,10 +24,10 @@
                 </div>
 
                 <div style="float: right; padding: 10px; text-align: right;">
-                    <a href="<%=request.getContextPath()+"/views/usersForAdmin.jsp"%>">Users</a>
+                    <a href="<%=request.getContextPath()+"/admin/viewUsers"%>">Users</a>
                     <a href="<%=request.getContextPath()+ALL_ADMIN_GROUPS_URL%>">Groups</a>
-                    <a href="<%=request.getContextPath()+"/views/snippetsForAdmin.jsp"%>">Snippets</a>
-                    <a href="">Profile</a>
+                    <a href="<%=request.getContextPath()+"/admin/snippets"%>">Snippets</a>
+                    <a href="<%=request.getContextPath()+"/userInfo"%>">Profile</a>
                     <a href="<%=request.getContextPath()+"/logout"%>">Logout</a>
                 </div>
             </div>

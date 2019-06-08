@@ -15,12 +15,12 @@ public class UserEntity {
     }
 
     public UserEntity(Builder builder) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.banned = banned;
+        this.id = builder.id;
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.email = builder.email;
+        this.password = builder.password;
+        this.banned = builder.banned;
     }
 
     public long getId() {
@@ -121,12 +121,16 @@ public class UserEntity {
         private UserType userType;
         private boolean banned;
 
-        public Builder(String email, String password) {
-            if (email == null || password == null) {
+        public Builder(String password) {
+            if (password == null) {
                 throw new IllegalArgumentException("mail and passw can not be null");
             }
-            this.email = email;
             this.password = password;
+        }
+
+        public Builder withEmail(String email) {
+            this.email = email;
+            return this;
         }
 
         public Builder withFirstName(String firstName) {
