@@ -24,10 +24,12 @@ public class SnippetUpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (req.getParameterMap().containsKey("id")) {
-            Long id = Long.parseLong(req.getParameter("id"));
+            long id = Long.parseLong(req.getParameter("id"));
+
             Snippet snippet = snippetService.findById(id);
             mapUpdatedParametersToSnippet(req, snippet);
             snippetService.update(snippet);
+
             resp.sendRedirect(req.getHeader("referer"));
         }
     }

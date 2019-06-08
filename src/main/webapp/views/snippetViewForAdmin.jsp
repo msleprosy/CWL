@@ -1,8 +1,10 @@
+<%@ page import="com.epam.cwlhub.entities.snippet.Snippet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page errorPage="/views/error.jsp" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>CWLHub Users for admin</title>
+    <title>CWLHub</title>
     <style>
         a {
             color: #000 !important;
@@ -19,7 +21,7 @@
             </div>
 
             <div style="float: left; padding-left: 20px">
-                <h3><a href="<%=request.getContextPath()+"/admin"%>">Admin page</a></h3>
+                <h3><a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin page</a></h3>
             </div>
 
             <div style="float: right; padding: 10px; text-align: right;">
@@ -33,40 +35,28 @@
     </tr>
 
     <tr>
-        <table border="2px black" style="margin: auto">
-            <thead>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Ban</th>
-            </thead>
-            <tbody>
-                <td>
+        <td width="60%" height="60%">
+            <% if (request.getAttribute("snippet") != null) {
+                Snippet snippet = (Snippet) request.getAttribute("snippet");
+            %>
+            <table align="center" border="2px solid black" width="60%">
+                <tr>
+                    <td>
+                        <p><b>Name: </b><%= snippet.getName()%></p>
+                        <p><b>Tags: </b> <%= snippet.getTag()%></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <textarea style="text-align: left" rows="30" cols="150" name="content" readonly>
+                            <%= snippet.getContent()%>
+                        </textarea>
+                    </td>
+                </tr>
+            </table>
 
-                </td>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
-                <td>
-
-                </td>
-                <td align="center">
-                    <% if (true) { %>
-                    <button>
-                        <a href="">Ban</a>
-                    </button>
-                    <%} else { %>
-                    <button>
-                        <a href="">Unban</a>
-                    </button>
-                    <%} %>
-                </td>
-            </tbody>
-        </table>
+            <%} %>
+        </td>
     </tr>
 
     <tr>

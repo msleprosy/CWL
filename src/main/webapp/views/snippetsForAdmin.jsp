@@ -1,4 +1,7 @@
+<%@ page import="com.epam.cwlhub.entities.snippet.Snippet" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page errorPage="/views/error.jsp" %>
 <html>
 <head>
     <title>CWLHub Users for admin</title>
@@ -24,7 +27,7 @@
             <div style="float: right; padding: 10px; text-align: right;">
                 <a href="<%=request.getContextPath()+"/views/usersForAdmin.jsp"%>">Users</a>
                 <a href="<%=request.getContextPath()+"/views/groupsForAdmin.jsp"%>">Groups</a>
-                <a href="<%=request.getContextPath()+"/views/snippetsForAdmin.jsp"%>">Snippets</a>
+                <a href="<%=request.getContextPath()+"/admin/snippets"%>">Snippets</a>
                 <a href="">Profile</a>
                 <a href="<%=request.getContextPath()+"/logout"%>">Logout</a>
             </div>
@@ -39,34 +42,54 @@
                 <th>Creation date</th>
                 <th>Modification date</th>
                 <th>Tag</th>
-                <th>Action</th>
+                <th colspan="2">Action</th>
             </thead>
+            <%
+                if (request.getAttribute("snippets") != null) {
+                    List<Snippet> snippets = (List<Snippet>) request.getAttribute("snippets");
+
+                    if (snippets.isEmpty()) {
+            %>
             <tbody>
-            <td>
+            <tr>
+                <td colspan="6">There are no files to show</td>
+            </tr>
+            </tbody>
+            <%      } else
 
-            </td>
-            <td>
+                for (Snippet snippet : snippets) {
 
-            </td>
-            <td>
-
-            </td>
-            <td>
-
-            </td>
-            <td>
-
-            </td>
+            %>
+            <tbody>
+            <tr>
+                <td style="display: none;">
+                    <%= snippet.getId()%>
+                </td>
+                <td>
+                    <%= snippet.getName()%>
+                </td>
+                <td>
+                    <%= snippet.getCreationDate()%>
+                </td>
+                <td>
+                    <%= snippet.getModificationDate()%>
+                </td>
+                <td>
+                    <%= snippet.getTag()%>
+                </td>
             <td align="center">
-                <button>
-                    <a href="">Open</a>
-                </button>
-
-                <button>
-                    <a href="">Delete</a>
-                </button>
+                <form method="get" action="<%=request.getContextPath()+"/admin/snippets/snippet"%>">
+                    <input type="hidden" name="id" value="<%=snippet.getId()%>">
+                    <input type="submit" value="Open">
+                </form>
+                <form method="post" action="<%=request.getContextPath()+"/admin/snippets/delete"%>">
+                    <input type="hidden" name="id" value="<%=snippet.getId()%>">
+                    <input type="submit" value="Delete">
+                </form>
+                <%}%>
             </td>
             </tbody>
+            <%}%>
         </table>
     </tr>
 

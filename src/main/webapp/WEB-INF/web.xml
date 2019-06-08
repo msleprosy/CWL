@@ -34,4 +34,9 @@
         <url-pattern>/register</url-pattern>
     </servlet-mapping>
 
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/views/error.jsp</location>
+    </error-page>
+
 </web-app>
