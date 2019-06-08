@@ -152,7 +152,6 @@ Last Name: ${user.lastName } <br />
 
             <label for="psw"><b>Password</b></label>
             <input type="password" value= ${user.password} placeholder="Enter Password" name="password" required>
-
             <button type="submit">Edit</button>
 
         </div>

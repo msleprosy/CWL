@@ -35,7 +35,6 @@ public class ProfileServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + Endpoints.LOGIN_URL);
         }
         request.setAttribute("user", loginedUser);
-
         RequestDispatcher dispatcher //
                 = this.getServletContext().getRequestDispatcher(Endpoints.USERINFOVIEW_PAGE);
         dispatcher.forward(request, response);
@@ -52,10 +51,9 @@ public class ProfileServlet extends HttpServlet {
         if (updatedUser!=null) {
             UserEntity user = userInstatiate(request, updatedUser);
             request.setAttribute(USER, user);
-//            RequestDispatcher dispatcher
-//                    = this.getServletContext().getRequestDispatcher(Endpoints.USERINFOVIEW_PAGE);
-//            dispatcher.forward(request, response);
-            response.sendRedirect(request.getHeader("referer"));
+            RequestDispatcher dispatcher
+                    = this.getServletContext().getRequestDispatcher("/userInfo");
+            dispatcher.forward(request, response);
         }
     }
 
