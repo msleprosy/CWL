@@ -59,10 +59,9 @@ public class LoginServlet extends HttpServlet {
                 HttpSession jsession = request.getSession();
                 storeUserCookie(response, jsession);
             }
+            request.setAttribute("page", 1);
             response.sendRedirect(request.getContextPath() + HOME_URL);
-
         }
-
     }
 
     private String loginValidation(HttpServletRequest request) {

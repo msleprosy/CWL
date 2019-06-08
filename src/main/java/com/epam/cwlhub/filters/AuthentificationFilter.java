@@ -22,9 +22,6 @@ public class AuthentificationFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String requestURI = httpServletRequest.getRequestURI();
 
-        System.out.println(requestURI);
-        System.out.println(Pattern.matches(FORBIDDEN_PAGES, requestURI));
-
         if (Pattern.matches(FORBIDDEN_PAGES, requestURI)) {
             HttpSession httpSession = httpServletRequest.getSession(false);
             UserEntity user = (UserEntity) httpSession.getAttribute(USER);

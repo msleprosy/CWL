@@ -19,6 +19,7 @@ public class SnippetDaoImpl implements SnippetDao {
     private final DBConnection dbConnection = DBConnector.getInstance();
 
     private static volatile SnippetDaoImpl INSTANCE;
+    private static final Integer SNIPPETS_ON_PAGE = 5;
 
     private static final String INSERT_SNIPPET_SQL_STATEMENT = "INSERT INTO snippets (name, owner_id, creation_date, " +
                                                                "modification_date, content, tag, group_id) " +
@@ -39,8 +40,9 @@ public class SnippetDaoImpl implements SnippetDao {
     private static final String DELETE_SNIPPET_BY_ID_SQL_STATEMENT = DELETE_SNIPPET_SQL_STATEMENT + "snippet_id = ?";
 
     private static final String UPDATE_SNIPPET_SQL_STATEMENT = "UPDATE snippets SET " +
-                                                               "name = ?, modification_date = ?, content = ?, tag = ? " +
-                                                               "WHERE snippet_id = ?";
+                                                               " name = ?, modification_date = ?, content = ?, tag = ? " +
+                                                                " WHERE snippet_id = ?";
+    private static final String COUNT_ALL_SNIPPETS = "SELECT COUNT (*) FROM snippets WHERE group_id = ?";
 
     public static SnippetDaoImpl getInstance() {
         SnippetDaoImpl localInstance = INSTANCE;
@@ -171,7 +173,7 @@ public class SnippetDaoImpl implements SnippetDao {
 
     private List<Snippet> getSnippetsFromResultSet(ResultSet rs) throws SQLException {
         List<Snippet> result = new ArrayList<>();
-         while (rs.next()) {
+        while (rs.next()) {
             result.add(mapSnippet(rs));
         }
 
@@ -203,6 +205,33 @@ public class SnippetDaoImpl implements SnippetDao {
             return snippet;
         } catch (SQLException e) {
             throw new SnippetException("Can't map result set to a snippet entity", e);
+        }
+    }
+
+    @Override
+    public int numberOfSnippetsInGroup(Long groupId) {
+        try (Connection connection = dbConnection.getDBConnection();
+             PreparedStatement ps = connection.prepareStatement(COUNT_ALL_SNIPPETS)) {
+            ps.setLong(1, groupId);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            throw new SnippetException("Can't find any snippets", e);
+        }
+    }
+
+    public List<Snippet> getRecords(int start, Long groupId) {
+        try (Connection connection = dbConnection.getDBConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "SELECT * FROM snippets WHERE group_id = ? " +
+                             "ORDER BY snippet_id OFFSET "+ SNIPPETS_ON_PAGE*(start-1)
+                             +" LIMIT "+SNIPPETS_ON_PAGE)) {
+            ps.setLong(1, groupId);
+            ResultSet rs = ps.executeQuery();
+            return getSnippetsFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new SnippetException("Can't find any snippets", e);
         }
     }
 

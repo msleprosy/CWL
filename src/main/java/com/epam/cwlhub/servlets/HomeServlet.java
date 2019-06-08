@@ -31,11 +31,17 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        long id = ((Map<String, Long>) req.getServletContext().getAttribute(USER_SESSION_DATA))
+        Long id = ((Map<String, Long>) req.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(req.getSession().getId());
         UserEntity receivedUser = UserServiceImpl.getInstance().findById(id);
-
-        List<Snippet> commonSnippets = snippetService.findByGroupId(1L);
+        List<Snippet> commonSnippets;
+        if (req.getParameterMap().containsKey("page")){
+            Integer page = Integer.parseInt(req.getParameter("page"));
+            commonSnippets = snippetService.getRecords(page,1L);
+        } else {
+            Integer page = 1;
+            commonSnippets = snippetService.getRecords(page,1L);
+        }
         req.setAttribute("snippets", commonSnippets);
 
         List<Group> userGroups = groupService.findUsersGroups(receivedUser.getId());

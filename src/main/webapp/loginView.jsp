@@ -45,6 +45,7 @@
             <td><input type="checkbox" name="rememberMe" value="Y"/></td>
         </tr>
             <td colspan="2">
+                <input type="hidden" name="page" value="1">
                 <input type="submit" value="Login"/>
                 <a href="${pageContext.request.contextPath}/">Cancel</a>
             </td>
