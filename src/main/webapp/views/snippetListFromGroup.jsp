@@ -66,17 +66,23 @@
         </td>
     </tr>
     <%} %>
+
+    </tbody>
+
+    <%}%>
+</table>
+<table border="2px black" width="100%">
+<tbody>
+ <tr>
     <%
         for (int i = 1; i <= SnippetServiceImpl.getInstance().numberOfSnippetsInGroup(1L)/5; i++) {
 
         %>
-    <tr>
+
         <td>
             <a href='<%=request.getContextPath()+"?page="+i%>'><%=i%></a>
         </td>
-
+<%}%>
     </tr>
     </tbody>
-    <%}%>
-    <%}%>
-</table>
+    </table>
