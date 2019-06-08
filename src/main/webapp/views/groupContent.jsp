@@ -27,7 +27,7 @@
         </td>
         <td width="20%" height="60%">
             <form method="get" action="<%=request.getContextPath()+"/upload"%>">
-                <input type="hidden" name="id" value="<%=request.getParameter("id")%>">
+                <input type="hidden" name="group_id" value="<%=request.getParameter("id")%>">
                 <input type="submit" value="Load file">
             </form>
         </td>

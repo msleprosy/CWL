@@ -9,7 +9,6 @@ import com.epam.cwlhub.services.impl.GroupServiceImpl;
 import com.epam.cwlhub.services.impl.SnippetServiceImpl;
 import com.epam.cwlhub.services.impl.UserServiceImpl;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
