@@ -159,7 +159,7 @@ public class SnippetDaoImpl implements SnippetDao {
             ResultSet rs = ps.executeQuery();
             if (!rs.next()){
                 return null;
-            };
+            }
             return Optional.of(mapSnippet(rs))
                     .orElse(null);
         } catch (SQLException e) {
