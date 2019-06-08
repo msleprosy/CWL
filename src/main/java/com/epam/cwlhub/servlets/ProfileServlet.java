@@ -49,10 +49,10 @@ public class ProfileServlet extends HttpServlet {
         Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA)).get(request.getSession().getId());
         UserEntity updatedUser = userService.findById(id);
 
-        if (updatedUser!=null) {
+        if (updatedUser != null) {
             UserEntity user = userInstatiate(request, updatedUser);
             request.setAttribute(USER, user);
-            response.sendRedirect(request.getContextPath()+USERINFO_URL);
+            response.sendRedirect(request.getContextPath() + USERINFO_URL);
         }
     }
 
@@ -63,8 +63,8 @@ public class ProfileServlet extends HttpServlet {
         String password = request.getParameter(PASSWORD_PARAMETER);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        if (!user.getPassword().equals(password)){
-        user.setPassword(DigestUtils.md5Hex(password));
+        if (!user.getPassword().equals(password)) {
+            user.setPassword(DigestUtils.md5Hex(password));
         }
         userService.update(user);
         return user;
