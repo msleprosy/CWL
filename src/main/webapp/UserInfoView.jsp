@@ -142,7 +142,7 @@ Last Name: ${user.lastName } <br />
 
 <div id="id01" class="modal">
 
-    <form class="modal-content animate" action="/userInfo" method="post">
+    <form class="modal-content animate" action="<%=request.getContextPath()%>/userInfo" method="post">
 
         <div class="container">
             <label for="uname"><b>First Name</b></label>

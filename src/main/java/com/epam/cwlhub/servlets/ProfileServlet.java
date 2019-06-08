@@ -3,6 +3,7 @@ package com.epam.cwlhub.servlets;
 import com.epam.cwlhub.constants.Endpoints;
 import com.epam.cwlhub.entities.user.UserEntity;
 import com.epam.cwlhub.services.impl.UserServiceImpl;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Endpoint;
 import java.io.IOException;
 import java.util.Map;
 
@@ -44,16 +46,14 @@ public class ProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        //doGet(request, response);
         Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA)).get(request.getSession().getId());
         UserEntity updatedUser = userService.findById(id);
 
         if (updatedUser!=null) {
             UserEntity user = userInstatiate(request, updatedUser);
             request.setAttribute(USER, user);
-            RequestDispatcher dispatcher
-                    = this.getServletContext().getRequestDispatcher("/userInfo");
-            dispatcher.forward(request, response);
+            response.sendRedirect(request.getContextPath()+"/userInfo");
         }
     }
 
@@ -64,7 +64,7 @@ public class ProfileServlet extends HttpServlet {
         String password = request.getParameter(PASSWORD_PARAMETER);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setPassword(password);
+        user.setPassword(DigestUtils.md5Hex(password));
         userService.update(user);
         return user;
     }
