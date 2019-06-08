@@ -19,10 +19,6 @@ public class CWLAppServletContextListener implements ServletContextListener{
         context.setAttribute(USER_SESSION_DATA, userSessionData);
     }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
-
-    }
 
 }
 

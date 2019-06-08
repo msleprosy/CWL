@@ -56,7 +56,6 @@ public class LoginServlet extends HttpServlet {
             if (remember) {
                 HttpSession jsession = request.getSession();
                 storeUserCookie(response, jsession);
-            } else {
             }
             response.sendRedirect(request.getContextPath() + HOME_URL);
 

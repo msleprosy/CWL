@@ -20,6 +20,7 @@ public class LogoutServlet extends HttpServlet {
         if (session != null) {
             RequestDispatcher dispatcher = request.getRequestDispatcher(Endpoints.LOGIN_PAGE);
             dispatcher.forward(request, response);
+            session.invalidate();
             deleteUserCookie(response);
         }
     }

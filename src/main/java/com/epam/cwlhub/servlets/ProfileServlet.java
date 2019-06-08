@@ -29,11 +29,10 @@ public class ProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
                 .get(request.getSession().getId());
-        UserEntity loginedUser = UserServiceImpl.getInstance().findById(id);
+        UserEntity loginedUser = userService.findById(id);
 
         if (loginedUser == null) {
             response.sendRedirect(request.getContextPath() + Endpoints.LOGIN_URL);
-            return;
         }
         request.setAttribute("user", loginedUser);
 
@@ -47,16 +46,16 @@ public class ProfileServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
-        Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA))
-                .get(request.getSession().getId());
-        UserEntity updatedUser = UserServiceImpl.getInstance().findById(id);
+        Long id = ((Map<String, Long>) request.getServletContext().getAttribute(USER_SESSION_DATA)).get(request.getSession().getId());
+        UserEntity updatedUser = userService.findById(id);
 
         if (updatedUser!=null) {
             UserEntity user = userInstatiate(request, updatedUser);
             request.setAttribute(USER, user);
-            RequestDispatcher dispatcher
-                    = this.getServletContext().getRequestDispatcher(Endpoints.USERINFOVIEW_PAGE);
-            dispatcher.forward(request, response);
+//            RequestDispatcher dispatcher
+//                    = this.getServletContext().getRequestDispatcher(Endpoints.USERINFOVIEW_PAGE);
+//            dispatcher.forward(request, response);
+            response.sendRedirect(request.getHeader("referer"));
         }
     }
 
@@ -65,7 +64,9 @@ public class ProfileServlet extends HttpServlet {
         String firstName = request.getParameter(FIRSTNAME_PARAMETER);
         String lastName = request.getParameter(LASTNAME_PARAMETER);
         String password = request.getParameter(PASSWORD_PARAMETER);
-        user = new UserEntity.Builder(password).withFirstName(firstName).withLastName(lastName).build();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPassword(password);
         userService.update(user);
         return user;
     }
