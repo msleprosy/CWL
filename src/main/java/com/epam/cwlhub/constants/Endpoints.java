@@ -38,5 +38,6 @@ public abstract class Endpoints {
     public static final String DELETE_GROUP_URL_USER = "/allgroups/deleteGroup";
     public static final String JOIN_GROUP_URL = "/allgroups/joinGroup";
     public static final String PAGE_NOT_FOUND = "/views/404_Not_Found.jsp";
+    public static final String PAGE_FORBIDDEN = "/views/403_Forbidden.jsp";
     public static final String ERROR_PAGE = "/error.jsp";
 }
