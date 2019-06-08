@@ -24,4 +24,6 @@ public abstract class Endpoints {
     public static final String ADMIN_DELETE_SNIPPET_URL = "/admin/snippets/delete";
     public static final String USERINFOVIEW_PAGE = "/UserInfoView.jsp";
     public static final String USERDETAILS ="/userdetails.jsp";
+    public static final String PAGE_NOT_FOUND = "/views/404_Not_Found.jsp";
+    public static final String PAGE_NOT_FOUND_URL = "";
 }

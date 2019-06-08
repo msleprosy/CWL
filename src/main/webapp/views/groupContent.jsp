@@ -11,6 +11,7 @@
     </style>
 </head>
 <body>
+<%@ page errorPage="/views/error.jsp" %>
 <table width="100%">
     <tr>
         <td colspan="3">

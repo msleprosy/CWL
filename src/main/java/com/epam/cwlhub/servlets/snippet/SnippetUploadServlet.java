@@ -1,5 +1,8 @@
 package com.epam.cwlhub.servlets.snippet;
 
+import com.epam.cwlhub.entities.group.Group;
+import com.epam.cwlhub.exceptions.unchecked.GroupException;
+import com.epam.cwlhub.services.impl.GroupServiceImpl;
 import com.epam.cwlhub.services.impl.SnippetServiceImpl;
 
 import javax.servlet.ServletException;
@@ -10,18 +13,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.epam.cwlhub.constants.Endpoints.GROUP_URL;
-import static com.epam.cwlhub.constants.Endpoints.SNIPPET_UPLOAD;
-import static com.epam.cwlhub.constants.Endpoints.SNIPPET_UPLOAD_URL;
+import static com.epam.cwlhub.constants.Endpoints.*;
 
 @WebServlet(name="SnippetUploadServlet", urlPatterns = SNIPPET_UPLOAD_URL)
 @MultipartConfig(maxFileSize = 16177215)
 public class SnippetUploadServlet extends HttpServlet {
     private final SnippetServiceImpl snippetService = SnippetServiceImpl.getInstance();
+    private final GroupServiceImpl groupService = GroupServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher(SNIPPET_UPLOAD).forward(request, response);
+        try {
+            Group group = groupService.findById(Long.parseLong(request.getParameter("group_id")));
+            request.getRequestDispatcher(SNIPPET_UPLOAD).forward(request, response);
+        } catch (GroupException e) {
+            request.getRequestDispatcher(PAGE_NOT_FOUND).forward(request, response);
+        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -3,13 +3,13 @@ package com.epam.cwlhub.servlets.snippet;
 import com.epam.cwlhub.entities.group.Group;
 import com.epam.cwlhub.entities.snippet.Snippet;
 import com.epam.cwlhub.entities.user.UserEntity;
+import com.epam.cwlhub.exceptions.unchecked.SnippetException;
 import com.epam.cwlhub.services.GroupService;
 import com.epam.cwlhub.services.SnippetService;
 import com.epam.cwlhub.services.impl.GroupServiceImpl;
 import com.epam.cwlhub.services.impl.SnippetServiceImpl;
 import com.epam.cwlhub.services.impl.UserServiceImpl;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,8 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import static com.epam.cwlhub.constants.Endpoints.SNIPPET_VIEW;
-import static com.epam.cwlhub.constants.Endpoints.SNIPPET_VIEW_URL;
+import static com.epam.cwlhub.constants.Endpoints.*;
 import static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA;
 
 @WebServlet(name = "SnippetView", urlPatterns = SNIPPET_VIEW_URL)
@@ -39,9 +38,13 @@ public class SnippetViewServlet extends HttpServlet {
 
         if (req.getParameterMap().containsKey("id")) {
             Long id = Long.parseLong(req.getParameter("id"));
-            Snippet snippetView = snippetService.findById(id);
-            req.setAttribute("snippet", snippetView);
-            req.getRequestDispatcher(SNIPPET_VIEW).forward(req, resp);
+            try {
+                Snippet snippetView = snippetService.findById(id);
+                req.setAttribute("snippet", snippetView);
+                req.getRequestDispatcher(SNIPPET_VIEW).forward(req, resp);
+            } catch (SnippetException e) {
+                req.getRequestDispatcher(PAGE_NOT_FOUND).forward(req, resp);
+            }
         }
     }
 }

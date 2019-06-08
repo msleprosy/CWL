@@ -8,6 +8,7 @@
     <title>CWL Upload</title>
 </head>
 <body>
+    <%@ page errorPage="/views/error.jsp" %>
     <h1>Upload CWL File</h1>
     <form method="post" action="<%=request.getContextPath()+"/upload?group_id=" + request.getParameter("group_id")%>" enctype="multipart/form-data">
         <div style="color: #FF0000;">${errorMessage}</div><br>

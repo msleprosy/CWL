@@ -10,6 +10,7 @@
         }
     </style>
 </head>
+<%@ page errorPage="/views/error.jsp" %>
 <body>
     <table width="100%">
         <tr>
