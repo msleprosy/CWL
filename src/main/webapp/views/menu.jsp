@@ -25,7 +25,7 @@
             if (receivedUser != null) {
                 if (UserType.ADMINISTRATOR.equals(receivedUser.getUserType())) {
         %>
-        <a href="<%=request.getContextPath()+"/views/admin.jsp"%>">Admin</a>
+        <a href="<%=request.getContextPath()+"/admin"%>">Admin</a>
         <%} }%>
         <a href="<%=request.getContextPath()+ALL_GROUPS_URL%>">Groups</a>
         <a href="">Profile</a>
