@@ -37,13 +37,6 @@ public class GroupContentServlet extends HttpServlet {
                 long groupId = Long.parseLong(req.getParameter("id"));
 
                 List<Snippet> snippets = snippetService.findByGroupId(groupId);
-
-                if (req.getParameterMap().containsKey("page")){
-                    System.out.println("here");
-                    Integer page = Integer.parseInt(req.getParameter("page"));
-                    snippets = snippetService.getRecords(page, groupId);
-                }
-
                 req.setAttribute("snippets", snippets);
 
                 List<Group> userGroups = groupService.findUsersGroups(user.getId());
