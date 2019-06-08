@@ -1,4 +1,6 @@
-package com.epam.cwlhub.entities.user;
+package com.epam.cwlhub.entities.user.comparator;
+
+import com.epam.cwlhub.entities.user.UserEntity;
 
 import java.util.Comparator;
 

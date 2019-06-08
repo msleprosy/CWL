@@ -30,7 +30,9 @@ public class UserViewServlet extends HttpServlet {
         try {
             List<UserEntity> users = userService.findAll();
             if (!users.isEmpty()) {
-                List<UserEntity> usersWithoutAdmin = users.stream().filter(user -> user.getId() != 1).collect(Collectors.toList());
+                List<UserEntity> usersWithoutAdmin = users.stream()
+                        .filter(user -> user.getId() != 1)
+                        .collect(Collectors.toList());
                 req.setAttribute("user", usersWithoutAdmin);
             }
             req.getRequestDispatcher(USER_VIEW).forward(req, resp);
