@@ -1,6 +1,6 @@
 <tr>
     <div style="text-align:center">
-        <h1>YOU SHALL NO'T PASS!</h1>
+        <h1>YOU SHALL NOT PASS!</h1>
     </div>
 </tr>
 
