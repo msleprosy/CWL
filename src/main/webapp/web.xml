@@ -18,4 +18,9 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/views/errorForException.jsp</location>
+    </error-page>
+
 </web-app>

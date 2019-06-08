@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page errorPage="/views/error.jsp" %>
 <html>
 <head>
     <title>CWLHub Users for admin</title>

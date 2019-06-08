@@ -1,6 +1,5 @@
 <%@ page import="com.epam.cwlhub.entities.snippet.Snippet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page errorPage="/views/error.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>

@@ -1,6 +1,5 @@
 <%@ page import="static com.epam.cwlhub.constants.Endpoints.ALL_ADMIN_GROUPS_URL" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page errorPage="/views/error.jsp" %>
 <html>
 <head>
     <title>CWLHub Admin page</title>
