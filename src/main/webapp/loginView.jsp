@@ -50,6 +50,10 @@
         </tr>
     </table>
 </form>
+</form>
+<form action="/userregister.jsp" method="post">
+    <button type="submit">Register</button>
+</form>
 
 <p style="color:blue;">There's no such thing like a free lunch</p>
 
