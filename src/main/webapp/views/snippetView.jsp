@@ -58,7 +58,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <textarea style="text-align: left" cols="120" name="content"  <%if (!isOwner) {%> readonly <%}%> >
+                                <textarea style="text-align: left" cols="120" rows="30" name="content"  <%if (!isOwner) {%> readonly <%}%> >
                                     <%= snippet.getContent()%>
                                 </textarea>
                             </td>
