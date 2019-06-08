@@ -281,7 +281,7 @@ steps:
     in:
       message: usermessage
     out: [response]', 'innovative', 3),
-       ('Celltransport', 5, '2018-05-23', '2019-03-03', '#!/usr/bin/env cwl-runner
+       ('Celltransport.cwl', 5, '2018-05-23', '2019-03-03', '#!/usr/bin/env cwl-runner
 
 cwlVersion: v1.0
 class: Workflow
@@ -519,7 +519,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Amphetamine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Alpha-Centauri.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -528,7 +528,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Ephedrine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Lalande.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -537,7 +537,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'common', 1),
-       ('MDMA.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Sirius.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -546,7 +546,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'common', 1),
-       ('MDPV.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Proxima-Centauri.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -555,7 +555,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'med', 1),
-       ('Mephedrone.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Luyten.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -564,7 +564,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'innovative', 1),
-       ('Methamphetamine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Epsilon-Eridani.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -573,7 +573,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'innovative', 1),
-       ('Methylphenidate.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Lacaille.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -582,7 +582,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Cocaine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Procyon.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -600,7 +600,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'bio', 1),
-       ('Phenylpropanolamine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Aldebaran.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -609,7 +609,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'common', 1),
-       ('Propylhexedrine.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Arcturus.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
@@ -627,7 +627,7 @@ inputs:
     inputBinding:
       position: 1
 outputs: []', 'cosmo', 1),
-       ('Mercury.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
+       ('Betelgeuse.cwl', 1, '2018-05-23', '2019-03-03', 'cwlVersion: v1.0
 class: CommandLineTool
 baseCommand: echo
 inputs:
