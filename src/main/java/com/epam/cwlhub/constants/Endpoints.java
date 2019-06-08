@@ -5,6 +5,7 @@ public abstract class Endpoints {
     public static final String REGISTRATION_PAGE = "/userregister.jsp";
     public static final String USERINFO_URL = "/userInfo";
     public static final String LOGIN_URL = "/login";
+    public static final String LOGOUT_URL = "/logout";
     public static final String ADMIN_PAGE_URL = "/admin";
     public static final String ADMIN_PAGE = "/views/admin.jsp";
     public static final String HOME = "/views/home.jsp";

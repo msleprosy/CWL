@@ -31,8 +31,6 @@
     </table>
 </form>
 
-<p style="color:blue;">There's no such thing like a free lunch</p>
-
 <jsp:include page="_footer.jsp"></jsp:include>
 </body>
 </html>

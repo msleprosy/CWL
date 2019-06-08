@@ -28,7 +28,7 @@
         <% }%>
         <a href="">Groups</a>
         <a href="">Profile</a>
-        <a href="">Logout</a>
+        <a href="<%=request.getContextPath()+"/logout"%>">Logout</a>
     </div>
 </div>
 

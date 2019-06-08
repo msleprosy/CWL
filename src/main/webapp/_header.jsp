@@ -4,10 +4,4 @@
     <div style="float: left">
         <h1>CWL Site</h1>
     </div>
-
-    <div style="float: right; padding: 10px; text-align: right;">
-        Hello <b>${loginedUser.email}</b>
-
-    </div>
-
 </div>
