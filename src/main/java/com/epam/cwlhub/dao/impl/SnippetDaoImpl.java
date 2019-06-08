@@ -242,4 +242,8 @@ public class SnippetDaoImpl implements SnippetDao {
         ps.setString(4, snippet.getTag());
         ps.setLong(5, snippet.getId());
     }
+
+    public static Integer getSnippetNumberOnPage() {
+        return SNIPPETS_ON_PAGE;
+    }
 }

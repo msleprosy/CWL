@@ -6,6 +6,8 @@
 <%@ page import= "com.epam.cwlhub.services.SnippetService" %>
 <%@ page import= "com.epam.cwlhub.services.impl.SnippetServiceImpl" %>
 <%@ page import="static com.epam.cwlhub.listeners.CWLAppServletContextListener.USER_SESSION_DATA" %>
+<%@ page import="com.epam.cwlhub.dao.SnippetDao" %>
+<%@ page import="com.epam.cwlhub.dao.impl.SnippetDaoImpl" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <table border="2px black" width="100%">
     <thead>
@@ -74,7 +76,9 @@
 </table>
 <table border="2px black" width="100%">
 <tbody>
-<% int snippetsCountForOnePage = SnippetServiceImpl.getInstance().numberOfSnippetsInGroup(1L)/5;
+<%  long groupId = request.getParameterMap().containsKey("id") ? Long.parseLong(request.getParameter("id")) : 1;
+
+    int snippetsCountForOnePage = SnippetServiceImpl.getInstance().numberOfSnippetsInGroup(groupId)/ SnippetDaoImpl.getSnippetNumberOnPage();
     if (snippetsCountForOnePage >= 1) {
 %>
 <tr>
@@ -82,7 +86,7 @@
         for (int i = 1; i <= snippetsCountForOnePage; i++) {
 %>
         <td>
-            <a href='<%=request.getContextPath()+"?page="+i%>'><%=i%></a>
+            <a href='<%=request.getContextPath()+"?id="+groupId+"&page="+i%>'><%=i%></a>
         </td>
 <%} %>
     </tr>
