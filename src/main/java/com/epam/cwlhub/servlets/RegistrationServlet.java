@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.epam.cwlhub.constants.Endpoints.REGISTRATION_PAGE;
 import static com.epam.cwlhub.constants.Endpoints.REGISTRATION_URL;
 
 @WebServlet(name = "RegistrationServlet", urlPatterns = REGISTRATION_URL)
@@ -32,7 +33,7 @@ public class RegistrationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         RequestDispatcher dispatcher
-                = this.getServletContext().getRequestDispatcher(Endpoints.REGISTRATION_PAGE);
+                = this.getServletContext().getRequestDispatcher(REGISTRATION_PAGE);
         dispatcher.forward(request, response);
     }
 
@@ -43,7 +44,7 @@ public class RegistrationServlet extends HttpServlet {
         if (errorString != null) {
             request.setAttribute(ERROR, errorString);
             RequestDispatcher dispatcher
-                    = this.getServletContext().getRequestDispatcher(REGISTRATION_URL);
+                    = this.getServletContext().getRequestDispatcher(REGISTRATION_PAGE);
             dispatcher.forward(request, response);
         } else {
             userInstatiate(request);
